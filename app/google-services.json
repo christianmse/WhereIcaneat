@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "2374379878",
+    "firebase_url": "https://whereicaneat.firebaseio.com",
+    "project_id": "whereicaneat",
+    "storage_bucket": "whereicaneat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2374379878:android:005be96493f75de1f340a7",
+        "android_client_info": {
+          "package_name": "com.whereicaneat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2374379878-al3s0hreen58sei0airl225ftbvoeh7q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.whereicaneat",
+            "certificate_hash": "e3ae7adf28fd488a21edaaca823f062e49f1a846"
+          }
+        },
+        {
+          "client_id": "2374379878-c6irhrt6pq2t4r1dfiteprmoc12fdogs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByLP9GLcmAnuSbvPHBxjp2Liv4RqYsZ64"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2374379878-c6irhrt6pq2t4r1dfiteprmoc12fdogs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
