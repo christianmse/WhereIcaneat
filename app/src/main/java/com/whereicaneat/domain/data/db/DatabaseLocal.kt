@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.whereicaneat.domain.data.db.entities.restaurante
+import com.whereicaneat.domain.data.db.entities.usuario
 
 @Database(
     entities = [restaurante::class, usuario::class],
@@ -22,11 +24,15 @@ abstract class DatabaseLocal : RoomDatabase(){
         private val LOCK = Any()
 
         private fun crearBd(context: Context) =
-            Room.databaseBuilder(context.applicationContext,
-                DatabaseLocal::class.java, "Database.db").build()
+            Room.
+                databaseBuilder(context.applicationContext,
+                DatabaseLocal::class.java,
+                    "Database.db").build()
 
         operator fun invoke(context: Context) = instance?:
-        synchronized(LOCK){instance?: crearBd(context).also { instance = it }}
+        synchronized(LOCK){
+            instance?:
+            crearBd(context).also { instance = it }}
     }
 
 

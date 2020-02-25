@@ -1,4 +1,4 @@
-package com.whereicaneat.data.db.entities
+package com.whereicaneat.domain.data.db.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

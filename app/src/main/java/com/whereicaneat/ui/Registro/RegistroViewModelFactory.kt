@@ -2,7 +2,7 @@ package com.whereicaneat.ui.Registro
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.whereicaneat.data.repository.Repositorio
+import com.whereicaneat.domain.data.remote.Repositorio
 
 @Suppress("UNCHECKED_CAST")
 class RegistroViewModelFactory(

@@ -1,11 +1,13 @@
-package com.whereicaneat.data.repository
+package com.whereicaneat.domain.data.remote
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.*
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.model.value.IntegerValue
 import com.whereicaneat.data.db.entities.DatabaseLocal
-import com.whereicaneat.data.db.entities.restaurante
-import com.whereicaneat.data.db.entities.usuario
+import com.whereicaneat.domain.data.db.entities.restaurante
+import com.whereicaneat.domain.data.db.entities.usuario
 
 class Repositorio(
     private val db:DatabaseLocal
@@ -31,24 +33,17 @@ class Repositorio(
         db.getRestauranteDao().getTodosLosRestaurantes()
 
     fun getUsuariosRemote():LiveData<MutableList<usuario>>{
-        val myRef = databasefb.getReference("Usuarios")
         val mutableData = MutableLiveData<MutableList<usuario>>()
-        val listData = mutableListOf<usuario>()
-
-        myRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(usuario::class.java)
-                listData.add(value!!)
-
-
+        FirebaseFirestore.getInstance().collection("Usuarios").get().addOnSuccessListener {result ->
+            val listData = mutableListOf<usuario>()
+            for(document in result){
+                val imageUrl = document.getString("imageUrl")
+                val nombre = document.getString("nombreUsuario")
+                val telefono = document.getString("telefono")
+                listData.add(usuario(imageUrl!!, nombre!!, telefono!!))
             }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
-
-        mutableData.value = listData
+            mutableData.value = listData
+        }
         return mutableData
     }
 
