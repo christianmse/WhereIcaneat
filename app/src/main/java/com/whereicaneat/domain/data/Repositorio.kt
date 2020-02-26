@@ -1,18 +1,20 @@
-package com.whereicaneat.domain.data.remote
+package com.whereicaneat.domain.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.model.value.IntegerValue
+import com.google.firebase.storage.FirebaseStorage
 import com.whereicaneat.data.db.entities.DatabaseLocal
 import com.whereicaneat.domain.data.db.entities.restaurante
 import com.whereicaneat.domain.data.db.entities.usuario
+import com.whereicaneat.domain.data.remote.RegistroFirebase
 
 class Repositorio(
     private val db:DatabaseLocal
-) {
+): RegistroFirebase {
     val databasefb = FirebaseDatabase.getInstance()
+    val storagefb: FirebaseStorage = FirebaseStorage.getInstance()
 
 
     suspend fun insertarUsuarioLocal(usuario: usuario) =
@@ -32,7 +34,7 @@ class Repositorio(
     fun getRestaurantesLocal() =
         db.getRestauranteDao().getTodosLosRestaurantes()
 
-    fun getUsuariosRemote():LiveData<MutableList<usuario>>{
+    override fun getUsuariosRemote():LiveData<MutableList<usuario>>{
         val mutableData = MutableLiveData<MutableList<usuario>>()
         FirebaseFirestore.getInstance().collection("Usuarios").get().addOnSuccessListener {result ->
             val listData = mutableListOf<usuario>()
@@ -47,9 +49,11 @@ class Repositorio(
         return mutableData
     }
 
-    fun setUsuarioRemote(usuario: usuario){
+    override fun setUsuarioRemote(usuario: usuario){
         val myRef = databasefb.getReference("Usuarios")
+        val myRefStg = storagefb!!.getReference("Imagenes_Perfil")
         myRef.child(usuario.telefono).setValue(usuario.nombreUsuario)
+        myRefStg.child(usuario.telefono).putFile(usuario.imageUrl)
     }
 
 

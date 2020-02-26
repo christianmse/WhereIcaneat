@@ -21,6 +21,16 @@
                 android:paddingLeft="24dp"
                 android:paddingRight="24dp">
 
+            <TextView
+                    android:id="@+id/titulo_registro"
+                    android:text="@={registroViewModel.titulo}"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                android:textSize="40sp"
+                android:textStyle="bold|italic"
+                android:layout_marginBottom="8dp"
+                android:textAlignment="center"/>
+
             <ImageView android:src="@drawable/logo"
                     android:layout_width="wrap_content"
                     android:layout_height="92dp"
@@ -64,16 +74,34 @@
                         />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Upload imagen -->
+            <ImageView
+
+                    android:id="@+id/upload_imagen"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/image_upload"
+                android:layout_gravity="center"/>
+            <!-- Upload boton -->
+            <Button
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="#FFFFFF"
+                    android:id="@+id/btn_imagen_registro"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:text="Subir Imagen"
+                android:layout_gravity="center"/>
 
             <!-- Registro Button -->
             <Button
-                    android:onClick="@{registroViewModel::onRegistroBotonClicked}"
                     android:id="@+id/btn_registro"
+                    android:onClick="@{registroViewModel::onRegistroBotonClicked}"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="24dp"
                     android:padding="12dp"
+                    android:layout_gravity="bottom"
                     android:text="Crear Cuenta"/>
 
         </LinearLayout>

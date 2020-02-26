@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.data.db.entities.DatabaseLocal
-import com.whereicaneat.domain.data.remote.Repositorio
+import com.whereicaneat.domain.data.Repositorio
 import kotlinx.android.synthetic.main.activity_landing.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein

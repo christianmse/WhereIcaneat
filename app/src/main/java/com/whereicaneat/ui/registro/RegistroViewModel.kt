@@ -1,20 +1,31 @@
 package com.whereicaneat.ui.registro
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Environment
 import android.view.View
+import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.whereicaneat.R
 import com.whereicaneat.domain.data.db.entities.usuario
-import com.whereicaneat.domain.data.remote.Repositorio
+import com.whereicaneat.domain.data.Repositorio
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RegistroViewModel(
     private val repository: Repositorio
 ):
     ViewModel() {
 
+    lateinit var titulo: MutableLiveData<String>
+    var uriImagen: Uri? = null
     var nombre: String? = null
     var telefono: String? = null
     var regListener: RegistroListener? = null
@@ -26,6 +37,16 @@ class RegistroViewModel(
         }
     }
 
+   /* *//*fun dondeEstaElUsuario():LiveData<String>{
+        val mutableData = MutableLiveData<String>()
+        when (R.layout.activity_registro){
+            R.id.registro_movil ->
+                R.id.registro_nombre ->
+        }*//*
+
+
+        return mutableData
+    }*/
     fun fetchUsuariosFb(): LiveData<MutableList<usuario>>{
         val mutableData = MutableLiveData<MutableList<usuario>>()
         repository.getUsuariosRemote().observeForever { usuariosList ->
@@ -33,6 +54,8 @@ class RegistroViewModel(
         }
         return mutableData
     }
+
+
 
     fun onRegistroBotonClicked(v: View){
         if(validar(nombre!!, telefono!!)){
@@ -42,6 +65,10 @@ class RegistroViewModel(
         }
 
     }
+
+
+
+
 
     fun validar(name: String, telefono: String): Boolean{
         var result = true

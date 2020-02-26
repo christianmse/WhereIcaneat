@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.whereicaneat.domain.data.db.entities.usuario
-import com.whereicaneat.domain.data.remote.Repositorio
+import com.whereicaneat.domain.data.Repositorio
 
 class LandingViewModel(
     private val repository: Repositorio
