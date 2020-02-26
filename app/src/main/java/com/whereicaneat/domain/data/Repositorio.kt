@@ -1,5 +1,7 @@
 package com.whereicaneat.domain.data
 
+import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.*
@@ -9,6 +11,7 @@ import com.whereicaneat.data.db.entities.DatabaseLocal
 import com.whereicaneat.domain.data.db.entities.restaurante
 import com.whereicaneat.domain.data.db.entities.usuario
 import com.whereicaneat.domain.data.remote.RegistroFirebase
+import java.io.File
 
 class Repositorio(
     private val db:DatabaseLocal
@@ -52,8 +55,18 @@ class Repositorio(
     override fun setUsuarioRemote(usuario: usuario){
         val myRef = databasefb.getReference("Usuarios")
         val myRefStg = storagefb!!.getReference("Imagenes_Perfil")
-        myRef.child(usuario.telefono).setValue(usuario.nombreUsuario)
-        myRefStg.child(usuario.telefono).putFile(usuario.imageUrl)
+        try {
+
+            myRef.child(usuario.telefono).setValue(usuario.nombreUsuario)
+            val uri: Uri = Uri.parse(usuario.imageUri)
+            val file:File = File(uri.path)
+            myRefStg.child(usuario.telefono).putFile(uri)
+                .addOnSuccessListener {
+                    Log.e("repositorio_Success", it.toString())
+                }
+        } catch (e: Exception){
+            Log.e("repositorio_Catch", e.toString())
+        }
     }
 
 

@@ -22,7 +22,7 @@ class LandingAdapter(private val context: Context)
 
     inner class viewHolder(vista: View): RecyclerView.ViewHolder(vista){
         fun bindView(usuario: usuario){
-            Glide.with(context).load(usuario.imageUrl).into(itemView.avatar_invitacion)
+            Glide.with(context).load(usuario.imageUri).into(itemView.avatar_invitacion)
             itemView.nombre_invitacion.text = usuario.nombreUsuario
         }
     }

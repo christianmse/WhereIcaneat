@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
 class usuario (
     @Nullable
     @ColumnInfo(name = "ImageUri")
-    val imageUrl: Uri? = null,
+    val imageUri: String? = null,
     @ColumnInfo(name = "nombreUsuario")
     var nombreUsuario: String = "DEFAULT NOMBRE",
     @PrimaryKey

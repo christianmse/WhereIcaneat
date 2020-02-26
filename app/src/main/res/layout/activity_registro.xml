@@ -23,7 +23,7 @@
 
             <TextView
                     android:id="@+id/titulo_registro"
-                    android:text="@={registroViewModel.titulo}"
+                    android:text="¿Hambriento?"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                 android:textSize="40sp"

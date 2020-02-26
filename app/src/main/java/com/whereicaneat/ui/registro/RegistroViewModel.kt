@@ -4,18 +4,22 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.whereicaneat.R
 import com.whereicaneat.domain.data.db.entities.usuario
 import com.whereicaneat.domain.data.Repositorio
+import com.whereicaneat.ui.landing.LandingActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,16 +28,23 @@ class RegistroViewModel(
 ):
     ViewModel() {
 
-    lateinit var titulo: MutableLiveData<String>
-    var uriImagen: Uri? = null
+
+    var uriImagen: String? = null
     var nombre: String? = null
     var telefono: String? = null
     var regListener: RegistroListener? = null
+
+
+
     //Se registra el usuario en local y firebase
     fun guardarUsuario(usuario: usuario){
         CoroutineScope(Dispatchers.Main).launch{
-            repository.insertarUsuarioLocal(usuario)
-            repository.setUsuarioRemote(usuario)
+            try {
+                repository.insertarUsuarioLocal(usuario)
+                repository.setUsuarioRemote(usuario)
+            }catch (e:Exception){
+                Log.e("guardarUsuario", e.toString())
+            }
         }
     }
 
@@ -59,9 +70,10 @@ class RegistroViewModel(
 
     fun onRegistroBotonClicked(v: View){
         if(validar(nombre!!, telefono!!)){
-            val usuario: usuario = usuario(null, nombre!!, telefono!!)
+            val usuario: usuario = usuario(uriImagen!!, nombre!!, telefono!!)
             guardarUsuario(usuario)
             regListener?.onSuccess()
+
         }
 
     }
