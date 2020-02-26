@@ -6,7 +6,7 @@
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.Landing.LandingActivity">
+        tools:context=".ui.landing.LandingActivity">
 
     <!--<Button
             android:text="Crear Encuesta"

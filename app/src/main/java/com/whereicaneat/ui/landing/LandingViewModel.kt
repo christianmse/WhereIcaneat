@@ -1,4 +1,4 @@
-package com.whereicaneat.ui.Landing
+package com.whereicaneat.ui.landing
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -49,7 +49,7 @@ class Repositorio(
 
     fun setUsuarioRemote(usuario: usuario){
         val myRef = databasefb.getReference("Usuarios")
-        myRef.setValue(usuario)
+        myRef.child(usuario.telefono).setValue(usuario.nombreUsuario)
     }
 
 

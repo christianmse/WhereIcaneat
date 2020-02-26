@@ -1,4 +1,4 @@
-package com.whereicaneat.ui.Landing
+package com.whereicaneat.ui.landing
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

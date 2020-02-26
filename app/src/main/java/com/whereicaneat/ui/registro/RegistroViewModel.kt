@@ -1,11 +1,11 @@
-package com.whereicaneat.ui.Registro
+package com.whereicaneat.ui.registro
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.whereicaneat.domain.data.db.entities.usuario
 import com.whereicaneat.domain.data.remote.Repositorio
-import kotlinx.android.synthetic.main.activity_registro.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,6 +15,9 @@ class RegistroViewModel(
 ):
     ViewModel() {
 
+    var nombre: String? = null
+    var telefono: String? = null
+    var regListener: RegistroListener? = null
     //Se registra el usuario en local y firebase
     fun guardarUsuario(usuario: usuario){
         CoroutineScope(Dispatchers.Main).launch{
@@ -31,19 +34,27 @@ class RegistroViewModel(
         return mutableData
     }
 
-    /*fun validar(): Boolean{
+    fun onRegistroBotonClicked(v: View){
+        if(validar(nombre!!, telefono!!)){
+            val usuario: usuario = usuario(null, nombre!!, telefono!!)
+            guardarUsuario(usuario)
+            regListener?.onSuccess()
+        }
+
+    }
+
+    fun validar(name: String, telefono: String): Boolean{
         var result = true
-        var name = registro_nombre.text
-        var telefono = registro_movil.text
+
 
         if(name.length < 3 || telefono.isEmpty()){
-            registro_nombre.setError("Al menos 3 caracteres")
+            //registro_nombre.setError("Al menos 3 caracteres")
             result = false
         }
         else if(!android.util.Patterns.PHONE.matcher(telefono).matches()){
-            registro_movil.setError("Introduce un número de télefono válido")
+            regListener?.onFailed("teléfono inválido")
             result = false
         }
         return result
-    }*/
+    }
 }

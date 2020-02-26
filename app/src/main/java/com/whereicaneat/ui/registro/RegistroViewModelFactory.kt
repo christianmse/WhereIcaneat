@@ -1,4 +1,4 @@
-package com.whereicaneat.ui.Registro
+package com.whereicaneat.ui.registro
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

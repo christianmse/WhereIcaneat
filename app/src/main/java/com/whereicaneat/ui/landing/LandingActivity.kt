@@ -1,22 +1,17 @@
-package com.whereicaneat.ui.Landing
+package com.whereicaneat.ui.landing
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.data.db.entities.DatabaseLocal
-import com.whereicaneat.domain.data.db.entities.usuario
 import com.whereicaneat.domain.data.remote.Repositorio
-import com.whereicaneat.ui.Registro.RegistroViewModel
-import com.whereicaneat.ui.Registro.RegistroViewModelFactory
 import kotlinx.android.synthetic.main.activity_landing.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
-import org.kodein.di.generic.instance
 
 class LandingActivity : AppCompatActivity(), KodeinAware {
     override val kodein by kodein()
