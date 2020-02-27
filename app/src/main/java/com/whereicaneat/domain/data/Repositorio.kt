@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -18,6 +19,7 @@ class Repositorio(
 ): RegistroFirebase {
     val databasefb = FirebaseDatabase.getInstance()
     val storagefb: FirebaseStorage = FirebaseStorage.getInstance()
+
 
 
     suspend fun insertarUsuarioLocal(usuario: usuario) =
@@ -56,8 +58,9 @@ class Repositorio(
         val myRef = databasefb.getReference("Usuarios")
         val myRefStg = storagefb!!.getReference("Imagenes_Perfil")
         try {
-
+            //database
             myRef.child(usuario.telefono).setValue(usuario.nombreUsuario)
+            //storage
             val uri: Uri = Uri.parse(usuario.imageUri)
             val file:File = File(uri.path)
             myRefStg.child(usuario.telefono).putFile(uri)
@@ -67,6 +70,19 @@ class Repositorio(
         } catch (e: Exception){
             Log.e("repositorio_Catch", e.toString())
         }
+    }
+
+    fun userLogin(): LiveData<Boolean>{
+        val resul = MutableLiveData<Boolean>()
+        val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+        mAuth.signInAnonymously().addOnFailureListener {
+            resul.value = false
+        }
+            .addOnSuccessListener {
+                resul.value = true
+            }
+
+        return resul as LiveData<Boolean>
     }
 
 

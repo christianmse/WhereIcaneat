@@ -12,22 +12,19 @@ import com.whereicaneat.domain.data.Repositorio
 import kotlinx.android.synthetic.main.activity_landing.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
+import org.kodein.di.generic.instance
 
 class LandingActivity : AppCompatActivity(), KodeinAware {
     override val kodein by kodein()
-    //private val factory: RegistroViewModelFactory by instance()
-
-
+    private val factory: LandingViewModelFactory by instance()
+    private lateinit var landingViewModel: LandingViewModel
     private lateinit var adapter:LandingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
 
-        val database = DatabaseLocal(applicationContext)
-        val repository = Repositorio(database)
-        val factory = LandingViewModelFactory(repository)
-        val landingViewModel =
+        landingViewModel =
             ViewModelProviders.of(this, factory).get(LandingViewModel::class.java)
 
         adapter = LandingAdapter(this)

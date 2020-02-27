@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
@@ -27,8 +28,7 @@ class RegistroViewModel(
     private val repository: Repositorio
 ):
     ViewModel() {
-
-
+    var titulo = MutableLiveData<String>()
     var uriImagen: String? = null
     var nombre: String? = null
     var telefono: String? = null
@@ -48,16 +48,7 @@ class RegistroViewModel(
         }
     }
 
-   /* *//*fun dondeEstaElUsuario():LiveData<String>{
-        val mutableData = MutableLiveData<String>()
-        when (R.layout.activity_registro){
-            R.id.registro_movil ->
-                R.id.registro_nombre ->
-        }*//*
 
-
-        return mutableData
-    }*/
     fun fetchUsuariosFb(): LiveData<MutableList<usuario>>{
         val mutableData = MutableLiveData<MutableList<usuario>>()
         repository.getUsuariosRemote().observeForever { usuariosList ->
@@ -67,18 +58,15 @@ class RegistroViewModel(
     }
 
 
-
     fun onRegistroBotonClicked(v: View){
         if(validar(nombre!!, telefono!!)){
             val usuario: usuario = usuario(uriImagen!!, nombre!!, telefono!!)
+            val response = repository.userLogin()
             guardarUsuario(usuario)
-            regListener?.onSuccess()
-
+            regListener?.onSuccess(response)
         }
 
     }
-
-
 
 
 
