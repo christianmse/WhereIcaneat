@@ -10,6 +10,7 @@ import com.whereicaneat.R
 import com.whereicaneat.data.db.entities.DatabaseLocal
 import com.whereicaneat.domain.data.Repositorio
 import kotlinx.android.synthetic.main.activity_landing.*
+import kotlinx.android.synthetic.main.activity_registro.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
@@ -35,6 +36,8 @@ class LandingActivity : AppCompatActivity(), KodeinAware {
     }
 
     fun observarData(viewModel: LandingViewModel){
+
+
         shimmer_view_container.startShimmer()
         viewModel.fetchUserData().observe(this, Observer {
             shimmer_view_container.stopShimmer()

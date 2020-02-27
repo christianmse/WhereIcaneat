@@ -52,6 +52,23 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
             onGaleriaBotonClicked()
         }
 
+        /*registro_nombre.requestFocus()
+        registro_nombre.setOnFocusChangeListener { v, hasFocus ->
+            if(!hasFocus){
+                if(registro_nombre.textSize < 0){
+                    titulo_registro.text = "Introduce tu nombre"
+                }
+            }
+
+        }
+        registro_movil.setOnFocusChangeListener { v, hasFocus ->
+            if(!hasFocus){
+                if (registro_movil.textSize < 0 && registro_nombre.textSize > 0){
+                    titulo_registro.text = "Introduce tu movil"
+                }
+            }
+        }*/
+
 
     }
 
