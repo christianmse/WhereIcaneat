@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "restaurante")
-class restaurante(
+class Restaurante(
     @ColumnInfo(name = "ImageUri")
     val imageUri: String? = null,
     @ColumnInfo(name = "nombre")

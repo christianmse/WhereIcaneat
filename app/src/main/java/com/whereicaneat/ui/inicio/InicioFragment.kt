@@ -2,7 +2,6 @@ package com.whereicaneat.ui.inicio
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.provider.ContactsContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,16 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.data.db.entities.DatabaseLocal
 import com.whereicaneat.domain.data.Repositorio
-import com.whereicaneat.ui.landing.LandingViewModelFactory
 import kotlinx.android.synthetic.main.activity_landing.*
 import kotlinx.android.synthetic.main.inicio_fragment.*
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
-import org.kodein.di.android.kodein
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.kcontext
 
-abstract class InicioFragment : Fragment() {
+class InicioFragment : Fragment() {
 
     lateinit var database: DatabaseLocal
     lateinit var repository: Repositorio

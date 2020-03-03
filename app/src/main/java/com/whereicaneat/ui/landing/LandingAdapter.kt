@@ -2,14 +2,13 @@ package com.whereicaneat.ui.landing
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.whereicaneat.R
 import com.whereicaneat.databinding.ItemRestauranteBinding
-import com.whereicaneat.domain.data.db.entities.restaurante
+import com.whereicaneat.domain.data.db.entities.Restaurante
 import kotlinx.android.synthetic.main.item_restaurante.view.*
 
 class LandingAdapter(
@@ -17,10 +16,10 @@ class LandingAdapter(
     private val listener: RecyclerViewClickListener
 ) : RecyclerView.Adapter<LandingAdapter.landingViewHolder>(){
 
-    private var restaurantesList = mutableListOf<restaurante>()
+    private var restaurantesList = mutableListOf<Restaurante>()
 
 
-    fun setListData(listData: MutableList<restaurante>){
+    fun setListData(listData: MutableList<Restaurante>){
         restaurantesList = listData
     }
 
@@ -44,8 +43,8 @@ class LandingAdapter(
     }
 
     override fun onBindViewHolder(holder: landingViewHolder, position: Int) {
-        val restaurante: restaurante = restaurantesList[position]
-        holder.itemRestaurantes.restaurante = restaurante
+        val restaurante: Restaurante = restaurantesList[position]
+        holder.itemRestaurantes.restauranteVar = restaurante
         holder.bindView(restaurante)
         //si quiero que sea el holder entero pongo holder.root
         holder.itemRestaurantes.btnWebsite.setOnClickListener {
@@ -57,7 +56,7 @@ class LandingAdapter(
     inner class landingViewHolder(
         val itemRestaurantes: ItemRestauranteBinding
     ): RecyclerView.ViewHolder(itemRestaurantes.root){
-        fun bindView(restaurante: restaurante){
+        fun bindView(restaurante: Restaurante){
             Glide.with(context).load(restaurante.imageUri).into(itemView.imagen)
             itemView.nombre_restaurante.text = restaurante.nombre
         }

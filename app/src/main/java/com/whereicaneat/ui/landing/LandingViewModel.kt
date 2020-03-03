@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.whereicaneat.domain.data.Repositorio
-import com.whereicaneat.domain.data.db.entities.restaurante
+import com.whereicaneat.domain.data.db.entities.Restaurante
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,10 +14,10 @@ import java.lang.Exception
 class LandingViewModel(
     private val repository: Repositorio
 ) : ViewModel(){
-    val mutableData = MutableLiveData<MutableList<restaurante>>()
+    val mutableData = MutableLiveData<MutableList<Restaurante>>()
 
     //Obtiene usuarios de firestore
-    fun getRestaurantesData():LiveData<MutableList<restaurante>>{
+    fun getRestaurantesData():LiveData<MutableList<Restaurante>>{
         repository.getRestaurantesRemote().observeForever {
             mutableData.value = it
         }

@@ -1,10 +1,10 @@
 package com.whereicaneat.ui.landing
 
 import android.view.View
-import com.whereicaneat.domain.data.db.entities.restaurante
+import com.whereicaneat.domain.data.db.entities.Restaurante
 
 interface RecyclerViewClickListener {
-    fun onRecyclerViewItemClick(view: View, restaurante: restaurante)
+    fun onRecyclerViewItemClick(view: View, restaurante: Restaurante)
 
 
 }

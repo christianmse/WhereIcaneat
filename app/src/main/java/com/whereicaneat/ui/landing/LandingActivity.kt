@@ -9,11 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
-import com.whereicaneat.data.db.entities.DatabaseLocal
-import com.whereicaneat.domain.data.Repositorio
-import com.whereicaneat.domain.data.db.entities.restaurante
+import com.whereicaneat.domain.data.db.entities.Restaurante
 import kotlinx.android.synthetic.main.activity_landing.*
-import kotlinx.android.synthetic.main.activity_registro.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
@@ -52,7 +49,7 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
         })
     }
 
-    override fun onRecyclerViewItemClick(view: View, restaurante: restaurante) {
+    override fun onRecyclerViewItemClick(view: View, restaurante: Restaurante) {
         val url = restaurante.website
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)

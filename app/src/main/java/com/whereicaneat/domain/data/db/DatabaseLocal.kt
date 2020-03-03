@@ -4,11 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.whereicaneat.domain.data.db.entities.restaurante
+import com.whereicaneat.domain.data.db.entities.Restaurante
 import com.whereicaneat.domain.data.db.entities.Usuario
 
 @Database(
-    entities = [restaurante::class, Usuario::class],
+    entities = [Restaurante::class, Usuario::class],
     version = 1
 )
 abstract class DatabaseLocal : RoomDatabase(){

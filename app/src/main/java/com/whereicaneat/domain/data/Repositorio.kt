@@ -4,12 +4,13 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.whereicaneat.data.db.entities.DatabaseLocal
-import com.whereicaneat.domain.data.db.entities.restaurante
+import com.whereicaneat.domain.data.db.entities.Restaurante
 import com.whereicaneat.domain.data.db.entities.Usuario
 import com.whereicaneat.domain.data.remote.RegistroFirebase
 import java.io.File
@@ -32,10 +33,11 @@ class Repositorio(
     fun getUsuariosLocal() = db.getUsuarioDao().getUsuarios()
 
     suspend fun getUsuariosRemote(): LiveData<MutableList<Usuario>>{
-        val myRef = databasefb.getReference("Usuarios")
+        val rootRef = databasefb.reference
+        val usuariosRef = rootRef.child("Usuarios")
         val usuariosList = MutableLiveData<MutableList<Usuario>>()
 
-        myRef.addListenerForSingleValueEvent(object: ValueEventListener {
+        usuariosRef.addListenerForSingleValueEvent(object: ValueEventListener {
             val listData = mutableListOf<Usuario>()
             override fun onCancelled(p0: DatabaseError) {
                 Log.e("Error_ValueListenerAdapte", "on Cancelled$p0")
@@ -44,8 +46,12 @@ class Repositorio(
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0!!.exists()){
                     for(data in p0.children){
-                        val usuario = data.getValue(Usuario::class.java)
-                       listData.add(usuario!!)
+                        try {
+                            val usuario:Usuario? = data.getValue(Usuario::class.java)
+                            listData.add(usuario!!)
+                        }catch (e: FirebaseException){
+                            Log.e("Error_onDataChange", "error: $e")
+                        }
                     }
                     usuariosList.value = listData
                 }
@@ -61,24 +67,24 @@ class Repositorio(
     }
 
 
-    suspend fun insertarRestauranteLocal(restaurante: restaurante) =
+    suspend fun insertarRestauranteLocal(restaurante: Restaurante) =
         db.getRestauranteDao().insertar(restaurante)
 
-    suspend fun eliminarRestauranteLocal(restaurante: restaurante) =
+    suspend fun eliminarRestauranteLocal(restaurante: Restaurante) =
         db.getRestauranteDao().eliminar(restaurante)
 
     fun getRestaurantesLocal() =
         db.getRestauranteDao().getTodosLosRestaurantes()
 
-    fun getRestaurantesRemote():LiveData<MutableList<restaurante>>{
-        val mutableData = MutableLiveData<MutableList<restaurante>>()
+    fun getRestaurantesRemote():LiveData<MutableList<Restaurante>>{
+        val mutableData = MutableLiveData<MutableList<Restaurante>>()
         FirebaseFirestore.getInstance().collection("Restaurantes").get().addOnSuccessListener {result ->
-            val listData = mutableListOf<restaurante>()
+            val listData = mutableListOf<Restaurante>()
             for(document in result){
                 val imageUrl = document.getString("imageUrl")
                 val nombre = document.getString("nombre")
                 val website = document.getString("website")
-                val aux: restaurante = restaurante(imageUrl!!, nombre!!, website!!)
+                val aux: Restaurante = Restaurante(imageUrl!!, nombre!!, website!!)
                 listData.add(aux)
             }
             mutableData.value = listData
@@ -91,7 +97,7 @@ class Repositorio(
         val myRefStg = storagefb!!.getReference("Imagenes_Perfil")
         try {
             //database
-            myRef.setValue(Usuario)
+            myRef.child(Usuario.nombreUsuario).setValue(Usuario)
             //storage
             val uri: Uri = Uri.parse(Usuario.imageUri)
             val file:File = File(uri.path)

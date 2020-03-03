@@ -11,12 +11,12 @@ import androidx.room.PrimaryKey
 class Usuario (
     @Nullable
     @ColumnInfo(name = "ImageUri")
-    val imageUri: String? = null,
+    val imageUri: String = "DEFAULT URI",
     @ColumnInfo(name = "nombreUsuario")
     var nombreUsuario: String = "DEFAULT NOMBRE",
     @PrimaryKey
     @NonNull
-    var telefono: String
+    var telefono: String = "DEFAULT PHONE"
 ){
 
 }
