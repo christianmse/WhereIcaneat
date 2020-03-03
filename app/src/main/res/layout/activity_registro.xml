@@ -75,7 +75,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Upload imagen -->
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
 
                     android:id="@+id/upload_imagen"
                     android:layout_width="100dp"
@@ -89,7 +89,8 @@
                     android:id="@+id/btn_imagen_registro"
                     android:layout_width="130dp"
                     android:layout_height="wrap_content"
-                    android:text="Subir Imagen"
+                    android:text="Foto de Perfil"
+                    android:background="@drawable/round_btn_style"
                 android:layout_gravity="center"/>
 
             <!-- Registro Button -->
@@ -102,6 +103,7 @@
                     android:layout_marginBottom="24dp"
                     android:padding="12dp"
                     android:layout_gravity="bottom"
+                    android:background="@drawable/round_btn_style"
                     android:text="Crear Cuenta"/>
 
         </LinearLayout>

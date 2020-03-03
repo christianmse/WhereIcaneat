@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:padding="10dp"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="10dp"
         tools:context=".ui.landing.LandingActivity">
 
     <!--<Button
@@ -26,31 +25,62 @@
     <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_view_container"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="130dp"
             android:visibility="visible"
-            android:layout_height="wrap_content" app:layout_constraintTop_toTopOf="@+id/recyclerLanding"
-            app:layout_constraintStart_toStartOf="@+id/recyclerLanding">
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical">
-            <include layout="@layout/item_invitacion_load"/>
-            <include layout="@layout/item_invitacion_load"/>
-            <include layout="@layout/item_invitacion_load"/>
-            <include layout="@layout/item_invitacion_load"/>
-            <include layout="@layout/item_invitacion_load"/>
+            app:layout_constraintStart_toStartOf="@+id/recyclerLanding"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <include layout="@layout/item_invitacion_load" />
+
+            <include layout="@layout/item_invitacion_load" />
+
+            <include layout="@layout/item_invitacion_load" />
+
+            <include layout="@layout/item_invitacion_load" />
+
+            <include layout="@layout/item_invitacion_load" />
 
 
         </LinearLayout>
 
 
     </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerLanding"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:id="@+id/recyclerLanding" android:layout_marginTop="9dp" android:layout_marginBottom="9dp"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginBottom="9dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginStart="9dp"
-            android:layout_marginEnd="9dp"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.65" />
+
+    <fragment
+            android:id="@+id/fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:layout_marginBottom="56dp"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerLanding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shimmer_view_container"
+            app:navGraph="@navigation/landing_nav" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,18 +2,33 @@ package com.whereicaneat.ui.inicio
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.provider.ContactsContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.whereicaneat.R
+import com.whereicaneat.data.db.entities.DatabaseLocal
+import com.whereicaneat.domain.data.Repositorio
+import com.whereicaneat.ui.landing.LandingViewModelFactory
+import kotlinx.android.synthetic.main.activity_landing.*
+import kotlinx.android.synthetic.main.inicio_fragment.*
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.kodein
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.kcontext
 
-class InicioFragment : Fragment() {
+abstract class InicioFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = InicioFragment()
-    }
+    lateinit var database: DatabaseLocal
+    lateinit var repository: Repositorio
+    lateinit var factory: InicioViewModelFactory
+    private lateinit var inicioViewModel : InicioFragmentViewModel
+
 
     private lateinit var viewModel: InicioFragmentViewModel
 
@@ -26,8 +41,31 @@ class InicioFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(InicioFragmentViewModel::class.java)
-        // TODO: Use the ViewModel
+        database = DatabaseLocal (context!!)
+        repository = Repositorio(database)
+        factory = InicioViewModelFactory(repository)
+
+        inicioViewModel = ViewModelProviders.of(this, factory).get(InicioFragmentViewModel::class.java)
+        inicioViewModel.getUsuariosRemote()
+        inicioViewModel.invitados.observe(viewLifecycleOwner, Observer {usuarios ->
+            recyclerInicio.also {
+                it.layoutManager = LinearLayoutManager(requireContext())
+                it.adapter = InicioAdapter(usuarios, context!!)
+            }
+        })
+
     }
 
+
+    /*fun observarData(viewModel: InicioFragmentViewModel){
+        shimmer2_view_container.startShimmer()
+        viewModel.getUsuariosRemote().observe(viewLifecycleOwner, Observer {
+            shimmer2_view_container.stopShimmer()
+            shimmer2_view_container.hideShimmer()
+            shimmer2_view_container.visibility = View.GONE
+            //adapter
+        })
+    }*/
+
 }
+

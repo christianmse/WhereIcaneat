@@ -10,7 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.whereicaneat.data.db.entities.DatabaseLocal
 import com.whereicaneat.domain.data.db.entities.restaurante
-import com.whereicaneat.domain.data.db.entities.usuario
+import com.whereicaneat.domain.data.db.entities.Usuario
 import com.whereicaneat.domain.data.remote.RegistroFirebase
 import java.io.File
 
@@ -19,16 +19,47 @@ class Repositorio(
 ): RegistroFirebase {
     val databasefb = FirebaseDatabase.getInstance()
     val storagefb: FirebaseStorage = FirebaseStorage.getInstance()
+    val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
 
 
-    suspend fun insertarUsuarioLocal(usuario: usuario) =
-        db.getUsuarioDao().insertar(usuario)
+    suspend fun insertarUsuarioLocal(Usuario: Usuario) =
+        db.getUsuarioDao().insertar(Usuario)
 
-    suspend fun eliminarUsuarioLocal(usuario: usuario) =
-        db.getUsuarioDao().eliminarUsuario(usuario)
+    suspend fun eliminarUsuarioLocal(Usuario: Usuario) =
+        db.getUsuarioDao().eliminarUsuario(Usuario)
 
     fun getUsuariosLocal() = db.getUsuarioDao().getUsuarios()
+
+    suspend fun getUsuariosRemote(): LiveData<MutableList<Usuario>>{
+        val myRef = databasefb.getReference("Usuarios")
+        val usuariosList = MutableLiveData<MutableList<Usuario>>()
+
+        myRef.addListenerForSingleValueEvent(object: ValueEventListener {
+            val listData = mutableListOf<Usuario>()
+            override fun onCancelled(p0: DatabaseError) {
+                Log.e("Error_ValueListenerAdapte", "on Cancelled$p0")
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0!!.exists()){
+                    for(data in p0.children){
+                        val usuario = data.getValue(Usuario::class.java)
+                       listData.add(usuario!!)
+                    }
+                    usuariosList.value = listData
+                }
+            }
+
+        })
+        return usuariosList
+    }
+
+    fun currentUserReference(): DatabaseReference {
+        val currentUid = databasefb.getReference("Usuarios").child("Usuarios").child(mAuth.currentUser!!.uid)
+        return currentUid
+    }
+
 
     suspend fun insertarRestauranteLocal(restaurante: restaurante) =
         db.getRestauranteDao().insertar(restaurante)
@@ -39,31 +70,32 @@ class Repositorio(
     fun getRestaurantesLocal() =
         db.getRestauranteDao().getTodosLosRestaurantes()
 
-    override fun getUsuariosRemote():LiveData<MutableList<usuario>>{
-        val mutableData = MutableLiveData<MutableList<usuario>>()
-        FirebaseFirestore.getInstance().collection("Usuarios").get().addOnSuccessListener {result ->
-            val listData = mutableListOf<usuario>()
+    fun getRestaurantesRemote():LiveData<MutableList<restaurante>>{
+        val mutableData = MutableLiveData<MutableList<restaurante>>()
+        FirebaseFirestore.getInstance().collection("Restaurantes").get().addOnSuccessListener {result ->
+            val listData = mutableListOf<restaurante>()
             for(document in result){
                 val imageUrl = document.getString("imageUrl")
-                val nombre = document.getString("nombreUsuario")
-                val telefono = document.getString("telefono")
-                listData.add(usuario(imageUrl!!, nombre!!, telefono!!))
+                val nombre = document.getString("nombre")
+                val website = document.getString("website")
+                val aux: restaurante = restaurante(imageUrl!!, nombre!!, website!!)
+                listData.add(aux)
             }
             mutableData.value = listData
         }
         return mutableData
     }
 
-    override fun setUsuarioRemote(usuario: usuario){
+    override fun setUsuarioRemote(Usuario: Usuario){
         val myRef = databasefb.getReference("Usuarios")
         val myRefStg = storagefb!!.getReference("Imagenes_Perfil")
         try {
             //database
-            myRef.child(usuario.telefono).setValue(usuario.nombreUsuario)
+            myRef.setValue(Usuario)
             //storage
-            val uri: Uri = Uri.parse(usuario.imageUri)
+            val uri: Uri = Uri.parse(Usuario.imageUri)
             val file:File = File(uri.path)
-            myRefStg.child(usuario.telefono).putFile(uri)
+            myRefStg.child(Usuario.telefono).putFile(uri)
                 .addOnSuccessListener {
                     Log.e("repositorio_Success", it.toString())
                 }
@@ -74,7 +106,7 @@ class Repositorio(
 
     fun userLogin(): LiveData<Boolean>{
         val resul = MutableLiveData<Boolean>()
-        val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+
         mAuth.signInAnonymously().addOnFailureListener {
             resul.value = false
         }

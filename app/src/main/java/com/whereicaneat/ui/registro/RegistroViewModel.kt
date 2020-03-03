@@ -1,28 +1,15 @@
 package com.whereicaneat.ui.registro
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.os.Environment
 import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.whereicaneat.R
-import com.whereicaneat.domain.data.db.entities.usuario
+import com.whereicaneat.domain.data.db.entities.Usuario
 import com.whereicaneat.domain.data.Repositorio
-import com.whereicaneat.ui.landing.LandingActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
 import java.lang.Exception
-import java.text.SimpleDateFormat
-import java.util.*
 
 class RegistroViewModel(
     private val repository: Repositorio
@@ -37,11 +24,11 @@ class RegistroViewModel(
 
 
     //Se registra el usuario en local y firebase
-    fun guardarUsuario(usuario: usuario){
+    fun guardarUsuario(Usuario: Usuario){
         CoroutineScope(Dispatchers.Main).launch{
             try {
-                repository.insertarUsuarioLocal(usuario)
-                repository.setUsuarioRemote(usuario)
+                repository.insertarUsuarioLocal(Usuario)
+                repository.setUsuarioRemote(Usuario)
             }catch (e:Exception){
                 Log.e("guardarUsuario", e.toString())
             }
@@ -49,20 +36,14 @@ class RegistroViewModel(
     }
 
 
-    fun fetchUsuariosFb(): LiveData<MutableList<usuario>>{
-        val mutableData = MutableLiveData<MutableList<usuario>>()
-        repository.getUsuariosRemote().observeForever { usuariosList ->
-            mutableData.value = usuariosList
-        }
-        return mutableData
-    }
+
 
 
     fun onRegistroBotonClicked(v: View){
         if(validar(nombre!!, telefono!!)){
-            val usuario: usuario = usuario(uriImagen!!, nombre!!, telefono!!)
+            val Usuario: Usuario = Usuario(uriImagen!!, nombre!!, telefono!!)
             val response = repository.userLogin()
-            guardarUsuario(usuario)
+            guardarUsuario(Usuario)
             regListener?.onSuccess(response)
         }
 

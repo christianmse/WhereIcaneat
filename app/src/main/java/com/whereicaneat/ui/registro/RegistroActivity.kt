@@ -40,7 +40,8 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding: ActivityRegistroBinding = DataBindingUtil.setContentView(this, R.layout.activity_registro)
+        val binding: ActivityRegistroBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_registro)
 
         registroViewModel =
             ViewModelProviders.of(this, factory).get(RegistroViewModel::class.java)
@@ -51,23 +52,6 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
         btn_imagen_registro.setOnClickListener {
             onGaleriaBotonClicked()
         }
-
-        /*registro_nombre.requestFocus()
-        registro_nombre.setOnFocusChangeListener { v, hasFocus ->
-            if(!hasFocus){
-                if(registro_nombre.textSize < 0){
-                    titulo_registro.text = "Introduce tu nombre"
-                }
-            }
-
-        }
-        registro_movil.setOnFocusChangeListener { v, hasFocus ->
-            if(!hasFocus){
-                if (registro_movil.textSize < 0 && registro_nombre.textSize > 0){
-                    titulo_registro.text = "Introduce tu movil"
-                }
-            }
-        }*/
 
 
     }

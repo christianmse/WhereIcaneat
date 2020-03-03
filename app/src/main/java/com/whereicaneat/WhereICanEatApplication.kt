@@ -3,6 +3,7 @@ package com.whereicaneat
 import android.app.Application
 import com.whereicaneat.data.db.entities.DatabaseLocal
 import com.whereicaneat.domain.data.Repositorio
+import com.whereicaneat.ui.inicio.InicioViewModelFactory
 import com.whereicaneat.ui.landing.LandingViewModelFactory
 import com.whereicaneat.ui.registro.RegistroViewModelFactory
 import org.kodein.di.Kodein
@@ -20,6 +21,7 @@ class WhereICanEatApplication: Application(), KodeinAware {
         bind() from singleton { Repositorio(instance()) }
         bind() from provider {   LandingViewModelFactory(instance()) }
         bind() from provider {   RegistroViewModelFactory(instance()) }
+        bind() from provider {   InicioViewModelFactory(instance()) }
 
 
     }

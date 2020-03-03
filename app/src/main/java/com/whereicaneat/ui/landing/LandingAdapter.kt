@@ -4,44 +4,63 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.whereicaneat.R
-import com.whereicaneat.domain.data.db.entities.usuario
-import kotlinx.android.synthetic.main.item_invitacion.view.*
+import com.whereicaneat.databinding.ItemRestauranteBinding
+import com.whereicaneat.domain.data.db.entities.restaurante
+import kotlinx.android.synthetic.main.item_restaurante.view.*
 
-class LandingAdapter(private val context: Context)
-    : RecyclerView.Adapter<LandingAdapter.viewHolder>(){
+class LandingAdapter(
+    private val context: Context,
+    private val listener: RecyclerViewClickListener
+) : RecyclerView.Adapter<LandingAdapter.landingViewHolder>(){
 
-    private var usuariosList = mutableListOf<usuario>()
+    private var restaurantesList = mutableListOf<restaurante>()
 
-    fun setListData(listData: MutableList<usuario>){
-        usuariosList = listData
+
+    fun setListData(listData: MutableList<restaurante>){
+        restaurantesList = listData
     }
 
 
-    inner class viewHolder(vista: View): RecyclerView.ViewHolder(vista){
-        fun bindView(usuario: usuario){
-            Glide.with(context).load(usuario.imageUri).into(itemView.avatar_invitacion)
-            itemView.nombre_invitacion.text = usuario.nombreUsuario
-        }
-    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder {
-    val view = LayoutInflater.from(context).inflate(R.layout.item_invitacion, parent, false)
-        return viewHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        landingViewHolder(
+            DataBindingUtil.inflate<ItemRestauranteBinding>(
+                LayoutInflater.from(parent.context),
+                R.layout.item_restaurante,
+                parent,
+                false
+            )
+        )
 
     override fun getItemCount(): Int {
-        if(usuariosList.size > 0 )
-            return usuariosList.size
+        if(restaurantesList.size > 0 )
+            return restaurantesList.size
         else
             return 0
     }
 
-    override fun onBindViewHolder(holder: viewHolder, position: Int) {
-        val usuario: usuario = usuariosList[position]
-        holder.bindView(usuario)
+    override fun onBindViewHolder(holder: landingViewHolder, position: Int) {
+        val restaurante: restaurante = restaurantesList[position]
+        holder.itemRestaurantes.restaurante = restaurante
+        holder.bindView(restaurante)
+        //si quiero que sea el holder entero pongo holder.root
+        holder.itemRestaurantes.btnWebsite.setOnClickListener {
+            listener.onRecyclerViewItemClick(holder.itemRestaurantes.btnWebsite,
+                restaurante)
+        }
+    }
+
+    inner class landingViewHolder(
+        val itemRestaurantes: ItemRestauranteBinding
+    ): RecyclerView.ViewHolder(itemRestaurantes.root){
+        fun bindView(restaurante: restaurante){
+            Glide.with(context).load(restaurante.imageUri).into(itemView.imagen)
+            itemView.nombre_restaurante.text = restaurante.nombre
+        }
     }
 
 }

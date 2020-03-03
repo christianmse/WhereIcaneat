@@ -8,7 +8,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "usuario")
-class usuario (
+class Usuario (
     @Nullable
     @ColumnInfo(name = "ImageUri")
     val imageUri: String? = null,

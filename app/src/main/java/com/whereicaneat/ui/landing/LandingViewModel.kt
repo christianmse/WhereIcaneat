@@ -1,21 +1,39 @@
 package com.whereicaneat.ui.landing
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.whereicaneat.domain.data.db.entities.usuario
 import com.whereicaneat.domain.data.Repositorio
+import com.whereicaneat.domain.data.db.entities.restaurante
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class LandingViewModel(
     private val repository: Repositorio
 ) : ViewModel(){
+    val mutableData = MutableLiveData<MutableList<restaurante>>()
 
     //Obtiene usuarios de firestore
-    fun fetchUserData():LiveData<MutableList<usuario>>{
-        val mutableData = MutableLiveData<MutableList<usuario>>()
-        repository.getUsuariosRemote().observeForever {
+    fun getRestaurantesData():LiveData<MutableList<restaurante>>{
+        repository.getRestaurantesRemote().observeForever {
             mutableData.value = it
         }
+        setRestaurantesLocal()
         return mutableData
+    }
+
+    fun setRestaurantesLocal() {
+
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                for(restaurante in mutableData.value!!)
+                repository.insertarRestauranteLocal(restaurante)
+            }catch (e: Exception){
+                Log.e("guardarRestaurantesLocal", e.toString())
+            }
+        }
     }
 }
