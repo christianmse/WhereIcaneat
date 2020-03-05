@@ -36,10 +36,8 @@ class LandingAdapter(
         )
 
     override fun getItemCount(): Int {
-        if(restaurantesList.size > 0 )
             return restaurantesList.size
-        else
-            return 0
+
     }
 
     override fun onBindViewHolder(holder: landingViewHolder, position: Int) {
@@ -48,16 +46,29 @@ class LandingAdapter(
         holder.bindView(restaurante)
         //si quiero que sea el holder entero pongo holder.root
         holder.itemRestaurantes.btnWebsite.setOnClickListener {
-            listener.onRecyclerViewItemClick(holder.itemRestaurantes.btnWebsite,
+            listener.onRecyclerViewCartaClick(holder.itemRestaurantes.btnWebsite,
                 restaurante)
         }
+
+        holder.itemRestaurantes.nombreRestaurante.setOnClickListener {
+            if(listener != null){
+                if(position != RecyclerView.NO_POSITION){
+                    listener.setOnSelectedRestaurante(position)
+                }
+            }
+        }
     }
+
+
 
     inner class landingViewHolder(
         val itemRestaurantes: ItemRestauranteBinding
     ): RecyclerView.ViewHolder(itemRestaurantes.root){
         fun bindView(restaurante: Restaurante){
-            Glide.with(context).load(restaurante.imageUri).into(itemView.imagen)
+            Glide
+                .with(context)
+                .load(restaurante.imageUri)
+                .into(itemView.imagen)
             itemView.nombre_restaurante.text = restaurante.nombre
         }
     }

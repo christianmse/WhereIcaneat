@@ -8,80 +8,75 @@
         android:padding="10dp"
         tools:context=".ui.landing.LandingActivity">
 
-    <!--<Button
-            android:text="Crear Encuesta"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_encuesta" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/>
-    <Button
-            android:text="Analytics"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_analytics" android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/btn_encuesta" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>-->
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_view_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="130dp"
-            android:visibility="visible"
-
-            app:layout_constraintStart_toStartOf="@+id/recyclerLanding"
-            app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
+        <TextView
+                android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:text="Elige un restaurante..."
+                app:layout_constraintBottom_toTopOf="@+id/recyclerLanding"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="10dp" />
 
-            <include layout="@layout/item_invitacion_load" />
+        <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="50dp"
+                android:visibility="visible"
 
-            <include layout="@layout/item_invitacion_load" />
+                app:layout_constraintStart_toStartOf="@+id/recyclerLanding"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <include layout="@layout/item_invitacion_load" />
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <include layout="@layout/item_invitacion_load" />
+                <include layout="@layout/item_invitacion_load" />
+                <include layout="@layout/item_invitacion_load" />
+                <include layout="@layout/item_invitacion_load" />
+                <include layout="@layout/item_invitacion_load" />
+                <include layout="@layout/item_invitacion_load" />
+                <include layout="@layout/item_invitacion_load" />
+                <include layout="@layout/item_invitacion_load" />
+                <include layout="@layout/item_invitacion_load" />
+                <include layout="@layout/item_invitacion_load" />
+                <include layout="@layout/item_invitacion_load" />
 
-            <include layout="@layout/item_invitacion_load" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerLanding"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="50dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.65" />
+
+        <Button
+                android:id="@+id/btn_crear_encuesta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:text="Crear encuesta"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerLanding"
+                tools:layout_editor_absoluteX="208dp" />
 
 
-        </LinearLayout>
 
 
-    </com.facebook.shimmer.ShimmerFrameLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerLanding"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="9dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginBottom="9dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.65" />
-
-    <fragment
-            android:id="@+id/fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="86dp"
-            android:layout_height="86dp"
-            android:layout_marginBottom="56dp"
-            app:defaultNavHost="true"
-            app:layout_constraintBottom_toBottomOf="@+id/recyclerLanding"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/shimmer_view_container"
-            app:navGraph="@navigation/landing_nav" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

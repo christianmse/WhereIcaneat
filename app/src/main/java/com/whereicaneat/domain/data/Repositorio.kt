@@ -30,10 +30,11 @@ class Repositorio(
     suspend fun eliminarUsuarioLocal(Usuario: Usuario) =
         db.getUsuarioDao().eliminarUsuario(Usuario)
 
-    fun getUsuariosLocal() = db.getUsuarioDao().getUsuarios()
+    fun getUsuarioLocal() = db.getUsuarioDao().getUsuario()
 
     suspend fun getUsuariosRemote(): LiveData<MutableList<Usuario>>{
         val rootRef = databasefb.reference
+        val myRefStg = storagefb!!.getReference("Imagenes_Perfil")
         val usuariosRef = rootRef.child("Usuarios")
         val usuariosList = MutableLiveData<MutableList<Usuario>>()
 
@@ -46,18 +47,16 @@ class Repositorio(
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0!!.exists()){
                     for(data in p0.children){
-                        try {
                             val usuario:Usuario? = data.getValue(Usuario::class.java)
                             listData.add(usuario!!)
-                        }catch (e: FirebaseException){
-                            Log.e("Error_onDataChange", "error: $e")
-                        }
                     }
                     usuariosList.value = listData
                 }
             }
 
         })
+
+
         return usuariosList
     }
 
@@ -84,8 +83,12 @@ class Repositorio(
                 val imageUrl = document.getString("imageUrl")
                 val nombre = document.getString("nombre")
                 val website = document.getString("website")
-                val aux: Restaurante = Restaurante(imageUrl!!, nombre!!, website!!)
-                listData.add(aux)
+                if(imageUrl != null && nombre != null && website != null)
+                {
+                    var aux: Restaurante = Restaurante(imageUrl!!, nombre!!, website!!)
+                    listData.add(aux)
+                }
+
             }
             mutableData.value = listData
         }

@@ -21,7 +21,9 @@ class LandingViewModel(
         repository.getRestaurantesRemote().observeForever {
             mutableData.value = it
         }
-        setRestaurantesLocal()
+        if(mutableData.value != null)
+            setRestaurantesLocal()
+
         return mutableData
     }
 

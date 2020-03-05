@@ -22,6 +22,7 @@ import com.whereicaneat.R
 import com.whereicaneat.data.db.entities.DatabaseLocal
 import com.whereicaneat.databinding.ActivityRegistroBinding
 import com.whereicaneat.domain.data.Repositorio
+import com.whereicaneat.ui.inicio.InicioActivity
 import com.whereicaneat.ui.landing.LandingActivity
 import com.whereicaneat.util.tostada
 import kotlinx.android.synthetic.main.activity_registro.*
@@ -40,6 +41,7 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val binding: ActivityRegistroBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_registro)
 
@@ -48,18 +50,19 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
 
         binding.registroViewModel = registroViewModel
         registroViewModel.regListener = this
-
-        btn_imagen_registro.setOnClickListener {
-            onGaleriaBotonClicked()
+        if(registroViewModel.usuarioRegistrado()){
+            startActivity(Intent(this, LandingActivity::class.java))
         }
+
 
 
     }
 
     override fun onStart() {
         super.onStart()
-
-
+        btn_imagen_registro.setOnClickListener {
+            onGaleriaBotonClicked()
+        }
     }
 
 

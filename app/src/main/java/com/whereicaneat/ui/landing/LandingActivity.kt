@@ -4,22 +4,29 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.replace
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.domain.data.db.entities.Restaurante
+import com.whereicaneat.ui.inicio.InicioActivity
+import com.whereicaneat.ui.inicio.InicioFragment
 import kotlinx.android.synthetic.main.activity_landing.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
+import java.lang.Exception
 
 class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListener {
     override val kodein by kodein()
     private val factory: LandingViewModelFactory by instance()
     private lateinit var landingViewModel: LandingViewModel
     private lateinit var adapter:LandingAdapter
+    private lateinit var listRestaurante: List<Restaurante>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +40,17 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
         recyclerLanding.adapter = adapter
         observarData(landingViewModel)
 
+        val fragment = InicioFragment()
+        btn_crear_encuesta.setOnClickListener {
+            try {
+                startActivity(Intent(this, InicioActivity::class.java))
+
+            }catch (e:Exception){
+                Log.e("1111111","fallo reemplazar fragment${e.toString()}")
+            }
+
+        }
+
 
 
     }
@@ -41,6 +59,7 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
 
         shimmer_view_container.startShimmer()
         viewModel.getRestaurantesData().observe(this, Observer {
+            listRestaurante = it
             shimmer_view_container.stopShimmer()
             shimmer_view_container.hideShimmer()
             shimmer_view_container.visibility = View.GONE
@@ -49,11 +68,16 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
         })
     }
 
-    override fun onRecyclerViewItemClick(view: View, restaurante: Restaurante) {
+    override fun onRecyclerViewCartaClick(view: View, restaurante: Restaurante) {
         val url = restaurante.website
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)
         startActivity(i)
+    }
+
+    override fun setOnSelectedRestaurante(position: Int) {
+        listRestaurante[position]
+        btn_crear_encuesta.visibility = View.VISIBLE
     }
 
 

@@ -4,7 +4,9 @@ import android.view.View
 import com.whereicaneat.domain.data.db.entities.Restaurante
 
 interface RecyclerViewClickListener {
-    fun onRecyclerViewItemClick(view: View, restaurante: Restaurante)
+    fun onRecyclerViewCartaClick(view: View, restaurante: Restaurante)
+
+    fun setOnSelectedRestaurante(position: Int)
 
 
 }

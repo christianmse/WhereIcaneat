@@ -35,6 +35,12 @@ class RegistroViewModel(
         }
     }
 
+    fun usuarioRegistrado():Boolean{
+        var resul = false
+        if(repository.getUsuarioLocal() != null)
+            resul = true
+        return resul
+    }
 
 
 
