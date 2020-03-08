@@ -6,14 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.replace
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.domain.data.db.entities.Restaurante
-import com.whereicaneat.ui.inicio.InicioActivity
 import com.whereicaneat.ui.inicio.InicioFragment
 import kotlinx.android.synthetic.main.activity_landing.*
 import org.kodein.di.KodeinAware
@@ -40,19 +38,18 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
         recyclerLanding.adapter = adapter
         observarData(landingViewModel)
 
-        val fragment = InicioFragment()
+        var fragment = InicioFragment() ?: Log.e("12345", "fragment nulo")
+
         btn_crear_encuesta.setOnClickListener {
             try {
-                startActivity(Intent(this, InicioActivity::class.java))
-
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.frameLayout_landing, fragment as Fragment)
+                    .commit()
             }catch (e:Exception){
                 Log.e("1111111","fallo reemplazar fragment${e.toString()}")
             }
-
         }
-
-
-
     }
 
     fun observarData(viewModel: LandingViewModel){

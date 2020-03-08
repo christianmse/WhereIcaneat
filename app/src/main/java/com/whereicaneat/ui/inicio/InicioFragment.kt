@@ -31,8 +31,8 @@ class InicioFragment : Fragment() {
     lateinit var database: DatabaseLocal
     lateinit var repository: Repositorio
     lateinit var factory: InicioViewModelFactory
-    private lateinit var inicioViewModel : InicioFragmentViewModel
-    private lateinit var adapter:InicioAdapter
+    private lateinit var inicioViewModel: InicioFragmentViewModel
+    private lateinit var adapter: InicioAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,21 +43,21 @@ class InicioFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        database = DatabaseLocal (context!!)
+        database = DatabaseLocal(context!!)
         repository = Repositorio(database)
         factory = InicioViewModelFactory(repository)
 
-        inicioViewModel = ViewModelProviders.of(this, factory).get(InicioFragmentViewModel::class.java)
+        inicioViewModel =
+            ViewModelProviders.of(this, factory).get(InicioFragmentViewModel::class.java)
         adapter = InicioAdapter(context!!)
-        recyclerInicio.layoutManager =  LinearLayoutManager(requireContext())
+        recyclerInicio.layoutManager = LinearLayoutManager(requireContext())
         recyclerInicio.adapter = adapter
 
-            inicioViewModel.getUsuariosRemote()
-            inicioViewModel.invitados.observe(viewLifecycleOwner, Observer {usuarios ->
-                adapter.setListData(usuarios)
-                adapter.notifyDataSetChanged()
-            })
-
+        inicioViewModel.getUsuariosRemote()
+        inicioViewModel.invitados.observe(viewLifecycleOwner, Observer { usuarios ->
+            adapter.setListData(usuarios)
+            adapter.notifyDataSetChanged()
+        })
 
 
     }
@@ -74,42 +74,42 @@ class InicioFragment : Fragment() {
     }*/
 
 
-  /*  fun tienePermisos():Boolean {
-        var resul = false
+    /*  fun tienePermisos():Boolean {
+          var resul = false
 
-        if (ContextCompat.checkSelfPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
-            context?.tostada("no tiene permisos")
+          if (ContextCompat.checkSelfPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+              != PackageManager.PERMISSION_GRANTED) {
+              context?.tostada("no tiene permisos")
 
-            val flags: Int = (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-            ActivityCompat.requestPermissions(activity!!,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                flags)
-            resul =true
-        } else {
-            resul = true
-        }
+              val flags: Int = (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+              ActivityCompat.requestPermissions(activity!!,
+                  arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                  flags)
+              resul =true
+          } else {
+              resul = true
+          }
 
-        if (Build.VERSION.SDK_INT < 19) {
-            val i = Intent()
-            i.action = Intent.ACTION_OPEN_DOCUMENT
-            i.addCategory(Intent.CATEGORY_OPENABLE)
-            startActivityForResult(i, 2)
-        }
+          if (Build.VERSION.SDK_INT < 19) {
+              val i = Intent()
+              i.action = Intent.ACTION_OPEN_DOCUMENT
+              i.addCategory(Intent.CATEGORY_OPENABLE)
+              startActivityForResult(i, 2)
+          }
 
-        return resul
-    }*/
+          return resul
+      }*/
 
-  /*  @SuppressLint("MissingSuperCall")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    /*  @SuppressLint("MissingSuperCall")
+      override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        if (resultCode == Activity.RESULT_OK) {
-            try {
-                Log.e("111111", "odo bien")
-            } catch (e:Exception){
-                Log.e("1111111", e.toString())
-            }
-        }
-    }*/
+          if (resultCode == Activity.RESULT_OK) {
+              try {
+                  Log.e("111111", "odo bien")
+              } catch (e:Exception){
+                  Log.e("1111111", e.toString())
+              }
+          }
+      }*/
 }
 

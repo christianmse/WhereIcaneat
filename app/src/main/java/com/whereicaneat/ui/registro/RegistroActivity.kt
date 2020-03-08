@@ -3,35 +3,21 @@ package com.whereicaneat.ui.registro
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.graphics.ImageDecoder
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.whereicaneat.R
-import com.whereicaneat.data.db.entities.DatabaseLocal
 import com.whereicaneat.databinding.ActivityRegistroBinding
-import com.whereicaneat.domain.data.Repositorio
-import com.whereicaneat.ui.inicio.InicioActivity
 import com.whereicaneat.ui.landing.LandingActivity
 import com.whereicaneat.util.tostada
 import kotlinx.android.synthetic.main.activity_registro.*
-import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
 import java.io.IOException
-import java.net.CacheResponse
 
 class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
 
@@ -50,9 +36,7 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
 
         binding.registroViewModel = registroViewModel
         registroViewModel.regListener = this
-        if(registroViewModel.usuarioRegistrado()){
-            startActivity(Intent(this, LandingActivity::class.java))
-        }
+
 
 
 

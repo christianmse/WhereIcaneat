@@ -60,6 +60,7 @@ class InicioAdapter(
                 .getReference("Imagenes_Perfil")
                 .child(usuario.telefono)
 
+            
                 storageReference
                     .getBytes(1024*1024)
                     .addOnSuccessListener {
