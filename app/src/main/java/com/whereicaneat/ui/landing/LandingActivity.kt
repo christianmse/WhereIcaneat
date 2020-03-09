@@ -2,22 +2,20 @@ package com.whereicaneat.ui.landing
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.domain.data.db.entities.Restaurante
-import com.whereicaneat.ui.inicio.InicioFragment
+import com.whereicaneat.ui.inicio.InicioActivity
 import kotlinx.android.synthetic.main.activity_landing.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
-import java.lang.Exception
+
 
 class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListener {
     override val kodein by kodein()
@@ -38,18 +36,12 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
         recyclerLanding.adapter = adapter
         observarData(landingViewModel)
 
-        var fragment = InicioFragment() ?: Log.e("12345", "fragment nulo")
-
         btn_crear_encuesta.setOnClickListener {
-            try {
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.frameLayout_landing, fragment as Fragment)
-                    .commit()
-            }catch (e:Exception){
-                Log.e("1111111","fallo reemplazar fragment${e.toString()}")
-            }
+            startActivity(Intent(this, InicioActivity::class.java))
         }
+    }
+
+    override fun onBackPressed() { // Do Here what ever you want do on back press;
     }
 
     fun observarData(viewModel: LandingViewModel){

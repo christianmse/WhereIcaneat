@@ -33,16 +33,4 @@ class WhereICanEatApplication: Application(), KodeinAware {
     }
     private val repositorio:Repositorio by  instance()
 
-
-    override fun onCreate() {
-        super.onCreate()
-//        repositorio.userLogin()
-//        if(repositorio.getUsuarioLocal() != null){
-//            tostada("¡Hola ${repositorio.getUsuarioLocal().value?.nombreUsuario}!")
-//            startActivity(Intent(this, LandingActivity::class.java))
-//        } else {
-//            startActivity(Intent(this, RegistroActivity::class.java))
-//        }
-    }
-
 }

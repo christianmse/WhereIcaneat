@@ -55,8 +55,6 @@ class Repositorio(
             }
 
         })
-
-
         return usuariosList
     }
 

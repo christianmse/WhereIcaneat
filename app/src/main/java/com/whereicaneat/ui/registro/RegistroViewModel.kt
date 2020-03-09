@@ -55,7 +55,9 @@ class RegistroViewModel(
 
     }
 
-
+    fun login(){
+        repository.userLogin()
+    }
 
     fun validar(name: String, telefono: String): Boolean{
         var result = true

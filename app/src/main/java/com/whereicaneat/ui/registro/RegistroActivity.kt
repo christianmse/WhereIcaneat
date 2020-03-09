@@ -37,7 +37,10 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
         binding.registroViewModel = registroViewModel
         registroViewModel.regListener = this
 
-
+        if(registroViewModel.usuarioRegistrado()){
+            registroViewModel.login()
+            startActivity(Intent(this, LandingActivity::class.java))
+        }
 
 
     }
