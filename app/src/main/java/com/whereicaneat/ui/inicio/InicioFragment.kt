@@ -16,9 +16,13 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.whereicaneat.R
+import com.whereicaneat.common.Common
+import com.whereicaneat.common.EspacioItemInvitados
 import com.whereicaneat.data.db.entities.DatabaseLocal
 import com.whereicaneat.domain.data.Repositorio
 import com.whereicaneat.util.tostada
@@ -50,7 +54,22 @@ class InicioFragment : Fragment() {
         inicioViewModel =
             ViewModelProviders.of(this, factory).get(InicioFragmentViewModel::class.java)
         adapter = InicioAdapter(context!!)
-        recyclerInicio.layoutManager = LinearLayoutManager(requireContext())
+        val layoutManager = GridLayoutManager(requireContext(), Common.NUM_OF_COLUMN)
+        layoutManager.orientation = RecyclerView.VERTICAL
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
+            override fun getSpanSize(position: Int): Int {
+                return if (adapter != null){
+                    when(adapter!!.getItemViewType(position)){
+                        1 -> 1
+                        0 -> Common.NUM_OF_COLUMN
+                        else -> 1
+                    }
+                } else -1
+            }
+
+        }
+        recyclerInicio.layoutManager = layoutManager
+        recyclerInicio.addItemDecoration(EspacioItemInvitados(2))
         recyclerInicio.adapter = adapter
 
         inicioViewModel.getUsuariosRemote()
