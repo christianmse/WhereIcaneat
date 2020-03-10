@@ -3,5 +3,7 @@ package com.whereicaneat.ui.inicio
 import android.view.View
 
 interface ICardItemClickListener {
-    fun onItemClicked(vista: View, posicion: Int)
+    //contara los items seleccionados
+    fun onItemClicked(posicion: Int)
+    fun onLongTap(index: Int)
 }

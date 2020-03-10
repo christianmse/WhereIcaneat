@@ -4,5 +4,5 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="placeholder_bg">#C5BBBB</color>
-
+    <color name="colorControlActivated">#50FF4081</color>
 </resources>

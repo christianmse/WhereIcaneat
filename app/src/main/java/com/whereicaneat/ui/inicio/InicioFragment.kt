@@ -9,10 +9,8 @@ import android.os.Build
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -30,13 +28,18 @@ import kotlinx.android.synthetic.main.activity_landing.*
 import kotlinx.android.synthetic.main.inicio_fragment.*
 import java.lang.Exception
 
-class InicioFragment : Fragment() {
+class InicioFragment : Fragment(), InicioInterface{
 
     lateinit var database: DatabaseLocal
     lateinit var repository: Repositorio
     lateinit var factory: InicioViewModelFactory
     private lateinit var inicioViewModel: InicioFragmentViewModel
     private lateinit var adapter: InicioAdapter
+    var actionMode: ActionMode? = null
+
+    companion object{
+        var isMultiseleccion = false
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,10 +53,10 @@ class InicioFragment : Fragment() {
         database = DatabaseLocal(context!!)
         repository = Repositorio(database)
         factory = InicioViewModelFactory(repository)
-
+        isMultiseleccion = false
         inicioViewModel =
             ViewModelProviders.of(this, factory).get(InicioFragmentViewModel::class.java)
-        adapter = InicioAdapter(context!!)
+        adapter = InicioAdapter(context!!, this)
         val layoutManager = GridLayoutManager(requireContext(), Common.NUM_OF_COLUMN)
         layoutManager.orientation = RecyclerView.VERTICAL
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
@@ -81,16 +84,61 @@ class InicioFragment : Fragment() {
 
     }
 
+    override fun updateActionMode(size: Int) {
+        if(actionMode == null)  actionMode = activity?.startActionMode(ActionModeCallback())
+        if(size > 0) actionMode?.setTitle("$size")
+        else actionMode?.finish()
+    }
 
-    /*fun observarData(viewModel: InicioFragmentViewModel){
-        shimmer2_view_container.startShimmer()
-        viewModel.getUsuariosRemote().observe(viewLifecycleOwner, Observer {
-            shimmer2_view_container.stopShimmer()
-            shimmer2_view_container.hideShimmer()
-            shimmer2_view_container.visibility = View.GONE
-            //adapter
-        })
-    }*/
+    inner class ActionModeCallback : ActionMode.Callback {
+        var shouldResetRecyclerView = true
+
+        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+           /* when (item?.getItemId()) {
+                R.id.action_delete -> {
+                    shouldResetRecyclerView = false
+                    myAdapter?.deleteSelectedIds()
+                    actionMode?.setTitle("") //remove item count from action mode.
+                    actionMode?.finish()
+                    return true
+                }
+            }*/
+            return false
+        }
+
+        override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            val inflater = mode?.getMenuInflater()
+            inflater?.inflate(R.menu.tap_menu, menu)
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            menu?.findItem(R.id.action_llamar)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            return true
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode?) {
+            if (shouldResetRecyclerView) {
+                adapter?.selectedIds?.clear()
+                adapter?.notifyDataSetChanged()
+            }
+            isMultiseleccion = false
+            actionMode = null
+            shouldResetRecyclerView = true
+        }
+        }
+
+    }
+
+        /*fun observarData(viewModel: InicioFragmentViewModel){
+            shimmer2_view_container.startShimmer()
+            viewModel.getUsuariosRemote().observe(viewLifecycleOwner, Observer {
+                shimmer2_view_container.stopShimmer()
+                shimmer2_view_container.hideShimmer()
+                shimmer2_view_container.visibility = View.GONE
+                //adapter
+            })
+        }*/
 
 
     /*  fun tienePermisos():Boolean {
@@ -130,5 +178,5 @@ class InicioFragment : Fragment() {
               }
           }
       }*/
-}
+
 
