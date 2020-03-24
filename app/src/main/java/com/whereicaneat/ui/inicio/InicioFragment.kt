@@ -92,7 +92,9 @@ class InicioFragment : Fragment(){
 
         btn_empezar.setOnClickListener {
             Log.e("1111111111111", adapter.getSelectedItems().toString())
-            activity?.startActivity(Intent(context, PushActivity::class.java))
+            val i = Intent(context, PushActivity::class.java)
+            //i.put
+            activity?.startActivity(i)
         }
     }
 
