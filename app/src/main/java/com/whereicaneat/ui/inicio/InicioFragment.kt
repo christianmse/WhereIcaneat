@@ -1,6 +1,7 @@
 package com.whereicaneat.ui.inicio
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,14 +29,14 @@ class InicioFragment : Fragment(){
 
     val onClickedListener= object: InicioAdapter.OnClickedListener{
         override fun onItemClick(view: View?, obj: Usuario?, pos: Int) {
+            adapter.toggleSelection(pos)
+        }
+
+        override fun onItemLongClick(view: View?, obj: Usuario?, pos: Int) {
             val usuarioAux: Usuario = adapter.getItem(pos)
             Toast.makeText(context, "Read: " + usuarioAux.nombreUsuario, Toast.LENGTH_SHORT)
                 .show()
 
-        }
-
-        override fun onItemLongClick(view: View?, obj: Usuario?, pos: Int) {
-            adapter.toggleSelection(pos)
         }
     }
 
@@ -86,6 +87,10 @@ class InicioFragment : Fragment(){
         })
         //
         adapter.putOnClickedListener(onClickedListener)
+
+        btn_empezar.setOnClickListener {
+            Log.e("1111111111111", adapter.getSelectedItems().toString())
+        }
     }
 
 

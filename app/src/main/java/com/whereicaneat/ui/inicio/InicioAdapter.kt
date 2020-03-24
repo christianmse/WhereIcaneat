@@ -120,11 +120,12 @@ class InicioAdapter(
         notifyDataSetChanged()
     }
 
-    fun getSelectedItems(): List<Int>? {
-        val items: MutableList<Int> =
+    fun getSelectedItems(): List<Usuario>? {
+        val items: MutableList<Usuario> =
             ArrayList(selected_items.size())
         for (i in 0 until selected_items.size()) {
-            items.add(selected_items.keyAt(i))
+            if(selected_items.valueAt(i))
+            items.add(usuarios[i])
         }
         return items
     }
