@@ -1,41 +1,46 @@
 package com.whereicaneat.ui.inicio
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.whereicaneat.R
 import com.whereicaneat.common.Common
 import com.whereicaneat.common.EspacioItemInvitados
 import com.whereicaneat.data.db.entities.DatabaseLocal
 import com.whereicaneat.domain.data.Repositorio
-import com.whereicaneat.util.tostada
-import kotlinx.android.synthetic.main.activity_landing.*
+import com.whereicaneat.domain.data.db.entities.Usuario
+import com.whereicaneat.ui.push.PushActivity
 import kotlinx.android.synthetic.main.inicio_fragment.*
-import java.lang.Exception
 
-class InicioFragment : Fragment(), InicioInterface{
+class InicioFragment : Fragment(){
 
     lateinit var database: DatabaseLocal
     lateinit var repository: Repositorio
     lateinit var factory: InicioViewModelFactory
+    lateinit var usuarios: List<Usuario>
     private lateinit var inicioViewModel: InicioFragmentViewModel
     private lateinit var adapter: InicioAdapter
-    var actionMode: ActionMode? = null
+
+    val onClickedListener= object: InicioAdapter.OnClickedListener{
+        override fun onItemClick(view: View?, obj: Usuario?, pos: Int) {
+            adapter.toggleSelection(pos)
+        }
+
+        override fun onItemLongClick(view: View?, obj: Usuario?, pos: Int) {
+            val usuarioAux: Usuario = adapter.getItem(pos)
+            Toast.makeText(context, "Read: " + usuarioAux.nombreUsuario, Toast.LENGTH_SHORT)
+                .show()
+
+        }
+    }
 
     companion object{
         var isMultiseleccion = false
@@ -56,7 +61,7 @@ class InicioFragment : Fragment(), InicioInterface{
         isMultiseleccion = false
         inicioViewModel =
             ViewModelProviders.of(this, factory).get(InicioFragmentViewModel::class.java)
-        adapter = InicioAdapter(context!!, this)
+        adapter = InicioAdapter(context!!)
         val layoutManager = GridLayoutManager(requireContext(), Common.NUM_OF_COLUMN)
         layoutManager.orientation = RecyclerView.VERTICAL
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
@@ -71,30 +76,38 @@ class InicioFragment : Fragment(), InicioInterface{
             }
 
         }
+
         recyclerInicio.layoutManager = layoutManager
         recyclerInicio.addItemDecoration(EspacioItemInvitados(2))
         recyclerInicio.adapter = adapter
 
         inicioViewModel.getUsuariosRemote()
         inicioViewModel.invitados.observe(viewLifecycleOwner, Observer { usuarios ->
+            this.usuarios = usuarios
             adapter.setListData(usuarios)
             adapter.notifyDataSetChanged()
         })
+        //
+        adapter.putOnClickedListener(onClickedListener)
 
-
+        btn_empezar.setOnClickListener {
+            Log.e("1111111111111", adapter.getSelectedItems().toString())
+            activity?.startActivity(Intent(context, PushActivity::class.java))
+        }
     }
 
-    override fun updateActionMode(size: Int) {
-        if(actionMode == null)  actionMode = activity?.startActionMode(ActionModeCallback())
-        if(size > 0) actionMode?.setTitle("$size")
-        else actionMode?.finish()
-    }
 
-    inner class ActionModeCallback : ActionMode.Callback {
+
+
+
+
+
+
+    /*inner class ActionModeCallback : ActionMode.Callback {
         var shouldResetRecyclerView = true
 
         override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-           /* when (item?.getItemId()) {
+           *//* when (item?.getItemId()) {
                 R.id.action_delete -> {
                     shouldResetRecyclerView = false
                     myAdapter?.deleteSelectedIds()
@@ -102,7 +115,7 @@ class InicioFragment : Fragment(), InicioInterface{
                     actionMode?.finish()
                     return true
                 }
-            }*/
+            }*//*
             return false
         }
 
@@ -126,9 +139,12 @@ class InicioFragment : Fragment(), InicioInterface{
             actionMode = null
             shouldResetRecyclerView = true
         }
-        }
+        }*/
 
-    }
+
+}
+
+
 
         /*fun observarData(viewModel: InicioFragmentViewModel){
             shimmer2_view_container.startShimmer()
@@ -139,44 +155,4 @@ class InicioFragment : Fragment(), InicioInterface{
                 //adapter
             })
         }*/
-
-
-    /*  fun tienePermisos():Boolean {
-          var resul = false
-
-          if (ContextCompat.checkSelfPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-              != PackageManager.PERMISSION_GRANTED) {
-              context?.tostada("no tiene permisos")
-
-              val flags: Int = (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-              ActivityCompat.requestPermissions(activity!!,
-                  arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                  flags)
-              resul =true
-          } else {
-              resul = true
-          }
-
-          if (Build.VERSION.SDK_INT < 19) {
-              val i = Intent()
-              i.action = Intent.ACTION_OPEN_DOCUMENT
-              i.addCategory(Intent.CATEGORY_OPENABLE)
-              startActivityForResult(i, 2)
-          }
-
-          return resul
-      }*/
-
-    /*  @SuppressLint("MissingSuperCall")
-      override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-          if (resultCode == Activity.RESULT_OK) {
-              try {
-                  Log.e("111111", "odo bien")
-              } catch (e:Exception){
-                  Log.e("1111111", e.toString())
-              }
-          }
-      }*/
-
 

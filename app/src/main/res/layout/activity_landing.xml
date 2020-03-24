@@ -67,6 +67,7 @@
                 android:id="@+id/btn_crear_encuesta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/ButtonNoStyle"
                 android:layout_marginTop="10dp"
                 android:visibility="gone"
                 android:text="Crear encuesta"

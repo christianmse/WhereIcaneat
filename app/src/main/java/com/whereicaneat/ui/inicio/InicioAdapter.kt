@@ -3,39 +3,43 @@ package com.whereicaneat.ui.inicio
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Movie
-import android.graphics.drawable.ColorDrawable
-import android.util.Log
+import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.Toast
-import androidx.core.content.ContextCompat
+import androidx.core.util.size
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.whereicaneat.R
 import com.whereicaneat.common.Common
 import com.whereicaneat.databinding.ItemInvitadosBinding
 import com.whereicaneat.domain.data.db.entities.Usuario
-import com.whereicaneat.util.tostada
 import kotlinx.android.synthetic.main.item_invitados.view.*
+import java.util.*
 
 
 class InicioAdapter(
-    private val context: Context,
-    val inicioInterface: InicioInterface
-) : RecyclerView.Adapter<InicioAdapter.inicioViewHolder>(), ICardItemClickListener {
+    private val context: Context
+) : RecyclerView.Adapter<InicioAdapter.inicioViewHolder>(){
 
-    private var usuarios: List<Usuario> = mutableListOf()
-    val selectedIds: MutableList<String> = ArrayList<String>()
+    var onClickedListener:OnClickedListener? = null
+    var selected_items = SparseBooleanArray()
+    var current_selected_idx = -1
+    var usuarios: List<Usuario> = mutableListOf()
+
 
     fun setListData(data: List<Usuario>) {
         usuarios = data
 
     }
+
+    fun putOnClickedListener(onClickedListener: OnClickedListener){
+        this.onClickedListener = onClickedListener
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         inicioViewHolder(
@@ -44,24 +48,31 @@ class InicioAdapter(
                 R.layout.item_invitados,
                 parent,
                 false
-            ), this
+            )
         )
 
-    override fun getItemCount() = usuarios.size
+    override fun getItemCount(): Int {
+        if(usuarios.isNotEmpty())
+            return usuarios.size
 
+        return 0;
+    }
+    fun getSelectedItemCount() = selected_items.size
     override fun onBindViewHolder(holder: inicioViewHolder, position: Int) {
         val usuarioAux: Usuario = usuarios[position]
         holder.recycler_item_invitados.usuarioModel = usuarioAux
         holder.bindView(usuarioAux)
-        val id = usuarios[position].telefono
-
-        if(selectedIds.contains(id)){
-            //If el item es seleccionado cambio de color el foreground
-            holder?.frameLayout?.foreground = ColorDrawable(ContextCompat.getColor(context, R.color.colorControlActivated))
-        } else {
-            //else elimina el colorControlActivated
-            holder?.frameLayout?.foreground = ColorDrawable(ContextCompat.getColor(context, android.R.color.transparent))
+        holder.recycler_item_invitados.lytParent.isActivated = selected_items.get(position,false)
+        holder.recycler_item_invitados.lytParent.setOnClickListener {
+            onClickedListener?.onItemClick(it,usuarioAux,position)
         }
+        holder.recycler_item_invitados.lytParent.setOnLongClickListener(OnLongClickListener { v ->
+            if (onClickedListener == null) return@OnLongClickListener false
+            onClickedListener?.onItemLongClick(v, usuarioAux, position)
+            true
+        })
+        toggleCheckedIcon(holder, position)
+
 
 
         //Antiguo:
@@ -75,6 +86,53 @@ class InicioAdapter(
 
 
 
+    private fun resetCurrentIndex() {
+        current_selected_idx = -1
+    }
+
+    fun toggleCheckedIcon(
+        holder: InicioAdapter.inicioViewHolder,
+        position: Int
+    ) {
+        if (selected_items[position, false]) {
+            holder.itemView.lyt_image.setVisibility(View.GONE)
+            holder.itemView.lyt_checked.setVisibility(View.VISIBLE)
+            if (current_selected_idx == position) resetCurrentIndex()
+        } else {
+            holder.itemView.lyt_checked.setVisibility(View.GONE)
+            holder.itemView.lyt_image.setVisibility(View.VISIBLE)
+            if (current_selected_idx == position) resetCurrentIndex()
+        }
+    }
+
+    fun toggleSelection(pos: Int) {
+        current_selected_idx = pos
+        if (selected_items[pos, false]) {
+            selected_items.delete(pos)
+        } else {
+            selected_items.put(pos, true)
+        }
+        notifyItemChanged(pos)
+    }
+
+    fun clearSelections() {
+        selected_items.clear()
+        notifyDataSetChanged()
+    }
+
+    fun getSelectedItems(): List<Usuario>? {
+        val items: MutableList<Usuario> =
+            ArrayList(selected_items.size())
+        for (i in 0 until selected_items.size()) {
+            if(selected_items.valueAt(i))
+            items.add(usuarios[i])
+        }
+        return items
+    }
+
+    fun getItem(position: Int) = usuarios.get(position)
+
+
     override fun getItemViewType(position: Int): Int {
         return if(usuarios.size == 1)
             1 //Si queda un item poner una columna
@@ -85,47 +143,27 @@ class InicioAdapter(
                 if(position>1 && position == usuarios.size -1) 0 else 1
         }
     }
-    override fun onItemClicked(posicion: Int) {
-        if(InicioFragment.isMultiseleccion)
-            addIDIntoSelectedIds(posicion)
-        else {
-            context.tostada("¡${usuarios[posicion].nombreUsuario} invitado!")
-        }
-    }
 
-    override fun onLongTap(index: Int) {
-        if(!InicioFragment.isMultiseleccion){
-            InicioFragment.isMultiseleccion = true
-        }
-        addIDIntoSelectedIds(index)
-    }
 
-    private fun addIDIntoSelectedIds(index: Int) {
-        val id = usuarios[index].telefono //telefono works as Id
-        if(selectedIds.contains(id))
-            selectedIds.remove(id)
-        else
-            selectedIds.add(id)
 
-        notifyItemChanged(index)
-        if(selectedIds.size < 1) InicioFragment.isMultiseleccion = false
-        inicioInterface.updateActionMode(selectedIds.size)
-    }
+
+
+
+
 
 
     inner class inicioViewHolder(
-        val recycler_item_invitados: ItemInvitadosBinding,
-        val tap: ICardItemClickListener
-    ) : RecyclerView.ViewHolder(recycler_item_invitados.root), View.OnClickListener, View.OnLongClickListener {
+        val recycler_item_invitados: ItemInvitadosBinding
+    ) : RecyclerView.ViewHolder(recycler_item_invitados.root){
 
         //lateinit var listener: ICardItemClickListener
         val frameLayout: FrameLayout
 
+
         init {
             //itemView.setOnClickListener(this)
             frameLayout = itemView.findViewById(R.id.root_item_invitados)
-            frameLayout.setOnClickListener(this)
-            frameLayout.setOnLongClickListener(this)
+
         }
         fun bindView(usuario: Usuario) {
 
@@ -139,45 +177,24 @@ class InicioAdapter(
                     .addOnSuccessListener {
                         var bitmap: Bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
                         itemView.img_invitado.setImageBitmap(bitmap)
+                        itemView.image_letter.visibility = View.GONE
                     }
 
 
-//
-//            storageReference.downloadUrl
-//                .addOnSuccessListener {
-//                    Log.e("url1111111", it.toString())
-//                }
-
-//            context.let {
-//                Glide
-//                    .with(it)
-//                    .load(storageReference)
-//                    .into(itemView.img_invitado)
-//                itemView.txt_nombre.text = usuario.nombreUsuario
-//
-//            }
         }
 
       /*  fun setEvent(listener: ICardItemClickListener){
             this.listener = listener
         }*/
 
-        override fun onClick(v: View?) {
-            if (v != null) {
-                //listener.onItemClicked(v, adapterPosition)
-                tap.onItemClicked(adapterPosition)
-            }
-        }
-
-        override fun onLongClick(v: View?): Boolean {
-           tap.onLongTap(adapterPosition)
-            return true
-        }
-
 
     }
 
 
+    interface OnClickedListener {
+        fun onItemClick(view: View?, obj: Usuario?, pos: Int)
+        fun onItemLongClick(view: View?, obj: Usuario?, pos: Int)
+    }
 
 }
 

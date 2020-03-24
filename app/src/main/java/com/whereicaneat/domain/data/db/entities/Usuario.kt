@@ -18,7 +18,8 @@ class Usuario (
     var nombreUsuario: String = "DEFAULT NOMBRE",
     @PrimaryKey
     @NonNull
-    var telefono: String = "DEFAULT PHONE"
+    var telefono: String = "DEFAULT PHONE",
+    var isSelec: Boolean = false
 ){
 
 }
