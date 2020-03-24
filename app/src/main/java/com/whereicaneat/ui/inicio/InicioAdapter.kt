@@ -95,7 +95,7 @@ class InicioAdapter(
         position: Int
     ) {
         if (selected_items[position, false]) {
-            holder.itemView.lyt_parent.setVisibility(View.GONE)
+            holder.itemView.lyt_image.setVisibility(View.GONE)
             holder.itemView.lyt_checked.setVisibility(View.VISIBLE)
             if (current_selected_idx == position) resetCurrentIndex()
         } else {
