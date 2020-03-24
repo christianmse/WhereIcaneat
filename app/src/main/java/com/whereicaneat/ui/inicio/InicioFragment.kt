@@ -1,5 +1,6 @@
 package com.whereicaneat.ui.inicio
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -16,6 +17,7 @@ import com.whereicaneat.common.EspacioItemInvitados
 import com.whereicaneat.data.db.entities.DatabaseLocal
 import com.whereicaneat.domain.data.Repositorio
 import com.whereicaneat.domain.data.db.entities.Usuario
+import com.whereicaneat.ui.push.PushActivity
 import kotlinx.android.synthetic.main.inicio_fragment.*
 
 class InicioFragment : Fragment(){
@@ -90,6 +92,7 @@ class InicioFragment : Fragment(){
 
         btn_empezar.setOnClickListener {
             Log.e("1111111111111", adapter.getSelectedItems().toString())
+            activity?.startActivity(Intent(context, PushActivity::class.java))
         }
     }
 
