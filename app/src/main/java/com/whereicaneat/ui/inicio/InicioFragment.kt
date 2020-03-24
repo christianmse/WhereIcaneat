@@ -93,7 +93,8 @@ class InicioFragment : Fragment(){
         btn_empezar.setOnClickListener {
             Log.e("1111111111111", adapter.getSelectedItems().toString())
             val i = Intent(context, PushActivity::class.java)
-            //i.put
+            //Pasarle los restaurantes elegidos
+            i.putExtra("restaurantes", "macas")
             activity?.startActivity(i)
         }
     }

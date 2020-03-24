@@ -41,6 +41,15 @@ class PushActivity : AppCompatActivity() {
             notificationObj.put("body", "Vota tu restaurante favorito")
             json.put("notification", notificationObj)
 
+            //ExtraData
+            if(intent.extras != null){
+                val extraData:JSONObject = JSONObject()
+                //Pasar un Map de restaurantes
+                val data = intent.getStringExtra("restaurantes")
+                extraData.put("restaurantes", data)
+                json.put("data", extraData)
+            }
+
             val request = object : JsonObjectRequest(Request.Method.POST, URL, json,
                 Response.Listener { response ->
                     if (response != null) {
