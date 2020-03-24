@@ -45,7 +45,7 @@ class PushActivity : AppCompatActivity() {
             if(intent.extras != null){
                 val extraData:JSONObject = JSONObject()
                 //Pasar un Map de restaurantes
-                val data = intent.getStringExtra("restaurantes")
+                val data = intent.getStringExtra("restaurantes") //debe aparecer el macas
                 extraData.put("restaurantes", data)
                 json.put("data", extraData)
             }

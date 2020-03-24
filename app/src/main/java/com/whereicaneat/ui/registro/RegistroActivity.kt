@@ -3,8 +3,8 @@ package com.whereicaneat.ui.registro
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -12,12 +12,14 @@ import androidx.lifecycle.ViewModelProviders
 import com.whereicaneat.R
 import com.whereicaneat.databinding.ActivityRegistroBinding
 import com.whereicaneat.ui.landing.LandingActivity
+import com.whereicaneat.ui.push.ReceivedNotification
 import com.whereicaneat.util.tostada
 import kotlinx.android.synthetic.main.activity_registro.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
 import java.io.IOException
+
 
 class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
 
@@ -37,6 +39,11 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
         binding.registroViewModel = registroViewModel
         registroViewModel.regListener = this
 
+        if (intent.hasExtra("restaurantes")) {
+            val intent = Intent(this, ReceivedNotification::class.java)
+            intent.putExtra("restaurantes", intent.getStringExtra("restaurantes"))
+            startActivity(intent)
+        }
         if(registroViewModel.usuarioRegistrado()){
             registroViewModel.login()
             startActivity(Intent(this, LandingActivity::class.java))

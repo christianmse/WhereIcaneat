@@ -21,7 +21,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         var body = p0.notification?.body
         //Recuperamos la extra data de la info
        var extraData: Map<String,String> = p0.data
-        var restaurante = extraData.get("restaurantes")
+        var restaurante = extraData.get("restaurantes")//pillo el macas
 
         val notificationBuilder = NotificationCompat.Builder(this,"TAC")
             .setContentTitle(title)

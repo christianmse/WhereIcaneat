@@ -15,6 +15,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".ui.push.ReceivedNotification"></activity>
+
         <service
                 android:name=".ui.push.MyFirebaseMessagingService"
                 android:exported="false">
@@ -23,7 +25,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".ui.push.PushActivity"></activity>
+        <activity android:name=".ui.push.PushActivity" />
         <activity android:name=".ui.inicio.InicioActivity" />
         <activity android:name=".ui.registro.RegistroActivity">
             <intent-filter>
