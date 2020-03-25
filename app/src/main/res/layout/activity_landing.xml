@@ -69,7 +69,7 @@
                     tools:ignore="MissingConstraints"
                     tools:layout_height="wrap_content"
                     tools:layout_width="match_parent"
-                    tools:listitem="@layout/item_invitacion_load" />
+                    tools:listitem="@layout/item_restaurante_load" />
 
 
             <mehdi.sakout.fancybuttons.FancyButton
@@ -115,16 +115,16 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <include layout="@layout/item_invitacion_load" />
-                <include layout="@layout/item_invitacion_load" />
-                <include layout="@layout/item_invitacion_load" />
-                <include layout="@layout/item_invitacion_load" />
-                <include layout="@layout/item_invitacion_load" />
-                <include layout="@layout/item_invitacion_load" />
-                <include layout="@layout/item_invitacion_load" />
-                <include layout="@layout/item_invitacion_load" />
-                <include layout="@layout/item_invitacion_load" />
-                <include layout="@layout/item_invitacion_load" />
+                <include layout="@layout/item_restaurante_load" />
+                <include layout="@layout/item_restaurante_load" />
+                <include layout="@layout/item_restaurante_load" />
+                <include layout="@layout/item_restaurante_load" />
+                <include layout="@layout/item_restaurante_load" />
+                <include layout="@layout/item_restaurante_load" />
+                <include layout="@layout/item_restaurante_load" />
+                <include layout="@layout/item_restaurante_load" />
+                <include layout="@layout/item_restaurante_load" />
+                <include layout="@layout/item_restaurante_load" />
 
             </LinearLayout>
         </com.facebook.shimmer.ShimmerFrameLayout>

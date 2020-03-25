@@ -183,10 +183,6 @@ class InicioAdapter(
 
         }
 
-      /*  fun setEvent(listener: ICardItemClickListener){
-            this.listener = listener
-        }*/
-
 
     }
 
