@@ -56,17 +56,43 @@
             >
 <!--        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"-->
 
-
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerLanding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@id/btn_crear_encuesta"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     tools:ignore="MissingConstraints"
                     tools:layout_height="wrap_content"
                     tools:layout_width="match_parent"
                     tools:listitem="@layout/item_invitacion_load" />
+
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                    android:id="@+id/btn_crear_encuesta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="10dp"
+                    android:text="Crear encuesta"
+                    android:visibility="invisible"
+                    app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    fancy:fb_borderColor="#FFFFFF"
+                    fancy:fb_borderWidth="1dp"
+                    fancy:fb_defaultColor="#5B8705"
+                    fancy:fb_focusColor="#9bd823"
+                    fancy:fb_iconPosition="left"
+                    fancy:fb_radius="30dp"
+                    fancy:fb_textColor="#FFFFFF" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.core.widget.NestedScrollView>
@@ -105,29 +131,7 @@
 
 
 
-    <mehdi.sakout.fancybuttons.FancyButton
-            android:id="@+id/btn_crear_encuesta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center"
-            android:layout_marginTop="10dp"
-            android:visibility="invisible"
-            android:text="Crear encuesta"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="10dp"
-            fancy:fb_borderColor="#FFFFFF"
-            fancy:fb_borderWidth="1dp"
-            fancy:fb_defaultColor="#5B8705"
-            fancy:fb_focusColor="#9bd823"
-            fancy:fb_iconPosition="left"
-            fancy:fb_radius="30dp"
-            fancy:fb_textColor="#FFFFFF"
-            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+
 
 
 
