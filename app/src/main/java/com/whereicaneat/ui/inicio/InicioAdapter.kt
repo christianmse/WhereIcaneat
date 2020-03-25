@@ -123,8 +123,8 @@ class InicioAdapter(
     fun getSelectedItems(): List<Usuario>? {
         val items: MutableList<Usuario> =
             ArrayList(selected_items.size())
-        for (i in 0 until selected_items.size()) {
-            if(selected_items.valueAt(i))
+        for (i in 0 until usuarios.size) {
+            if(selected_items[i])
             items.add(usuarios[i])
         }
         return items
@@ -170,7 +170,7 @@ class InicioAdapter(
             val storageReference = FirebaseStorage
                 .getInstance()
                 .getReference("Imagenes_Perfil")
-                .child(usuario.telefono)
+                .child(usuario.telefono!!)
             
                 storageReference
                     .getBytes(1024*1024)

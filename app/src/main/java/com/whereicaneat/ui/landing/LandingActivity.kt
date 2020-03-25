@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.domain.data.db.entities.Restaurante
 import com.whereicaneat.ui.inicio.InicioActivity
+import com.whereicaneat.ui.push.PushActivity
 import kotlinx.android.synthetic.main.activity_landing.*
+import org.json.JSONObject
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
@@ -23,6 +25,7 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
     private lateinit var landingViewModel: LandingViewModel
     private lateinit var adapter:LandingAdapter
     private lateinit var listRestaurante: List<Restaurante>
+    lateinit var restaurantesSelected: List<Restaurante>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +40,18 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
         observarData(landingViewModel)
 
         btn_crear_encuesta.setOnClickListener {
-            startActivity(Intent(this, InicioActivity::class.java))
+            setRestaurantesSeleccionados()
+            val i = Intent(this, InicioActivity::class.java)
+            i.putExtra("restaurantesSelec", restaurantesSelected.toTypedArray())
+            startActivity(i)
         }
     }
 
     override fun onBackPressed() { // Do Here what ever you want do on back press;
+    }
+
+    fun setRestaurantesSeleccionados(){
+        restaurantesSelected = adapter.getSelectedItems()!!
     }
 
     fun observarData(viewModel: LandingViewModel){

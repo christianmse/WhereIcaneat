@@ -98,7 +98,7 @@ class Repositorio(
         val myRefStg = storagefb!!.getReference("Imagenes_Perfil")
         try {
             //database
-            myRef.child(Usuario.nombreUsuario).setValue(Usuario)
+            myRef.child(Usuario.nombreUsuario!!).setValue(Usuario)
             //storage
             val uri: Uri = Uri.parse(Usuario.imageUri)
             val file:File = File(uri.path)

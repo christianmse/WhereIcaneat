@@ -2,10 +2,10 @@ package com.whereicaneat.ui.inicio
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.*
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,7 +20,9 @@ import com.whereicaneat.domain.data.db.entities.Usuario
 import com.whereicaneat.ui.push.PushActivity
 import kotlinx.android.synthetic.main.inicio_fragment.*
 
-class InicioFragment : Fragment(){
+class InicioFragment(
+    var restaurantesSelec: Array<Parcelable>?
+) : Fragment(){
 
     lateinit var database: DatabaseLocal
     lateinit var repository: Repositorio
@@ -28,6 +30,7 @@ class InicioFragment : Fragment(){
     lateinit var usuarios: List<Usuario>
     private lateinit var inicioViewModel: InicioFragmentViewModel
     private lateinit var adapter: InicioAdapter
+    lateinit var usuariosSelec: List<Usuario>
 
     val onClickedListener= object: InicioAdapter.OnClickedListener{
         override fun onItemClick(view: View?, obj: Usuario?, pos: Int) {
@@ -36,7 +39,7 @@ class InicioFragment : Fragment(){
 
         override fun onItemLongClick(view: View?, obj: Usuario?, pos: Int) {
             val usuarioAux: Usuario = adapter.getItem(pos)
-            Toast.makeText(context, "Read: " + usuarioAux.nombreUsuario, Toast.LENGTH_SHORT)
+            Toast.makeText(context, "Invita a: " + usuarioAux.nombreUsuario, Toast.LENGTH_SHORT)
                 .show()
 
         }
@@ -95,10 +98,11 @@ class InicioFragment : Fragment(){
         adapter.putOnClickedListener(onClickedListener)
 
         btn_empezar.setOnClickListener {
-            Log.e("1111111111111", adapter.getSelectedItems().toString())
+            usuariosSelec =  adapter.getSelectedItems()!!
             val i = Intent(context, PushActivity::class.java)
             //Pasarle los restaurantes elegidos
-            i.putExtra("restaurantes", "macas")
+            i.putExtra("restaurantesSelec", restaurantesSelec)
+            i.putExtra("usuariosSelec", usuariosSelec.toTypedArray())
             activity?.startActivity(i)
         }
     }

@@ -10,6 +10,7 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.whereicaneat.R
+import com.whereicaneat.domain.data.db.entities.Restaurante
 
 
 class MyFirebaseMessagingService: FirebaseMessagingService() {
@@ -21,7 +22,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         var body = p0.notification?.body
         //Recuperamos la extra data de la info
        var extraData: Map<String,String> = p0.data
-        var restaurante = extraData.get("restaurantes")//pillo el macas
+        var restaurante = extraData.get("restaurantes2")//pillo el macas
 
         val notificationBuilder = NotificationCompat.Builder(this,"TAC")
             .setContentTitle(title)
@@ -29,7 +30,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             .setSmallIcon(R.drawable.logo)
 
         val i = Intent(this, ReceivedNotification::class.java)
-        i.putExtra("restaurantes", restaurante)
+        i.putExtra("restaurantes2", restaurante)
 
         val pendingIntent= PendingIntent.getActivity(this,10,i,
             PendingIntent.FLAG_UPDATE_CURRENT)

@@ -10,6 +10,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.firebase.messaging.FirebaseMessaging
 import com.whereicaneat.R
+import com.whereicaneat.domain.data.db.entities.Restaurante
 import kotlinx.android.synthetic.main.activity_push.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -18,11 +19,13 @@ import org.json.JSONObject
 class PushActivity : AppCompatActivity() {
     val URL = "https://fcm.googleapis.com/fcm/send"
     lateinit var mRequestQueue: RequestQueue
+    lateinit var restaurantesSelected: JSONObject
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_push)
-
+        val restaurantesSelec = intent.getParcelableArrayExtra("restaurantesSelec")
+        val usuariosSelec = intent.getParcelableArrayExtra("usuariosSelec")
         mRequestQueue = Volley.newRequestQueue(this)
         FirebaseMessaging.getInstance().subscribeToTopic("news")
         btn_push.setOnClickListener {
@@ -31,23 +34,26 @@ class PushActivity : AppCompatActivity() {
     }
 
 
+    fun setExtraData(restaurantes: JSONObject){
+        restaurantesSelected = restaurantes
+    }
 
     fun sendNotification(){
         val json:JSONObject = JSONObject()
         try{
             json.put("to", "/topics/"+"news")
             var notificationObj: JSONObject = JSONObject()
-            notificationObj.put("titulo", "any titulo")
+            notificationObj.put("titulo", "Hora de Comer!")
             notificationObj.put("body", "Vota tu restaurante favorito")
             json.put("notification", notificationObj)
 
             //ExtraData
-            if(intent.extras != null){
-                val extraData:JSONObject = JSONObject()
-                //Pasar un Map de restaurantes
-                val data = intent.getStringExtra("restaurantes") //debe aparecer el macas
-                extraData.put("restaurantes", data)
-                json.put("data", extraData)
+            if(restaurantesSelected != null){
+//                val extraData:JSONObject = JSONObject()
+//                //Pasar un Map de restaurantes
+//                val data = intent.getStringExtra("restaurantes") //debe aparecer el macas
+//                extraData.put("restaurantes", data)
+                json.put("data", restaurantesSelected)
             }
 
             val request = object : JsonObjectRequest(Request.Method.POST, URL, json,
