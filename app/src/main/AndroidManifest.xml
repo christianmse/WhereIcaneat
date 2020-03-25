@@ -25,6 +25,13 @@
             </intent-filter>
         </service>
 
+        <meta-data
+                android:name="com.google.firebase.messaging.default_notification_icon"
+                android:resource="@drawable/logo" />
+        <meta-data
+                android:name="com.google.firebase.messaging.default_notification_color"
+                android:resource="@color/colorAccent" />
+
         <activity android:name=".ui.push.PushActivity" />
         <activity android:name=".ui.inicio.InicioActivity" />
         <activity android:name=".ui.registro.RegistroActivity">

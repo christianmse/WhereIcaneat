@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:fancy="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
                 name="restauranteVar"
@@ -10,17 +10,46 @@
     </data>
 
     <LinearLayout
+            android:id="@+id/lyt_dad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="8dp">
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <RelativeLayout
+                    android:id="@+id/lyt_checked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imagen"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:civ_border_width="1dp"
-                tools:background="@color/colorPrimary" />
+                <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/shape_circle"
+                        android:tint="@color/red_500" />
+
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerInParent="true"
+                        app:srcCompat="@drawable/ic_done" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:id="@+id/lyt_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imagen"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:civ_border_width="1dp"
+                        tools:src="@drawable/logo" />
+            </RelativeLayout>
+
+        </RelativeLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -42,22 +71,37 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="NOMBRE DEL RESTAURANTE" />
 
-            <Button
+            <mehdi.sakout.fancybuttons.FancyButton
                     android:id="@+id/btn_website"
-                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_gravity="end|center"
-                    android:text="Ver carta"
-                    android:textColor="#FFFFFF"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp"
+                    android:text="Ver Carta"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    fancy:fb_borderColor="#FFFFFF"
+                    fancy:fb_borderWidth="1dp"
+                    fancy:fb_defaultColor="#7ab800"
+                    fancy:fb_focusColor="#9bd823"
+                    fancy:fb_iconPosition="left"
+                    fancy:fb_radius="30dp"
+                    fancy:fb_textColor="#FFFFFF" />
 
 
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/black"
+                    app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
+
 
 
 </layout>
