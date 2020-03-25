@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            app:cardBackgroundColor="@color/colorDarkBlue2"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/RippleStyleBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:id="@+id/lyt_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_multi_selection"
+                    android:clickable="true"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                <View
+                        android:layout_width="10dp"
+                        android:layout_height="0dp" />
+
+                <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+                    <RelativeLayout
+                            android:id="@+id/lyt_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                        <com.mikhaellopez.circularimageview.CircularImageView
+                                android:id="@+id/img_invitado"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:background="@color/placeholder_bg"
+                                app:civ_border_width="2dp"
+                                tools:background="@color/placeholder_bg" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <View
+                        android:layout_width="18dp"
+                        android:layout_height="0dp" />
+
+                <View
+                        android:id="@+id/nombre_usuario"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/placeholder_bg"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        tools:text="NOMBRE DEL INVITADO" />
+
+                <View
+                        android:layout_width="10dp"
+                        android:layout_height="0dp" />
+            </LinearLayout>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

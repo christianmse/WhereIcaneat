@@ -81,18 +81,25 @@ class InicioFragment : Fragment(){
         recyclerInicio.addItemDecoration(EspacioItemInvitados(2))
         recyclerInicio.adapter = adapter
 
+        shimmer_view_container.startShimmer()
         inicioViewModel.getUsuariosRemote()
         inicioViewModel.invitados.observe(viewLifecycleOwner, Observer { usuarios ->
             this.usuarios = usuarios
+            shimmer_view_container.stopShimmer()
+            shimmer_view_container.hideShimmer()
+            shimmer_view_container.visibility = View.GONE
             adapter.setListData(usuarios)
             adapter.notifyDataSetChanged()
         })
-        //
+
         adapter.putOnClickedListener(onClickedListener)
 
         btn_empezar.setOnClickListener {
             Log.e("1111111111111", adapter.getSelectedItems().toString())
-            activity?.startActivity(Intent(context, PushActivity::class.java))
+            val i = Intent(context, PushActivity::class.java)
+            //Pasarle los restaurantes elegidos
+            i.putExtra("restaurantes", "macas")
+            activity?.startActivity(i)
         }
     }
 

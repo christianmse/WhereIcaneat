@@ -1,26 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:fancy="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
                 name="restauranteVar"
                 type="com.whereicaneat.domain.data.db.entities.Restaurante" />
     </data>
 
     <LinearLayout
+            android:id="@+id/lyt_dad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="8dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imagen"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:civ_border_width="1dp"
-                tools:background="@color/colorPrimary" />
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <RelativeLayout
+                    android:id="@+id/lyt_checked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/shape_circle"
+                        android:tint="@color/red_500" />
+
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerInParent="true"
+                        app:srcCompat="@drawable/ic_done" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:id="@+id/lyt_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imagen"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:civ_border_width="1dp"
+                        tools:src="@drawable/logo" />
+            </RelativeLayout>
+
+        </RelativeLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -32,8 +66,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_marginStart="20dp"
+                    android:gravity="center"
                     android:text="@{restauranteVar.nombre}"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -42,19 +76,33 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="NOMBRE DEL RESTAURANTE" />
 
-            <Button
+            <mehdi.sakout.fancybuttons.FancyButton
                     android:id="@+id/btn_website"
-                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_gravity="end|center"
-                    android:text="Ver carta"
-                    android:textColor="#FFFFFF"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="10dp"
+                    android:text="Ver Carta"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    fancy:fb_borderColor="#FFFFFF"
+                    fancy:fb_borderWidth="1dp"
+                    fancy:fb_defaultColor="#7ab800"
+                    fancy:fb_focusColor="#9bd823"
+                    fancy:fb_iconPosition="left"
+                    fancy:fb_radius="30dp"
+                    fancy:fb_textColor="#FFFFFF" />
 
 
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/black"
+                    app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
