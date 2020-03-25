@@ -39,15 +39,17 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
         binding.registroViewModel = registroViewModel
         registroViewModel.regListener = this
 
-        if (intent.hasExtra("restaurantes")) {
+        //Al hacer click a la push entra por aqui
+        if (intent.hasExtra("restaurantesSelec")) {
             val intent = Intent(this, ReceivedNotification::class.java)
             intent.putExtra("restaurantes", intent.getStringExtra("restaurantes"))
             startActivity(intent)
         }
-        if(registroViewModel.usuarioRegistrado()){
+
+//        if(registroViewModel.usuarioRegistrado()){startActivity(Intent(this, LandingActivity::class.java))
+//        }
             registroViewModel.login()
-            startActivity(Intent(this, LandingActivity::class.java))
-        }
+
 
 
     }
