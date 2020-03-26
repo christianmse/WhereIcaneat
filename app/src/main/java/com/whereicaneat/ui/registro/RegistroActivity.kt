@@ -4,11 +4,15 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import com.whereicaneat.R
 import com.whereicaneat.databinding.ActivityRegistroBinding
 import com.whereicaneat.ui.landing.LandingActivity
@@ -26,6 +30,9 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
     override val kodein by kodein()
     private val factory: RegistroViewModelFactory by  instance()
     private lateinit var registroViewModel: RegistroViewModel
+    private var PRIVATE_MODE = 0
+    private val PREF_NAME = "usuario-token"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +55,9 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
 
 //        if(registroViewModel.usuarioRegistrado()){startActivity(Intent(this, LandingActivity::class.java))
 //        }
+
+
+
             registroViewModel.login()
 
 

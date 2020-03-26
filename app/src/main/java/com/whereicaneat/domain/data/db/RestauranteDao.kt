@@ -13,4 +13,5 @@ interface RestauranteDao {
     suspend fun eliminar(restaurante: Restaurante)
     @Query ("SELECT * FROM restaurante")
     fun getTodosLosRestaurantes(): LiveData<List<Restaurante>>
+
 }

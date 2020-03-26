@@ -32,7 +32,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/shape_circle"
-                        android:tint="@color/red_500" />
+                        android:tint="#000000" />
 
                 <ImageView
                         android:layout_width="25dp"

@@ -21,13 +21,14 @@ class Usuario (
     @PrimaryKey
     @NonNull
     var telefono: String = "DEFAULT PHONE",
-    var isSelec: Boolean = false
+    @ColumnInfo(name = "token")
+    var token: String? = "DEFAULT TOKEN"
 ):Parcelable{
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
         parcel.readString()!!,
-        parcel.readByte() != 0.toByte()
+        parcel.readString()
     ) {
     }
 
@@ -35,7 +36,7 @@ class Usuario (
         parcel.writeString(imageUri)
         parcel.writeString(nombreUsuario)
         parcel.writeString(telefono)
-        parcel.writeByte(if (isSelec) 1 else 0)
+        parcel.writeString(token)
     }
 
     override fun describeContents(): Int {
