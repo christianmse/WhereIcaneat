@@ -218,7 +218,8 @@ class InicioFragment(
 
         override fun onPostExecute(result: JSONObject?) {
             super.onPostExecute(result)
-            inicioViewModel.sendNotification(result, restaurantesSelec)
+            //El token es la clave para enlazar notificacion
+            inicioViewModel.sendNotification(result, restaurantesSelec, CurrentUser.token)
             activity?.MyprogressBar?.visibility = View.INVISIBLE
         }
     }

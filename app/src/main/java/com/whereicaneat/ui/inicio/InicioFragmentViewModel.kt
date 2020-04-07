@@ -38,10 +38,14 @@ class InicioFragmentViewModel(
 
     fun sendNotification(
         result: JSONObject?,
-        restaurantesSelec: Array<Parcelable>?
+        restaurantesSelec: Array<Parcelable>?,
+        tokenRemitente: String
     ) {
-        val multicast_id = result?.getString("multicast_id")
-        repository.sendNotification(multicast_id, restaurantesSelec)
+        val fallos = result?.getInt("failure")
+        if(fallos == 0){
+            repository.sendNotification(restaurantesSelec, tokenRemitente)
+
+        }
     }
 }
 

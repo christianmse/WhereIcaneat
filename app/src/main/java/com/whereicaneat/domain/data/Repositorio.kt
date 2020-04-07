@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.model.value.IntegerValue
 import com.google.firebase.storage.FirebaseStorage
 import com.whereicaneat.common.CurrentUser
 import com.whereicaneat.data.db.entities.DatabaseLocal
@@ -169,10 +168,10 @@ class Repositorio(
     }
 
     fun sendNotification(
-        multicastId: String?,
-        restaurantesSelec: Array<Parcelable>?
+        restaurantesSelec: Array<Parcelable>?,
+        tokenRemitente: String
     ) {
-        var notificationsRef = databasefb.getReference("Notifications").child(multicastId!!)
+        var notificationsRef = databasefb.getReference("Notifications").child(tokenRemitente)
         var restaurantes= HashMap<String,Integer>()
 
         restaurantesSelec?.forEach {
