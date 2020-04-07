@@ -34,6 +34,7 @@ import com.whereicaneat.domain.data.db.entities.Usuario
 import com.whereicaneat.domain.data.remote.ApiUtils
 import com.whereicaneat.domain.data.remote.FCM
 import com.whereicaneat.ui.push.PushActivity
+import com.whereicaneat.util.tostada
 import kotlinx.android.synthetic.main.inicio_fragment.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -132,13 +133,19 @@ class InicioFragment(
 
         btn_empezar.setOnClickListener {
             usuariosSelec =  adapter.getSelectedItems()!!
-            inicioViewModel.sendUsuariosSelected(usuariosSelec)
-            crearGrupoNotification(activity).execute(usuariosSelec)
-             i = Intent(context, PushActivity::class.java)
-            //Pasarle los restaurantes elegidos
-            i.putExtra("restaurantesSelec", restaurantesSelec)
-            i.putExtra("usuariosSelec", usuariosSelec.toTypedArray())
-            activity?.startActivity(i)
+            if(usuariosSelec.size >0){
+                inicioViewModel.sendUsuariosSelected(usuariosSelec)
+                crearGrupoNotification(activity).execute(usuariosSelec)
+                i = Intent(context, PushActivity::class.java)
+                //Pasarle los restaurantes elegidos
+                i.putExtra("restaurantesSelec", restaurantesSelec)
+                i.putExtra("usuariosSelec", usuariosSelec.toTypedArray())
+                activity?.startActivity(i)
+            }
+            else{
+                context!!.tostada("Seleccionar almenos a una persona")
+            }
+
         }
 
     }
