@@ -3,6 +3,7 @@ package com.whereicaneat.ui.landing
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -11,9 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.domain.data.db.entities.Restaurante
 import com.whereicaneat.ui.inicio.InicioActivity
-import com.whereicaneat.ui.push.PushActivity
 import kotlinx.android.synthetic.main.activity_landing.*
-import org.json.JSONObject
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
@@ -33,7 +32,6 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
 
         landingViewModel =
             ViewModelProviders.of(this, factory).get(LandingViewModel::class.java)
-
         adapter = LandingAdapter(this, this)
         recyclerLanding.layoutManager = LinearLayoutManager(this)
         recyclerLanding.adapter = adapter
@@ -76,6 +74,7 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
 
     override fun setOnSelectedRestaurante(view: View?, obj:Restaurante?, position: Int) {
         listRestaurante[position]
+
         btn_crear_encuesta.visibility = View.VISIBLE
     }
 

@@ -60,6 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerLanding"
                     android:layout_width="match_parent"
@@ -81,7 +82,7 @@
                     android:paddingTop="10dp"
                     android:paddingRight="20dp"
                     android:paddingBottom="10dp"
-                    android:text="Crear encuesta"
+                    android:text="Elegir invitados"
                     android:visibility="invisible"
                     app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
                     app:layout_constraintBottom_toBottomOf="parent"

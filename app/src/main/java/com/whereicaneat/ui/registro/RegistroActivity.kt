@@ -1,8 +1,12 @@
 package com.whereicaneat.ui.registro
 
+import android.Manifest
+import android.accounts.AccountManager
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -11,6 +15,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.whereicaneat.R
@@ -19,10 +24,14 @@ import com.whereicaneat.ui.landing.LandingActivity
 import com.whereicaneat.ui.push.ReceivedNotification
 import com.whereicaneat.util.tostada
 import kotlinx.android.synthetic.main.activity_registro.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
 import java.io.IOException
+import java.lang.Exception
 
 
 class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
@@ -30,8 +39,7 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
     override val kodein by kodein()
     private val factory: RegistroViewModelFactory by  instance()
     private lateinit var registroViewModel: RegistroViewModel
-    private var PRIVATE_MODE = 0
-    private val PREF_NAME = "usuario-token"
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,23 +61,26 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
             startActivity(intent)
         }
 
-//        if(registroViewModel.usuarioRegistrado()){startActivity(Intent(this, LandingActivity::class.java))
-//        }
-
-
-
+       // if(registroViewModel.usuarioRegistrado()){
             registroViewModel.login()
-
+       // startActivity(Intent(this, LandingActivity::class.java))
+        //}
 
 
     }
 
     override fun onStart() {
         super.onStart()
+
         btn_imagen_registro.setOnClickListener {
             onGaleriaBotonClicked()
         }
     }
+
+
+
+
+
 
 
 

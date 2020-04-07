@@ -4,23 +4,27 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        xmlns:fancy="http://schemas.android.com/apk/res-auto"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".ui.inicio.InicioFragment">
 
     <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_view_container"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerInicio"
+            app:layout_constraintStart_toStartOf="@+id/recyclerInicio"
             app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                app:layout_constraintEnd_toEndOf="@+id/recyclerInicio"
+                app:layout_constraintStart_toStartOf="@+id/recyclerInicio"
+                android:orientation="vertical"
+                android:padding="10dp">
 
             <include layout="@layout/item_invitado_load" />
 
@@ -37,29 +41,51 @@
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerInicio"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginBottom="9dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_empezar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="5"
             tools:listitem="@layout/item_invitados"
             tools:orientation="horizontal"
             tools:scrollbars="horizontal"
-            tools:spanCount="2"
-            android:id="@+id/recyclerInicio"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginBottom="9dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btn_empezar"
-            android:layout_marginStart="9dp"
-            android:layout_marginEnd="9dp"/>
+            tools:spanCount="2" />
 
-    <Button
+    <ProgressBar
+            android:id="@+id/MyprogressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_push"
+            fancy:layout_constraintBottom_toBottomOf="@+id/recyclerInicio" />
+
+    <mehdi.sakout.fancybuttons.FancyButton
             android:id="@+id/btn_empezar"
+            android:onClick="@{registroViewModel::onRegistroBotonClicked}"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:text="Empezar encuesta"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="#9bd823"
+            fancy:fb_focusColor="#5B8705"
+            fancy:fb_iconPosition="left"
+            fancy:fb_radius="30dp"
+            fancy:fb_textColor="#FFFFFF" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package com.whereicaneat.ui.inicio
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import com.whereicaneat.common.Common
 import com.whereicaneat.databinding.ItemInvitadosBinding
 import com.whereicaneat.domain.data.db.entities.Usuario
 import kotlinx.android.synthetic.main.item_invitados.view.*
+import java.lang.Exception
 import java.util.*
 
 
@@ -58,6 +60,7 @@ class InicioAdapter(
         return 0;
     }
     fun getSelectedItemCount() = selected_items.size
+
     override fun onBindViewHolder(holder: inicioViewHolder, position: Int) {
         val usuarioAux: Usuario = usuarios[position]
         holder.recycler_item_invitados.usuarioModel = usuarioAux
@@ -120,7 +123,7 @@ class InicioAdapter(
         notifyDataSetChanged()
     }
 
-    fun getSelectedItems(): List<Usuario>? {
+    fun getSelectedItems(): MutableList<Usuario> {
         val items: MutableList<Usuario> =
             ArrayList(selected_items.size())
         for (i in 0 until usuarios.size) {
@@ -170,8 +173,10 @@ class InicioAdapter(
             val storageReference = FirebaseStorage
                 .getInstance()
                 .getReference("Imagenes_Perfil")
-                .child(usuario.telefono!!)
-            
+                .child(usuario.uid!!)
+
+            Log.e("FBStorage", usuario.uid)
+
                 storageReference
                     .getBytes(1024*1024)
                     .addOnSuccessListener {
@@ -179,6 +184,11 @@ class InicioAdapter(
                         itemView.img_invitado.setImageBitmap(bitmap)
                         itemView.image_letter.visibility = View.GONE
                     }
+                    .addOnFailureListener {
+                        Log.e("FBStorage", it.toString())
+                    }
+
+
 
 
         }

@@ -22,12 +22,15 @@ class Usuario (
     @NonNull
     var telefono: String = "DEFAULT PHONE",
     @ColumnInfo(name = "token")
-    var token: String? = "DEFAULT TOKEN"
-):Parcelable{
+    var token: String? = "DEFAULT TOKEN",
+    @ColumnInfo(name = "uid")
+    var uid: String? = "DEFAULT UID"
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
         parcel.readString()!!,
+        parcel.readString(),
         parcel.readString()
     ) {
     }
@@ -37,6 +40,7 @@ class Usuario (
         parcel.writeString(nombreUsuario)
         parcel.writeString(telefono)
         parcel.writeString(token)
+        parcel.writeString(uid)
     }
 
     override fun describeContents(): Int {
@@ -52,5 +56,7 @@ class Usuario (
             return arrayOfNulls(size)
         }
     }
+
+
 
 }

@@ -3,4 +3,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="URL_FCM">https://fcm.googleapis.com/fcm/send</string>
+    <string name="SENDER_ID">2374379878</string>
+    <string name="TOKEN_CHRISTIAN">digieLCVQ_S8If166_SCRf:APA91bFU1wM_nriWUhhEDMYzE92exrr-rfZTdnEH1sFQ853oU-0j4hftkD0PlnPlvoL5eX2Md5cq6lyMYCXNzaAk9xWCMAK_fZmVyukaoKcq-m-045qxFrjHa-3WPAsZpVDSJHdNxfjx</string>
+    <string name="API_KEY">AAAAAI2GKWY:APA91bFCi1xqZC7cziz9OxeYjIivDCr8fRzmQA4uAT651ZZTdDHbAkrfrQMRDM_bKlzPkxL1LMp4yKvt74tEWsb53EhmbYuCDSKvGDdnvgB7_hjAFUcPWS6HgucS6g5I4rPYZtx4zvAb</string>
 </resources>

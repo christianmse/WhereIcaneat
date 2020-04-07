@@ -1,27 +1,27 @@
 package com.whereicaneat.ui.registro
 
-import android.content.Context
-import android.content.SharedPreferences
-import android.provider.Settings.Global.getString
+import android.os.AsyncTask
 import android.util.Log
 import android.view.View
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.auth.GoogleAuthException
+import com.google.android.gms.auth.GoogleAuthUtil
+import com.google.android.gms.auth.UserRecoverableAuthException
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.messaging.FirebaseMessagingService
-import com.whereicaneat.R
-import com.whereicaneat.domain.data.db.entities.Usuario
+import com.whereicaneat.common.CurrentUser
 import com.whereicaneat.domain.data.Repositorio
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.lang.Exception
+import com.whereicaneat.domain.data.db.entities.Usuario
+import kotlinx.coroutines.*
+
 
 class RegistroViewModel(
     private val repository: Repositorio
-):
-    ViewModel() {
+): ViewModel() {
     var titulo = MutableLiveData<String>()
     var uriImagen: String? = null
     var nombre: String? = null
@@ -29,6 +29,11 @@ class RegistroViewModel(
     var regListener: RegistroListener? = null
     lateinit var token: String
     val TAG: String = "TOKEN"
+
+    val databasefb = FirebaseDatabase.getInstance()
+    val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    val uid = mAuth.currentUser?.uid
+    val myRef = databasefb.getReference("Usuarios")
 
 
 
@@ -46,13 +51,6 @@ class RegistroViewModel(
 
     }
 
-
-
-
-
-
-
-
     fun usuarioRegistrado():Boolean{
         var resul = false
         if(repository.getUsuarioLocal() != null)
@@ -60,12 +58,12 @@ class RegistroViewModel(
         return resul
     }
 
-
-
-
     fun onRegistroBotonClicked(v: View){
+        val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+        CurrentUser.nombre = nombre!!
 
         if(validar(nombre!!, telefono!!)){
+            //Get user token and register
             FirebaseInstanceId.getInstance().instanceId
                 .addOnCompleteListener(OnCompleteListener { task ->
                     if (!task.isSuccessful) {
@@ -75,7 +73,9 @@ class RegistroViewModel(
 
                     // Get new Instance ID token
                     this.token = task.result?.token!!
-                    val Usuario: Usuario = Usuario(uriImagen!!, nombre!!, telefono!!, token)
+                    val uid = mAuth.currentUser?.uid
+                    val Usuario: Usuario = Usuario(uriImagen!!, nombre!!, telefono!!, token, uid)
+                    setSingleton(nombre!!, token, uid, telefono!!)
                     Log.d("Usuario registro", Usuario.toString())
                     val response = repository.userLogin()
                     guardarUsuario(Usuario)
@@ -85,21 +85,14 @@ class RegistroViewModel(
         }
 
     }
-    fun getToken() {
 
-        FirebaseInstanceId.getInstance().instanceId
-            .addOnCompleteListener(OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Log.w(TAG, "getInstanceId failed", task.exception)
-                    return@OnCompleteListener
-                }
-
-                // Get new Instance ID token
-                this.token = task.result?.token!!
-
-
-            })
+    private fun setSingleton(nombre: String, token: String, uid: String?, telefono: String) {
+        CurrentUser.nombre = nombre
+        CurrentUser.uid = token
+        CurrentUser.token = token
+        CurrentUser.telefono = telefono
     }
+
 
     fun login(){
         repository.userLogin()
@@ -119,4 +112,10 @@ class RegistroViewModel(
         }
         return result
     }
+
+
+
+
+
+
 }

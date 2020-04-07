@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:fancy="http://schemas.android.com/apk/res-auto"
+        >
     <data>
         <variable
                 name="registroViewModel"
@@ -42,8 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:hint="Name"
+                    android:hint="Nombre"
                     app:errorEnabled="true"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     >
@@ -80,31 +81,44 @@
                     android:id="@+id/upload_imagen"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/image_upload"
+                    android:src="@drawable/image_upload_foreground"
                 android:layout_gravity="center"/>
             <!-- Upload boton -->
-            <Button
-                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textColor="#FFFFFF"
+
+            <mehdi.sakout.fancybuttons.FancyButton
                     android:id="@+id/btn_imagen_registro"
                     android:layout_width="130dp"
-                    android:layout_height="wrap_content"
-                    android:text="Foto de Perfil"
-                    android:background="@drawable/round_btn_style"
-                android:layout_gravity="center"/>
+                    android:layout_height="20dp"
+                    android:text="Foto de perfil"
+                    android:layout_gravity="center"
+                    fancy:fb_borderColor="#FFFFFF"
+                    fancy:fb_borderWidth="1dp"
+                    fancy:fb_defaultColor="#9bd823"
+                    fancy:fb_focusColor="#5B8705"
+                    fancy:fb_iconPosition="left"
+                    fancy:fb_radius="30dp"
+                    fancy:fb_textColor="#FFFFFF" />
+
 
             <!-- Registro Button -->
-            <Button
+            <mehdi.sakout.fancybuttons.FancyButton
                     android:id="@+id/btn_registro"
                     android:onClick="@{registroViewModel::onRegistroBotonClicked}"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:text="Crear cuenta"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="24dp"
                     android:padding="12dp"
                     android:layout_gravity="bottom"
-                    android:background="@drawable/round_btn_style"
-                    android:text="Crear Cuenta"/>
+                    fancy:fb_borderColor="#FFFFFF"
+                    fancy:fb_borderWidth="1dp"
+                    fancy:fb_defaultColor="#9bd823"
+                    fancy:fb_focusColor="#5B8705"
+                    fancy:fb_iconPosition="left"
+                    fancy:fb_radius="30dp"
+                    fancy:fb_textColor="#FFFFFF" />
+
 
         </LinearLayout>
     </ScrollView>

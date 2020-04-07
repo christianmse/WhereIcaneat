@@ -29,6 +29,10 @@ class InicioFragmentViewModel(
          }
          return invitados
     }
+
+    fun sendUsuariosSelected(usuariosSelec: List<Usuario>) {
+        repository.sendUsuariosSelected(usuariosSelec)
+    }
 }
 
 

@@ -43,7 +43,7 @@ class LandingAdapter(
         )
 
     override fun getItemCount(): Int {
-            return restaurantesList.size
+        return restaurantesList.size
 
     }
 
@@ -87,8 +87,8 @@ class LandingAdapter(
     fun getSelectedItems(): List<Restaurante>? {
         val items: MutableList<Restaurante> =
             ArrayList(selected_items.size())
-        for (i in 0 until restaurantesList.size) {
-            if(selected_items[i])
+        for (i in 0 until selected_items.size()) {
+            if(selected_items.valueAt(i))
                 items.add(restaurantesList[i])
         }
         return items
