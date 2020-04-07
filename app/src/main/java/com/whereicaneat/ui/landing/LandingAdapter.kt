@@ -5,6 +5,7 @@ import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.util.forEach
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -64,6 +65,8 @@ class LandingAdapter(
                     listener.onItemClick(it,restaurante,position)
                 }
             }
+
+
         }
         toggleCheckedIcon(holder, position)
     }
@@ -85,11 +88,9 @@ class LandingAdapter(
     }
 
     fun getSelectedItems(): List<Restaurante>? {
-        val items: MutableList<Restaurante> =
-            ArrayList(selected_items.size())
-        for (i in 0 until selected_items.size()) {
-            if(selected_items.valueAt(i))
-                items.add(restaurantesList[i])
+        var items: MutableList<Restaurante> = mutableListOf<Restaurante>()
+        selected_items.forEach { key, value ->
+            items.add(restaurantesList[key])
         }
         return items
     }

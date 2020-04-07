@@ -80,8 +80,6 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
     }
 
     override fun setOnSelectedRestaurante(view: View?, obj:Restaurante?, position: Int) {
-        listRestaurante[position]
-
         btn_crear_encuesta.visibility = View.VISIBLE
     }
 
