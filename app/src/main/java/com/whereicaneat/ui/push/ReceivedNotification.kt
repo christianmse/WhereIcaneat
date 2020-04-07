@@ -11,7 +11,7 @@ class ReceivedNotification : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_received_notification)
 
-        if(intent.hasExtra("saludo")){
+        if(intent.hasExtra("restaurantes")){
             push_restaurantes.text = intent.getStringExtra("restaurantes")
         }
     }

@@ -17,19 +17,18 @@
             android:background="@color/transparent">
 
         <androidx.cardview.widget.CardView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
-                app:cardCornerRadius="2dp"
-                app:cardElevation="0dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="8dp"
                 android:layout_margin="1dp"
-                app:cardBackgroundColor="@color/colorDarkBlue2"
-                xmlns:android="http://schemas.android.com/apk/res/android"
+                app:cardBackgroundColor="@color/verdeNoFocus"
                 android:layout_height="wrap_content">
 
-            <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <com.balysv.materialripple.MaterialRippleLayout
                     style="@style/RippleStyleBlack"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    app:mrl_rippleRoundedCorners="15dp">
 
                 <LinearLayout
                         android:id="@+id/lyt_parent"
@@ -56,14 +55,14 @@
                                 android:layout_height="wrap_content">
 
                             <ImageView
-                                    android:layout_width="50dp"
-                                    android:layout_height="50dp"
+                                    android:layout_width="70dp"
+                                    android:layout_height="70dp"
                                     android:src="@drawable/shape_circle"
-                                    android:tint="@color/red_500" />
+                                    android:tint="@color/colorDarkBlue3" />
 
                             <ImageView
-                                    android:layout_width="25dp"
-                                    android:layout_height="25dp"
+                                    android:layout_width="35dp"
+                                    android:layout_height="35dp"
                                     android:layout_centerInParent="true"
                                     app:srcCompat="@drawable/ic_done" />
 
@@ -76,8 +75,8 @@
 
                             <com.mikhaellopez.circularimageview.CircularImageView
                                     android:id="@+id/img_invitado"
-                                    android:layout_width="50dp"
-                                    android:layout_height="50dp"
+                                    android:layout_width="70dp"
+                                    android:layout_height="70dp"
                                     app:civ_border_width="0dp" />
 
 

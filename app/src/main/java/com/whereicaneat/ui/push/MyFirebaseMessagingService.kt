@@ -30,12 +30,11 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         var body = p0.notification?.body
         //Recuperamos la extra data de la info
        var extraData: Map<String,String> = p0.data
-        var restaurante = extraData.get("restaurantes2")//pillo el macas
-        var saludo = extraData.get("saludo")
+        var restaurante = extraData.get("restaurantes")
 
         val i = Intent(this, ReceivedNotification::class.java)
-        i.putExtra("restaurantes2", restaurante)
-        i.putExtra("saludo", saludo)
+        i.putExtra("restaurantes", restaurante)
+        i
 
         val pendingIntent= PendingIntent.getActivity(this,10,i,
             PendingIntent.FLAG_UPDATE_CURRENT)

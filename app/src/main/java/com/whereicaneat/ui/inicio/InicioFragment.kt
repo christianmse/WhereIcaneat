@@ -29,6 +29,7 @@ import com.whereicaneat.common.CurrentUser
 import com.whereicaneat.common.EspacioItemInvitados
 import com.whereicaneat.data.db.entities.DatabaseLocal
 import com.whereicaneat.domain.data.Repositorio
+import com.whereicaneat.domain.data.db.entities.Restaurante
 import com.whereicaneat.domain.data.db.entities.Usuario
 import com.whereicaneat.domain.data.remote.ApiUtils
 import com.whereicaneat.domain.data.remote.FCM
@@ -166,6 +167,11 @@ class InicioFragment(
                 listaTokens?.add(token!!)
             }
 
+            restaurantesSelec?.forEach {
+                var restaurante = (it as Restaurante).nombre.toString()
+                listaRestaurantes?.add(restaurante)
+            }
+
             val url = URL("https://fcm.googleapis.com/fcm/send")
             val con = url.openConnection() as HttpsURLConnection
             con.doOutput = true
@@ -187,6 +193,9 @@ class InicioFragment(
             notification.put("title","Hora de comer")
             notification.put("body", "$nombreRemitente te ha invitado a votar el restaurante de hoy")
             data.put("notification",notification)
+            val extraData = JSONObject()
+            extraData.put("restaurantes", JSONArray(listaRestaurantes))
+            data.put("data", extraData)
 
             val os = con.outputStream
             os.write(data.toString().toByteArray(charset("UTF-8")))
