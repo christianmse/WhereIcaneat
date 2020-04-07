@@ -148,6 +148,7 @@ class InicioFragment(
     inner class crearGrupoNotification(private var activity: Activity?) : AsyncTask<List<Usuario>, Void, JSONObject>() {
 
         var listaTokens: MutableList<String>? = mutableListOf<String>()
+        var listaRestaurantes: MutableList<String>? = mutableListOf<String>()
         var nombreRemitente = CurrentUser.nombre
 
 
