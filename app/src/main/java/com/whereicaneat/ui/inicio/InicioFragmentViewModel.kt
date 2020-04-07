@@ -1,5 +1,6 @@
 package com.whereicaneat.ui.inicio
 
+import android.os.Parcelable
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,6 +10,7 @@ import com.whereicaneat.domain.data.db.entities.Usuario
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import java.lang.Exception
 
 class InicioFragmentViewModel(
@@ -32,6 +34,14 @@ class InicioFragmentViewModel(
 
     fun sendUsuariosSelected(usuariosSelec: List<Usuario>) {
         repository.sendUsuariosSelected(usuariosSelec)
+    }
+
+    fun sendNotification(
+        result: JSONObject?,
+        restaurantesSelec: Array<Parcelable>?
+    ) {
+        val multicast_id = result?.getString("multicast_id")
+        repository.sendNotification(multicast_id, restaurantesSelec)
     }
 }
 

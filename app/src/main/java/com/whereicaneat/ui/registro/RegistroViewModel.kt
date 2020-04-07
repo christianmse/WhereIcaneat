@@ -75,7 +75,7 @@ class RegistroViewModel(
                     this.token = task.result?.token!!
                     val uid = mAuth.currentUser?.uid
                     val Usuario: Usuario = Usuario(uriImagen!!, nombre!!, telefono!!, token, uid)
-                    setSingleton(nombre!!, token, uid, telefono!!)
+                    //setSingleton(nombre!!, token, uid, telefono!!)
                     Log.d("Usuario registro", Usuario.toString())
                     val response = repository.userLogin()
                     guardarUsuario(Usuario)
@@ -113,9 +113,9 @@ class RegistroViewModel(
         return result
     }
 
-
-
-
+    fun setCurrentUser() {
+        repository.setcurrentUser()
+    }
 
 
 }

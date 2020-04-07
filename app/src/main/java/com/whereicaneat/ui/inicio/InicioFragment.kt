@@ -15,14 +15,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.JsonRequest
 import com.android.volley.toolbox.Volley
-import com.squareup.okhttp.ResponseBody
 import com.whereicaneat.R
 import com.whereicaneat.common.Common
 import com.whereicaneat.common.CurrentUser
@@ -31,17 +25,11 @@ import com.whereicaneat.data.db.entities.DatabaseLocal
 import com.whereicaneat.domain.data.Repositorio
 import com.whereicaneat.domain.data.db.entities.Restaurante
 import com.whereicaneat.domain.data.db.entities.Usuario
-import com.whereicaneat.domain.data.remote.ApiUtils
-import com.whereicaneat.domain.data.remote.FCM
 import com.whereicaneat.ui.push.PushActivity
 import com.whereicaneat.util.tostada
 import kotlinx.android.synthetic.main.inicio_fragment.*
 import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
-import retrofit2.*
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.POST
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
@@ -134,7 +122,7 @@ class InicioFragment(
         btn_empezar.setOnClickListener {
             usuariosSelec =  adapter.getSelectedItems()!!
             if(usuariosSelec.size >0){
-                inicioViewModel.sendUsuariosSelected(usuariosSelec)
+                //inicioViewModel.sendUsuariosSelected(usuariosSelec)
                 crearGrupoNotification(activity).execute(usuariosSelec)
                 i = Intent(context, PushActivity::class.java)
                 //Pasarle los restaurantes elegidos
@@ -158,6 +146,7 @@ class InicioFragment(
         var listaTokens: MutableList<String>? = mutableListOf<String>()
         var listaRestaurantes: MutableList<String>? = mutableListOf<String>()
         var nombreRemitente = CurrentUser.nombre
+        var tokenRemitente = CurrentUser.token
 
 
         override fun onPreExecute() {
@@ -202,6 +191,7 @@ class InicioFragment(
             data.put("notification",notification)
             val extraData = JSONObject()
             extraData.put("restaurantes", JSONArray(listaRestaurantes))
+            extraData.put("remitente", tokenRemitente)
             data.put("data", extraData)
 
             val os = con.outputStream
@@ -228,6 +218,7 @@ class InicioFragment(
 
         override fun onPostExecute(result: JSONObject?) {
             super.onPostExecute(result)
+            inicioViewModel.sendNotification(result, restaurantesSelec)
             activity?.MyprogressBar?.visibility = View.INVISIBLE
         }
     }

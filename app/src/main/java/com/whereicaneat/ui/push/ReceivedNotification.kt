@@ -13,6 +13,7 @@ class ReceivedNotification : AppCompatActivity() {
 
         if(intent.hasExtra("restaurantes")){
             push_restaurantes.text = intent.getStringExtra("restaurantes")
+            remitente.text = intent.getStringExtra("remitente")
         }
     }
 }

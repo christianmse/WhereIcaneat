@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.domain.data.db.entities.Restaurante
 import com.whereicaneat.ui.inicio.InicioActivity
+import com.whereicaneat.util.tostada
 import kotlinx.android.synthetic.main.activity_landing.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
@@ -39,9 +40,15 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
 
         btn_crear_encuesta.setOnClickListener {
             setRestaurantesSeleccionados()
-            val i = Intent(this, InicioActivity::class.java)
-            i.putExtra("restaurantesSelec", restaurantesSelected.toTypedArray())
-            startActivity(i)
+            if(restaurantesSelected.size > 0){
+                val i = Intent(this, InicioActivity::class.java)
+                i.putExtra("restaurantesSelec", restaurantesSelected.toTypedArray())
+                startActivity(i)
+            }
+            else{
+                tostada("Seleccion almenos un restaurante")
+            }
+
         }
     }
 

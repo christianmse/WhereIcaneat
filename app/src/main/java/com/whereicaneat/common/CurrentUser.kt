@@ -9,9 +9,9 @@ import com.google.firebase.database.ValueEventListener
 import com.whereicaneat.domain.data.db.entities.Usuario
 
 object CurrentUser {
-     lateinit var telefono: String
+    lateinit var telefono: String
     lateinit var nombre:String
-lateinit var uid:String
+    lateinit var uid:String
     lateinit var token:String
 
 }

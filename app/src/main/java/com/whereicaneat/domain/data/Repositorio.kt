@@ -1,24 +1,21 @@
 package com.whereicaneat.domain.data
 
 import android.net.Uri
+import android.os.Parcelable
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.model.value.IntegerValue
 import com.google.firebase.storage.FirebaseStorage
+import com.whereicaneat.common.CurrentUser
 import com.whereicaneat.data.db.entities.DatabaseLocal
 import com.whereicaneat.domain.data.db.entities.Restaurante
 import com.whereicaneat.domain.data.db.entities.Usuario
 import com.whereicaneat.domain.data.remote.RegistroFirebase
-import com.whereicaneat.ui.registro.RegistroActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.File
-import java.util.*
 import kotlin.collections.HashMap
 
 class Repositorio(
@@ -34,7 +31,6 @@ class Repositorio(
 
 
     suspend fun insertarUsuarioLocal(Usuario: Usuario) {
-
         db.getUsuarioDao().insertar(Usuario)
     }
 
@@ -70,9 +66,28 @@ class Repositorio(
         return usuariosList
     }
 
-    fun currentUserReference(): DatabaseReference {
-        val currentUid = databasefb.getReference("Usuarios").child("Usuarios").child(mAuth.currentUser!!.uid)
-        return currentUid
+    fun setcurrentUser() {
+        //setea el singleton
+        val rootRef = databasefb.reference
+        val usuariosRef = rootRef.child("Usuarios").child(mAuth.uid!!)
+
+        usuariosRef.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                Log.e("getCurrentUser", "on Cancelled$p0")
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0!!.exists()){
+                    val usuario:Usuario? = p0.getValue(Usuario::class.java)
+                    CurrentUser.token = usuario?.token!!
+                    CurrentUser.nombre = usuario?.nombreUsuario!!
+                    CurrentUser.uid = usuario.uid!!
+
+                }
+            }
+
+        })
+
     }
 
 
@@ -106,7 +121,6 @@ class Repositorio(
     }
 
     override fun setUsuarioRemote(Usuario: Usuario){
-
 
         try {
             //database
@@ -144,10 +158,6 @@ class Repositorio(
         var receivers= HashMap<String,String>()
         var valores:String = ""
 
-        val registrationTokens = Arrays.asList(
-            "YOUR_REGISTRATION_TOKEN_1",  // ...
-            "YOUR_REGISTRATION_TOKEN_n"
-        )
 
         for(i in 0 until usuariosSelec.size){
            valores+=usuariosSelec[i].token!!
@@ -158,17 +168,23 @@ class Repositorio(
         notificationsRef.setValue(receivers)
     }
 
-    fun setTokenAPIRemote(scope: String, name: String?, context: RegistroActivity){
+    fun sendNotification(
+        multicastId: String?,
+        restaurantesSelec: Array<Parcelable>?
+    ) {
+        var notificationsRef = databasefb.getReference("Notifications").child(multicastId!!)
+        var restaurantes= HashMap<String,Integer>()
 
-        try {
-            var idToken = GoogleAuthUtil.getToken(context, name, scope)
-            if (uid != null) {
-                myRef.child(uid).setValue(idToken)
-            }
-        } catch (e: Exception) {
-            Log.w("setTokenAPIRemote_Repositorio", "Exception while getting idToken: $e")
+        restaurantesSelec?.forEach {
+            var nombre = (it as Restaurante).nombre
+            restaurantes.put(nombre!!, Integer(0))
         }
-
+        notificationsRef.setValue(restaurantes).addOnFailureListener {
+            Log.e("sendNotification_Repositorio", it.toString())
+        }
     }
+
+
+
 
 }
