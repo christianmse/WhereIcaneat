@@ -5,12 +5,15 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.BoringLayout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -50,6 +53,19 @@ class InicioFragment(
     lateinit var usuariosSelec: List<Usuario>
 
 
+
+    companion object{
+        lateinit var task: crearGrupoNotification
+
+        fun getStatusTask():LiveData<Boolean> {
+            var status = MutableLiveData<Boolean>()
+            status.value = task.status == AsyncTask.Status.FINISHED
+            return status
+        }
+
+
+    }
+
     val onClickedListener= object: InicioAdapter.OnClickedListener{
         override fun onItemClick(view: View?, obj: Usuario?, pos: Int) {
             adapter.toggleSelection(pos)
@@ -63,13 +79,7 @@ class InicioFragment(
         }
     }
 
-    companion object{
-        var isMultiseleccion = false
-    }
 
-    init {
-        Log.d("constructor","eds")
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -82,10 +92,10 @@ class InicioFragment(
         database = DatabaseLocal(context!!)
         repository = Repositorio(database)
         factory = InicioViewModelFactory(repository)
-        isMultiseleccion = false
         inicioViewModel =
             ViewModelProviders.of(this, factory).get(InicioFragmentViewModel::class.java)
         adapter = InicioAdapter(context!!)
+        setCurrentUser()
 
         val layoutManager = GridLayoutManager(requireContext(), Common.NUM_OF_COLUMN)
         layoutManager.orientation = RecyclerView.VERTICAL
@@ -123,22 +133,35 @@ class InicioFragment(
             usuariosSelec =  adapter.getSelectedItems()!!
             if(usuariosSelec.size >0){
                 //inicioViewModel.sendUsuariosSelected(usuariosSelec)
-                crearGrupoNotification(activity).execute(usuariosSelec)
-                i = Intent(context, PushActivity::class.java)
-                //Pasarle los restaurantes elegidos
-                i.putExtra("restaurantesSelec", restaurantesSelec)
-                i.putExtra("usuariosSelec", usuariosSelec.toTypedArray())
-                activity?.startActivity(i)
+                task = crearGrupoNotification(activity)
+                val resultTask = task.execute(usuariosSelec).get()
+
+                if (resultTask.getInt("failure") == 0){
+                    activity?.MyprogressBar?.visibility = View.INVISIBLE
+                    i = Intent(context, PushActivity::class.java)
+                    //Pasarle los restaurantes elegidos
+                    i.putExtra("restaurantesSelec", restaurantesSelec)
+                    i.putExtra("usuariosSelec", usuariosSelec.toTypedArray())
+                    activity?.startActivity(i)
+                }
+
             }
             else{
-                context!!.tostada("Seleccionar almenos a una persona")
+                context!!.tostada("Seleccionar al menos a una persona")
             }
 
         }
 
+
+
+
+
+
     }
 
-
+    fun setCurrentUser() {
+        repository.setcurrentUser()
+    }
 
 
     inner class crearGrupoNotification(private var activity: Activity?) : AsyncTask<List<Usuario>, Void, JSONObject>() {
@@ -220,7 +243,6 @@ class InicioFragment(
             super.onPostExecute(result)
             //El token es la clave para enlazar notificacion
             inicioViewModel.sendNotification(result, restaurantesSelec, CurrentUser.token)
-            activity?.MyprogressBar?.visibility = View.INVISIBLE
         }
     }
 }

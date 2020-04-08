@@ -112,7 +112,6 @@ class Repositorio(
                     var aux: Restaurante = Restaurante(imageUrl!!, nombre!!, website!!)
                     listData.add(aux)
                 }
-
             }
             mutableData.value = listData
         }
@@ -175,12 +174,14 @@ class Repositorio(
         var restaurantes= HashMap<String,Integer>()
 
         restaurantesSelec?.forEach {
-            var nombre = (it as Restaurante).nombre
-            restaurantes.put(nombre!!, Integer(0))
+            var restaurante = (it as Restaurante)
+            var nombre = restaurante.nombre
+            notificationsRef.child(nombre!!).setValue(restaurante)
+            //restaurantes.put(nombre!!, Integer(0))
         }
-        notificationsRef.setValue(restaurantes).addOnFailureListener {
+       /* notificationsRef.setValue(restaurantes).addOnFailureListener {
             Log.e("sendNotification_Repositorio", it.toString())
-        }
+        }*/
     }
 
 

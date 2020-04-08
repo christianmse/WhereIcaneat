@@ -63,7 +63,6 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
 
         if(registroViewModel.usuarioRegistrado()){
         registroViewModel.login()
-        registroViewModel.setCurrentUser()
        startActivity(Intent(this, LandingActivity::class.java))
        }
 
@@ -72,7 +71,6 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
 
     override fun onStart() {
         super.onStart()
-
         btn_imagen_registro.setOnClickListener {
             onGaleriaBotonClicked()
         }

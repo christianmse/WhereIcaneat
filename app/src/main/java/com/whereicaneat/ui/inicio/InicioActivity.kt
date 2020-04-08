@@ -13,7 +13,6 @@ class InicioActivity : AppCompatActivity() {
         val restaurantesSelec = intent.getParcelableArrayExtra("restaurantesSelec")
         var fragment = InicioFragment(restaurantesSelec)
 
-
         if(savedInstanceState == null){
                 supportFragmentManager
                     .beginTransaction()
@@ -22,4 +21,6 @@ class InicioActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_inicio)
     }
+
+
 }
