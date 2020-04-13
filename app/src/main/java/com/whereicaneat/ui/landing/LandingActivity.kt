@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.domain.data.db.entities.Restaurante
 import com.whereicaneat.ui.inicio.InicioActivity
+import com.whereicaneat.ui.votacion.VotadoActivity
 import com.whereicaneat.util.tostada
 import kotlinx.android.synthetic.main.activity_landing.*
 import org.json.JSONArray
@@ -47,9 +48,16 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
                 startActivity(i)
             }
             else{
-                tostada("Seleccion almenos un restaurante")
+                tostada("Selecciona un restaurante")
             }
 
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        btn_votado.setOnClickListener {
+            startActivity(Intent(this, VotadoActivity::class.java))
         }
     }
 
@@ -88,6 +96,8 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
                         }
                     }
                 }
+                btn_votado.visibility = View.VISIBLE
+                btn_crear_encuesta.visibility = View.GONE
                 adapter.setListData(definitivo!!)
                 adapter.notifyDataSetChanged()
             }
@@ -107,7 +117,8 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
     }
 
     override fun setOnSelectedRestaurante(view: View?, obj:Restaurante?, position: Int) {
-        btn_crear_encuesta.visibility = View.VISIBLE
+        //btn_crear_encuesta.visibility = View.VISIBLE
+        
     }
 
     override fun onItemClick(it: View?, restaurante: Restaurante, position: Int) {

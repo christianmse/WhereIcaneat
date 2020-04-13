@@ -55,16 +55,7 @@ class PushActivity : AppCompatActivity() {
         restaurantesSelec = intent.getParcelableArrayExtra("restaurantesSelec")
         usuariosSelec = intent.getParcelableArrayExtra("usuariosSelec")
 
-        viewKonfetti.build()
-            .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
-            .setDirection(200.0, 359.0)
-            .setSpeed(1f, 5f)
-            .setFadeOutEnabled(true)
-            .setTimeToLive(2000L)
-            .addShapes(Shape.Square, Shape.Circle)
-            .addSizes(Size(12))
-            .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
-            .streamFor(300, 5000L)
+
 
         val restaurante = (restaurantesSelec[0] as Restaurante).nombre
         /*viewModel.getRestauranteCount(restaurante!!).observeForever {
