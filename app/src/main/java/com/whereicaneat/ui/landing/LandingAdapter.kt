@@ -29,10 +29,6 @@ class LandingAdapter(
         restaurantesList = listData
     }
 
-
-
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         landingViewHolder(
             DataBindingUtil.inflate<ItemRestauranteBinding>(

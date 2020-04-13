@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.whereicaneat.R
+import com.whereicaneat.ui.landing.LandingActivity
 
 
 class MyFirebaseMessagingService: FirebaseMessagingService() {
@@ -33,7 +34,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         var restaurante = extraData.get("restaurantes")
         var remitente = extraData.get("remitente")
 
-        val i = Intent(this, ReceivedNotification::class.java)
+        val i = Intent(this, LandingActivity::class.java)
         i.putExtra("restaurantes", restaurante)
         i.putExtra("remitente", remitente)
 

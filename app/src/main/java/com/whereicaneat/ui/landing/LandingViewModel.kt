@@ -16,7 +16,7 @@ class LandingViewModel(
 ) : ViewModel(){
     val mutableData = MutableLiveData<MutableList<Restaurante>>()
 
-    //Obtiene usuarios de firestore
+    //Obtiene restaurantes de firestore
     fun getRestaurantesData():LiveData<MutableList<Restaurante>>{
         repository.getRestaurantesRemote().observeForever {
             mutableData.value = it

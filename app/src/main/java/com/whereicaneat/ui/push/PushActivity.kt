@@ -67,11 +67,11 @@ class PushActivity : AppCompatActivity() {
             .streamFor(300, 5000L)
 
         val restaurante = (restaurantesSelec[0] as Restaurante).nombre
-        viewModel.getRestauranteCount(restaurante!!).observeForever {
+        /*viewModel.getRestauranteCount(restaurante!!).observeForever {
             it.forEach {
                 gente.text = it.nombreUsuario
             }
-        }
+        }*/
     }
 
 

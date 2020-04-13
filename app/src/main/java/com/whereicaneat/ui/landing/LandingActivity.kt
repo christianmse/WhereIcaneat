@@ -14,6 +14,7 @@ import com.whereicaneat.domain.data.db.entities.Restaurante
 import com.whereicaneat.ui.inicio.InicioActivity
 import com.whereicaneat.util.tostada
 import kotlinx.android.synthetic.main.activity_landing.*
+import org.json.JSONArray
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
@@ -60,6 +61,8 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
     }
 
     fun observarData(viewModel: LandingViewModel){
+        val mutableList: MutableList<String>? = mutableListOf<String>()
+        val definitivo: MutableList<Restaurante>? = mutableListOf<Restaurante>()
 
         shimmer_view_container.startShimmer()
         viewModel.getRestaurantesData().observe(this, Observer {
@@ -67,8 +70,32 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
             shimmer_view_container.stopShimmer()
             shimmer_view_container.hideShimmer()
             shimmer_view_container.visibility = View.GONE
-            adapter.setListData(it)
-            adapter.notifyDataSetChanged()
+
+
+            //En caso de recibir la notificacion
+            if(intent.hasExtra("restaurantes")) {
+                val json = intent.getStringExtra("restaurantes")
+                val jsonArray = JSONArray(json)
+                for (i in 0 until jsonArray.length()) {
+                    var aux = jsonArray.get(i)
+                    mutableList?.add(aux.toString())
+                }
+
+                it.forEach {a->
+                    mutableList?.forEach {b->
+                        if(a.nombre.equals(b)){
+                            definitivo?.add(a)
+                        }
+                    }
+                }
+                adapter.setListData(definitivo!!)
+                adapter.notifyDataSetChanged()
+            }
+            else{
+                adapter.setListData(it)
+                adapter.notifyDataSetChanged()
+            }
+
         })
     }
 

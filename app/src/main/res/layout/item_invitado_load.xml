@@ -5,79 +5,271 @@
         android:layout_height="match_parent"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.cardview.widget.CardView
+    <GridLayout
+            android:id="@+id/GridLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            app:cardBackgroundColor="@color/colorDarkBlue2"
-            app:cardCornerRadius="2dp"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:columnCount="2"
+            android:rowCount="2"
+            android:padding="5dp"
+            android:alignmentMode="alignMargins"
+            android:orientation="horizontal"
+            tools:ignore="MissingConstraints">
 
-        <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                style="@style/RippleStyleBlack"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <FrameLayout
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
 
-            <LinearLayout
-                    android:id="@+id/lyt_parent"
+                tools:ignore="MissingConstraints">
+
+            <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_multi_selection"
-                    android:clickable="true"
-                    android:orientation="horizontal"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp">
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="8dp"
+                    android:layout_margin="1dp"
+                    app:cardBackgroundColor="@color/verdeNoFocus"
+                    android:layout_height="wrap_content">
 
-                <View
-                        android:layout_width="10dp"
-                        android:layout_height="0dp" />
-
-                <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-
-                    <RelativeLayout
-                            android:id="@+id/lyt_image"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                        <com.mikhaellopez.circularimageview.CircularImageView
-                                android:id="@+id/img_invitado"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:background="@color/placeholder_bg"
-                                app:civ_border_width="2dp"
-                                tools:background="@color/placeholder_bg" />
-
-                    </RelativeLayout>
-
-                </RelativeLayout>
-
-                <View
-                        android:layout_width="18dp"
-                        android:layout_height="0dp" />
-
-                <View
-                        android:id="@+id/nombre_usuario"
+                <com.balysv.materialripple.MaterialRippleLayout
+                        style="@style/RippleStyleBlack"
                         android:layout_width="match_parent"
-                        android:layout_height="20dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@color/placeholder_bg"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        tools:text="NOMBRE DEL INVITADO" />
+                        android:layout_height="match_parent"
+                        app:mrl_rippleRoundedCorners="15dp">
 
-                <View
-                        android:layout_width="10dp"
-                        android:layout_height="0dp" />
-            </LinearLayout>
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_multi_selection"
+                            android:clickable="true"
+                            android:orientation="horizontal"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp">
 
-        </com.balysv.materialripple.MaterialRippleLayout>
-    </androidx.cardview.widget.CardView>
+                        <View
+                                android:layout_width="10dp"
+                                android:layout_height="0dp" />
+
+                        <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                            <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                <ImageView
+                                        android:layout_width="70dp"
+                                        android:layout_height="70dp"
+                                        android:src="@drawable/shape_circle"
+                                        android:tint="@color/colorDarkBlue3" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                <com.mikhaellopez.circularimageview.CircularImageView
+                                        android:layout_width="70dp"
+                                        android:layout_height="70dp"
+                                        app:civ_border_width="0dp" />
+
+
+                                <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        android:text="E"
+                                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                        android:textColor="@android:color/white" />
+
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                        <View
+                                android:layout_width="18dp"
+                                android:layout_height="0dp" />
+
+                        <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                            <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+
+                                <View
+                                        android:layout_width="100dp"
+                                        android:layout_height="20dp"
+                                        android:layout_marginBottom="4dp"
+                                        android:layout_marginTop="8dp"
+                                        android:background="@color/placeholder_bg"
+                                        tools:text="NOMBRE DEL INVITADO" />
+
+                                <View
+                                        android:layout_width="80dp"
+                                        android:layout_height="10dp"
+                                        android:layout_marginBottom="4dp"
+                                        android:layout_marginTop="8dp"
+                                        android:background="@color/placeholder_bg"
+                                        android:textSize="15sp"
+                                        android:textStyle="bold"
+                                        tools:text="NOMBRE DEL INVITADO" />
+
+
+                            </LinearLayout>
+
+
+
+                        </RelativeLayout>
+
+                        <View
+                                android:layout_width="10dp"
+                                android:layout_height="0dp" />
+                    </LinearLayout>
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </FrameLayout>
+        <FrameLayout
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+
+                tools:ignore="MissingConstraints">
+
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="8dp"
+                    android:layout_margin="1dp"
+                    app:cardBackgroundColor="@color/verdeNoFocus"
+                    android:layout_height="wrap_content">
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                        style="@style/RippleStyleBlack"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:mrl_rippleRoundedCorners="15dp">
+
+                    <LinearLayout
+                            android:id="@+id/lyt_parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_multi_selection"
+                            android:clickable="true"
+                            android:orientation="horizontal"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp">
+
+                        <View
+                                android:layout_width="10dp"
+                                android:layout_height="0dp" />
+
+                        <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                            <RelativeLayout
+                                    android:id="@+id/lyt_checked"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                <ImageView
+                                        android:layout_width="70dp"
+                                        android:layout_height="70dp"
+                                        android:src="@drawable/shape_circle"
+                                        android:tint="@color/colorDarkBlue3" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                    android:id="@+id/lyt_image"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                <com.mikhaellopez.circularimageview.CircularImageView
+                                        android:id="@+id/img_invitado"
+                                        android:layout_width="70dp"
+                                        android:layout_height="70dp"
+                                        app:civ_border_width="0dp" />
+
+
+                                <TextView
+                                        android:id="@+id/image_letter"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        android:text="E"
+                                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                        android:textColor="@android:color/white" />
+
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                        <View
+                                android:layout_width="18dp"
+                                android:layout_height="0dp" />
+
+                        <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                            <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+
+                                <View
+                                        android:layout_width="100dp"
+                                        android:layout_height="20dp"
+                                        android:layout_marginBottom="4dp"
+                                        android:layout_marginTop="8dp"
+                                        android:background="@color/placeholder_bg"
+                                        tools:text="NOMBRE DEL INVITADO" />
+
+                                <View
+                                        android:layout_width="80dp"
+                                        android:layout_height="10dp"
+                                        android:layout_marginBottom="4dp"
+                                        android:layout_marginTop="8dp"
+                                        android:background="@color/placeholder_bg"
+                                        android:textSize="15sp"
+                                        android:textStyle="bold"
+                                        tools:text="NOMBRE DEL INVITADO" />
+
+
+                            </LinearLayout>
+
+
+
+                        </RelativeLayout>
+
+                        <View
+                                android:layout_width="10dp"
+                                android:layout_height="0dp" />
+                    </LinearLayout>
+
+                </com.balysv.materialripple.MaterialRippleLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </FrameLayout>
+
+    </GridLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,12 +20,14 @@ import kotlin.collections.HashMap
 class Repositorio(
     private val db:DatabaseLocal
 ): RegistroFirebase {
+
     val databasefb = FirebaseDatabase.getInstance()
     val storagefb: FirebaseStorage = FirebaseStorage.getInstance()
     val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     val myRef = databasefb.getReference("Usuarios")
     val myRefStg = storagefb!!.getReference("Imagenes_Perfil")
     val uid = mAuth.currentUser?.uid
+    val restaurantesRef = FirebaseFirestore.getInstance().collection("Restaurantes")
 
 
 
@@ -90,6 +92,30 @@ class Repositorio(
     }
 
 
+    fun getRestaurantesFromNotification(restaurante:List<String>):MutableList<Restaurante>{
+        var mutableData: MutableList<Restaurante> = mutableListOf()
+            restaurantesRef.get().addOnSuccessListener {result ->
+                val listData = mutableListOf<Restaurante>()
+                restaurante.forEach { it ->
+                for(document in result){
+                    val nombre = document.getString("nombre")
+                    if(it.equals(nombre)){
+                        val imageUrl = document.getString("imageUrl")
+                        val website = document.getString("website")
+                        if(imageUrl != null && nombre != null && website != null){
+                            var aux = Restaurante(imageUrl!!, nombre!!, website!!)
+                            listData.add(aux)
+                            break
+                        }
+                    }
+                }
+                    mutableData = listData
+                }
+        }
+
+        return mutableData
+    }
+
     suspend fun insertarRestauranteLocal(restaurante: Restaurante) =
         db.getRestauranteDao().insertar(restaurante)
 
@@ -101,7 +127,7 @@ class Repositorio(
 
     fun getRestaurantesRemote():LiveData<MutableList<Restaurante>>{
         val mutableData = MutableLiveData<MutableList<Restaurante>>()
-        FirebaseFirestore.getInstance().collection("Restaurantes").get().addOnSuccessListener {result ->
+        restaurantesRef.get().addOnSuccessListener {result ->
             val listData = mutableListOf<Restaurante>()
             for(document in result){
                 val imageUrl = document.getString("imageUrl")
@@ -115,6 +141,9 @@ class Repositorio(
             }
             mutableData.value = listData
         }
+            .addOnFailureListener { excepcion ->
+                Log.e("getRestaurantesRemote", excepcion.toString())
+            }
         return mutableData
     }
 
@@ -170,13 +199,17 @@ class Repositorio(
         restaurantesSelec: Array<Parcelable>?,
         tokenRemitente: String
     ) {
-        var notificationsRef = databasefb.getReference("Notifications").child(tokenRemitente)
-        var restaurantes= HashMap<String,Integer>()
+        var notificationsRef =
+            databasefb
+            .getReference("Notifications")
+            .child(tokenRemitente)
+        //Reinicia el nodo
+            notificationsRef.removeValue();
 
         restaurantesSelec?.forEach {
             var restaurante = (it as Restaurante)
             var nombre = restaurante.nombre
-            notificationsRef.child(nombre!!).setValue(restaurante)
+            notificationsRef.child(nombre!!).setValue(0)
             //restaurantes.put(nombre!!, Integer(0))
         }
        /* notificationsRef.setValue(restaurantes).addOnFailureListener {

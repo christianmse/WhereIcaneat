@@ -185,7 +185,7 @@ class InicioAdapter(
                         itemView.image_letter.visibility = View.GONE
                     }
                     .addOnFailureListener {
-                        Log.e("FBStorage", it.toString())
+                        Log.e("FBStorageError", it.toString())
                     }
 
 

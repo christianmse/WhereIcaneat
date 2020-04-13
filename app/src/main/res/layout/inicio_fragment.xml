@@ -8,6 +8,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".ui.inicio.InicioFragment">
 
+
     <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_view_container"
             android:layout_width="match_parent"
@@ -18,13 +19,14 @@
             app:layout_constraintStart_toStartOf="@+id/recyclerInicio"
             app:layout_constraintTop_toTopOf="parent">
 
+
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="@+id/recyclerInicio"
                 app:layout_constraintStart_toStartOf="@+id/recyclerInicio"
                 android:orientation="vertical"
-                android:padding="10dp">
+                >
 
             <include layout="@layout/item_invitado_load" />
 
@@ -70,7 +72,6 @@
             tools:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_push"
             fancy:layout_constraintBottom_toBottomOf="@+id/recyclerInicio" />
 
     <mehdi.sakout.fancybuttons.FancyButton
