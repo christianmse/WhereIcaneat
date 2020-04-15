@@ -36,36 +36,16 @@ class Repositorio(
         db.getUsuarioDao().insertar(Usuario)
     }
 
+    suspend fun dropTableUsuario()=
+        db.getUsuarioDao().dropTable()
+
 
     suspend fun eliminarUsuarioLocal(Usuario: Usuario) =
         db.getUsuarioDao().eliminarUsuario(Usuario)
 
     fun getUsuarioLocal() = db.getUsuarioDao().getUsuario()
 
-    suspend fun getUsuariosRemote(): LiveData<MutableList<Usuario>>{
-        val rootRef = databasefb.reference
-        val usuariosRef = rootRef.child("Usuarios")
-        val usuariosList = MutableLiveData<MutableList<Usuario>>()
 
-        usuariosRef.addListenerForSingleValueEvent(object: ValueEventListener {
-            val listData = mutableListOf<Usuario>()
-            override fun onCancelled(p0: DatabaseError) {
-                Log.e("Error_ValueListenerAdapter", "on Cancelled$p0")
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                if(p0!!.exists()){
-                    for(data in p0.children){
-                            val usuario:Usuario? = data.getValue(Usuario::class.java)
-                            listData.add(usuario!!)
-                    }
-                    usuariosList.value = listData
-                }
-            }
-
-        })
-        return usuariosList
-    }
 
     fun setcurrentUser() {
         //setea el singleton
@@ -216,24 +196,47 @@ class Repositorio(
         }*/
     }
 
-
-    fun getParticipantesRemote(
-        token: String
-    ): LiveData<MutableList<Participacion>>{
+    suspend fun getUsuariosRemote(): LiveData<MutableList<Usuario>>{
         val rootRef = databasefb.reference
-        val notificationsRef = rootRef.child("Notifications").child(token)
-        val participacionesList = MutableLiveData<MutableList<Participacion>>()
+        val usuariosRef = rootRef.child("Usuarios")
+        val usuariosList = MutableLiveData<MutableList<Usuario>>()
 
-        notificationsRef.addListenerForSingleValueEvent(object: ValueEventListener {
-            val listData = mutableListOf<Participacion>()
+        usuariosRef.addListenerForSingleValueEvent(object: ValueEventListener {
+            val listData = mutableListOf<Usuario>()
             override fun onCancelled(p0: DatabaseError) {
                 Log.e("Error_ValueListenerAdapter", "on Cancelled$p0")
             }
 
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0!!.exists()){
+                    for(data in p0.children){
+                        val usuario:Usuario? = data.getValue(Usuario::class.java)
+                        listData.add(usuario!!)
+                    }
+                    usuariosList.value = listData
+                }
+            }
+
+        })
+        return usuariosList
+    }
+
+    fun getParticipantesRemote(
+        token: String): LiveData<MutableList<Participacion>>{
+        val ref = databasefb.reference.child("Notifications").child(token)
+        val participacionesList = MutableLiveData<MutableList<Participacion>>()
+
+        ref.addValueEventListener(object: ValueEventListener {
+            val listData = mutableListOf<Participacion>()
+            override fun onCancelled(p0: DatabaseError) {
+                Log.e("getParticipantesRemote", "on Cancelled: $p0")
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0!!.exists()){
                     for(restaurante in p0.children){
-                        if(!restaurante.hasChildren()){
+                        var value = restaurante.getValue(Integer::class.java)
+                        if(value?.equals(0)!!){
                             var vacio = Participacion(restaurante.key!!)
                             listData.add(vacio)
                         }

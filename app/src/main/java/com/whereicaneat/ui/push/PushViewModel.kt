@@ -82,8 +82,7 @@ class PushViewModel
 
     val participaciones = MutableLiveData<MutableList<Participacion>>()
     fun getParticipantesRemote(
-        tokenRemitente: String
-    ): LiveData<MutableList<Participacion>>{
+        tokenRemitente: String): LiveData<MutableList<Participacion>>{
         CoroutineScope(Dispatchers.Main).launch{
             try {
                 repositorio.getParticipantesRemote(tokenRemitente).observeForever {

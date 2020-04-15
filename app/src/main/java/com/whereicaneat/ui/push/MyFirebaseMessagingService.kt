@@ -68,7 +68,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
      * is initially generated so this is where you would retrieve the token.
      */
     override fun onNewToken(token: String) {
-        Log.d("new token", "Refreshed token: $token")
+        Log.e("new token", "Refreshed token: $token")
 
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the

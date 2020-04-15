@@ -3,7 +3,10 @@ package com.whereicaneat.ui.push
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.common.CurrentUser
@@ -20,7 +23,7 @@ class PushActivity : AppCompatActivity(), KodeinAware {
     lateinit var viewModel: PushViewModel
     lateinit var restaurantesSelec: Array<Parcelable>
     lateinit var usuariosSelec: Array<Parcelable>
-    //lateinit var adapter:PushAdapter
+    lateinit var adapter:PushAdapter
     val listaRestaurantes = mutableListOf<String>()
 
 
@@ -29,25 +32,22 @@ class PushActivity : AppCompatActivity(), KodeinAware {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_push)
         viewModel = ViewModelProviders.of(this, factory).get(PushViewModel::class.java)
-       // adapter = PushAdapter(this)
+       adapter = PushAdapter(this)
         restaurantesSelec = intent.getParcelableArrayExtra("restaurantesSelec")
         usuariosSelec = intent.getParcelableArrayExtra("usuariosSelec")
-       // recycler_push.adapter = adapter
+       recycler_push.adapter = adapter
         recycler_push.layoutManager = LinearLayoutManager(this)
         getRestaurantesParcelable(restaurantesSelec)
 
 
 
-        /*viewModel.getParticipantesRemote(CurrentUser.token)
-        viewModel.participaciones.observeForever {participacionesList ->
-            adapter.setListData(participacionesList)
-            adapter.notifyDataSetChanged()
-        }*/
-        /*viewModel.getRestauranteCount(restaurante!!).observeForever {
-            it.forEach {
-                gente.text = it.nombreUsuario
-            }
-        }*/
+        viewModel.getParticipantesRemote(CurrentUser.token)
+        viewModel.participaciones.observe(this, Observer {participacionesList ->
+                adapter.setListData(participacionesList)
+                adapter.notifyDataSetChanged()
+
+        })
+
     }
 
 

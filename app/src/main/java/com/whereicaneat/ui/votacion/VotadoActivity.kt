@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.azoft.carousellayoutmanager.CarouselLayoutManager
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import com.whereicaneat.R
@@ -16,6 +17,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
+
 
 class VotadoActivity : AppCompatActivity(), KodeinAware {
     override val kodein: Kodein by kodein()
@@ -34,8 +36,10 @@ class VotadoActivity : AppCompatActivity(), KodeinAware {
         getRestaurantes(restaurantesSelec)
         adapter = VotadoAdapter(this)
         adapter.setData(restaurantesList)
-        recycler_votado.layoutManager = LinearLayoutManager(this)
+        recycler_votado.layoutManager = CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, true)
+        recycler_votado.setHasFixedSize(true)
         recycler_votado.adapter = adapter
+
     }
 
     private fun getRestaurantes(restaurantesSelec: Array<Parcelable>?) {
@@ -49,11 +53,11 @@ class VotadoActivity : AppCompatActivity(), KodeinAware {
     override fun onStart() {
         super.onStart()
         viewKonfetti.build()
-            .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+            .addColors(Color.YELLOW, Color.GREEN, Color.RED)
             .setDirection(200.0, 359.0)
             .setSpeed(1f, 5f)
             .setFadeOutEnabled(true)
-            .setTimeToLive(2000L)
+            .setTimeToLive(6000L)
             .addShapes(Shape.Square, Shape.Circle)
             .addSizes(Size(12))
             .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)

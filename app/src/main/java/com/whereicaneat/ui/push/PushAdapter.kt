@@ -59,7 +59,7 @@ class PushAdapter (
         val itemParticipacionBinding: ItemParticipacionBinding
     ): RecyclerView.ViewHolder(itemParticipacionBinding.root){
         fun bindView(participacion: Participacion){
-            lateinit var nombres: String
+            /*lateinit var nombres: String
             //Coger la lista de participantes
             participacion.participantes.forEach {usuario ->
                 nombres += "${usuario.nombreUsuario}, "
@@ -67,6 +67,9 @@ class PushAdapter (
             if(nombres != null){
                 itemView.txt_participante.text = nombres
             }
+            else{
+                itemView.txt_participante.text = "Vacio"
+            }*/
 
         }
     }
