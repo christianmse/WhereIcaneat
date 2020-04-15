@@ -3,7 +3,6 @@ package com.whereicaneat.ui.landing
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -32,13 +31,31 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
-
         landingViewModel =
             ViewModelProviders.of(this, factory).get(LandingViewModel::class.java)
         adapter = LandingAdapter(this, this)
         recyclerLanding.layoutManager = LinearLayoutManager(this)
         recyclerLanding.adapter = adapter
         observarData(landingViewModel)
+        landingViewModel.login()
+        landingViewModel.setCurrentUser()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        btn_votado.setOnClickListener {
+            setRestaurantesSeleccionados()
+            if(restaurantesSelected.size > 0){
+                val i = Intent(this, VotadoActivity::class.java)
+                val remitente = intent.getStringExtra("remitente")
+                i.putExtra("remitente", remitente)
+                i.putExtra("restaurantesSelec", restaurantesSelected.toTypedArray())
+                startActivity(i)
+            }
+            else{
+                tostada("Vota algún restaurante")
+            }
+        }
 
         btn_crear_encuesta.setOnClickListener {
             setRestaurantesSeleccionados()
@@ -51,13 +68,6 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
                 tostada("Selecciona un restaurante")
             }
 
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        btn_votado.setOnClickListener {
-            startActivity(Intent(this, VotadoActivity::class.java))
         }
     }
 
@@ -116,10 +126,7 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
         startActivity(i)
     }
 
-    override fun setOnSelectedRestaurante(view: View?, obj:Restaurante?, position: Int) {
-        //btn_crear_encuesta.visibility = View.VISIBLE
-        
-    }
+
 
     override fun onItemClick(it: View?, restaurante: Restaurante, position: Int) {
         adapter.toggleSelection(position)

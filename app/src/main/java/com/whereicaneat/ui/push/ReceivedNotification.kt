@@ -50,7 +50,7 @@ class ReceivedNotification : AppCompatActivity() {
 
             remitente.text = intent.getStringExtra("remitente")
 
-            lateinit var listRestaurante: List<Restaurante>
+           /* lateinit var listRestaurante: List<Restaurante>
             val vm = LandingViewModel(repository)
             try {
                 vm.getRestaurantesData().observe(this, Observer {
@@ -60,7 +60,7 @@ class ReceivedNotification : AppCompatActivity() {
                 Log.e("received", e.toString())
             }
 
-            adapter.setListData(listRestaurante.toMutableList())
+            adapter.setListData(listRestaurante.toMutableList())*/
 
 
 

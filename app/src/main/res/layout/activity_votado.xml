@@ -21,10 +21,20 @@
             android:gravity="center_horizontal"
         android:textSize="50sp"/>
     <TextView
+            android:id="@+id/tit2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
         android:text="Ahora espera que termine la votación"
             android:layout_below="@+id/tit"
             android:gravity="center_horizontal"
         android:textSize="50sp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_votado"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tit2"
+            tools:orientation="horizontal"
+            tools:listitem="@layout/support_simple_spinner_dropdown_item" />
+
 </RelativeLayout>

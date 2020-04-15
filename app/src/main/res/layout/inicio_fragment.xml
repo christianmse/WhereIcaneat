@@ -29,15 +29,12 @@
                 >
 
             <include layout="@layout/item_invitado_load" />
-
             <include layout="@layout/item_invitado_load" />
-
             <include layout="@layout/item_invitado_load" />
-
             <include layout="@layout/item_invitado_load" />
-
             <include layout="@layout/item_invitado_load" />
-
+            <include layout="@layout/item_invitado_load" />
+            <include layout="@layout/item_invitado_load" />
 
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>

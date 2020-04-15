@@ -57,7 +57,6 @@ class LandingAdapter(
         holder.itemRestaurantes.nombreRestaurante.setOnClickListener {
             if(listener != null){
                 if(position != RecyclerView.NO_POSITION){
-                    listener.setOnSelectedRestaurante(it,restaurante, position)
                     listener.onItemClick(it,restaurante,position)
                 }
             }

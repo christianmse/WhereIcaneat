@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.whereicaneat.common.CurrentUser
 import com.whereicaneat.data.db.entities.DatabaseLocal
+import com.whereicaneat.domain.data.db.entities.Participacion
 import com.whereicaneat.domain.data.db.entities.Restaurante
 import com.whereicaneat.domain.data.db.entities.Usuario
 import com.whereicaneat.domain.data.remote.RegistroFirebase
@@ -43,7 +44,6 @@ class Repositorio(
 
     suspend fun getUsuariosRemote(): LiveData<MutableList<Usuario>>{
         val rootRef = databasefb.reference
-        val myRefStg = storagefb!!.getReference("Imagenes_Perfil")
         val usuariosRef = rootRef.child("Usuarios")
         val usuariosList = MutableLiveData<MutableList<Usuario>>()
 
@@ -83,7 +83,7 @@ class Repositorio(
                     CurrentUser.token = usuario?.token!!
                     CurrentUser.nombre = usuario?.nombreUsuario!!
                     CurrentUser.uid = usuario.uid!!
-
+                    CurrentUser.telefono = usuario.telefono
                 }
             }
 
@@ -210,7 +210,6 @@ class Repositorio(
             var restaurante = (it as Restaurante)
             var nombre = restaurante.nombre
             notificationsRef.child(nombre!!).setValue(0)
-            //restaurantes.put(nombre!!, Integer(0))
         }
        /* notificationsRef.setValue(restaurantes).addOnFailureListener {
             Log.e("sendNotification_Repositorio", it.toString())
@@ -218,6 +217,81 @@ class Repositorio(
     }
 
 
+    fun getParticipantesRemote(
+        token: String
+    ): LiveData<MutableList<Participacion>>{
+        val rootRef = databasefb.reference
+        val notificationsRef = rootRef.child("Notifications").child(token)
+        val participacionesList = MutableLiveData<MutableList<Participacion>>()
+
+        notificationsRef.addListenerForSingleValueEvent(object: ValueEventListener {
+            val listData = mutableListOf<Participacion>()
+            override fun onCancelled(p0: DatabaseError) {
+                Log.e("Error_ValueListenerAdapter", "on Cancelled$p0")
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0!!.exists()){
+                    for(restaurante in p0.children){
+                        if(!restaurante.hasChildren()){
+                            var vacio = Participacion(restaurante.key!!)
+                            listData.add(vacio)
+                        }
+                        else{
+                            val participacion = Participacion(restaurante.key!!)
+                            for (participantes in restaurante.children){
+                                val usuario:Usuario? = participantes.getValue(Usuario::class.java)
+                                participacion.setParticipante(usuario!!)
+                            }
+                            listData.add(participacion)
+                        }
+                    }
+                    participacionesList.value = listData
+                }
+            }
+
+        })
+        return participacionesList
+    }
+
+    fun sendVoto(
+        token: String,
+        restaurantesList: MutableList<Restaurante>,
+        remitente: String
+    ) {
+
+        var ref =
+            databasefb
+                .getReference("Notifications")
+                .child(remitente)
+
+        ref.addListenerForSingleValueEvent(object :ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0!!.exists()) {
+                    for (restaurante in p0.children) {
+                        restaurantesList.forEach {
+                            if (restaurante.key.equals(it.nombre)) {
+                                var votante = Usuario(
+                                    null,
+                                    CurrentUser.nombre,
+                                    CurrentUser.telefono,
+                                    CurrentUser.token,
+                                    CurrentUser.uid
+                                )
+                                ref.child(it.nombre!!).child(token).setValue(votante)
+                            }
+                        }
+                    }
+                }
+
+            }
+
+        })
+    }
 
 
 }

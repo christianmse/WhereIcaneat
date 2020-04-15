@@ -9,8 +9,10 @@ import com.whereicaneat.domain.data.Repositorio
 import com.whereicaneat.ui.inicio.InicioViewModelFactory
 import com.whereicaneat.ui.landing.LandingActivity
 import com.whereicaneat.ui.landing.LandingViewModelFactory
+import com.whereicaneat.ui.push.PushViewModelFactory
 import com.whereicaneat.ui.registro.RegistroActivity
 import com.whereicaneat.ui.registro.RegistroViewModelFactory
+import com.whereicaneat.ui.votacion.VotadoViewModelFactory
 import com.whereicaneat.util.tostada
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -30,6 +32,8 @@ class WhereICanEatApplication: Application(), KodeinAware {
         bind() from provider {   LandingViewModelFactory(instance()) }
         bind() from provider {   RegistroViewModelFactory(instance()) }
         bind() from provider {   InicioViewModelFactory(instance()) }
+        bind() from provider {   PushViewModelFactory(instance()) }
+        bind() from provider {   VotadoViewModelFactory(instance()) }
     }
     private val repositorio:Repositorio by  instance()
 
