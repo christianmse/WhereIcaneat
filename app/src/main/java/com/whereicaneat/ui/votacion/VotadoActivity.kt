@@ -31,9 +31,7 @@ class VotadoActivity : AppCompatActivity(), KodeinAware {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_votado)
         viewModel = ViewModelProviders.of(this, factory).get(VotadoViewModel::class.java)
-        val restaurantesSelec = intent.getParcelableArrayExtra("restaurantesSelec")
-        remitente = intent.getStringExtra("remitente")
-        getRestaurantes(restaurantesSelec)
+
         adapter = VotadoAdapter(this)
         adapter.setData(restaurantesList)
         recycler_votado.layoutManager = CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, true)
@@ -42,16 +40,17 @@ class VotadoActivity : AppCompatActivity(), KodeinAware {
 
     }
 
-    private fun getRestaurantes(restaurantesSelec: Array<Parcelable>?) {
-        restaurantesSelec?.forEach {
-            var restaurante = (it as Restaurante)
-            restaurantesList.add(restaurante)
-        }
-        viewModel.sendVoto(CurrentUser.token, restaurantesList, remitente)
-    }
+
+
+
 
     override fun onStart() {
         super.onStart()
+        if(intent.extras != null){
+            val restaurantesSelec = intent.getParcelableArrayExtra("restaurantesSelec")
+            remitente = intent.getStringExtra("remitente")
+            getRestaurantes(restaurantesSelec)
+        }
         viewKonfetti.build()
             .addColors(Color.YELLOW, Color.GREEN, Color.RED)
             .setDirection(200.0, 359.0)
@@ -62,6 +61,14 @@ class VotadoActivity : AppCompatActivity(), KodeinAware {
             .addSizes(Size(12))
             .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
             .streamFor(300, 5000L)
+    }
+
+    private fun getRestaurantes(restaurantesSelec: Array<Parcelable>?) {
+        restaurantesSelec?.forEach {
+            var restaurante = (it as Restaurante)
+            restaurantesList.add(restaurante)
+        }
+        viewModel.sendVoto(CurrentUser.token, restaurantesList, remitente)
     }
 
 
