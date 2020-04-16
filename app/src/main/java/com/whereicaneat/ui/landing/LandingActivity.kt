@@ -27,7 +27,6 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
     private val factory: LandingViewModelFactory by instance()
     private lateinit var landingViewModel: LandingViewModel
     private lateinit var adapter:LandingAdapter
-    private lateinit var listRestaurante: List<Restaurante>
     lateinit var restaurantesSelected: List<Restaurante>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +72,6 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
 
         shimmer_view_container.startShimmer()
         viewModel.getRestaurantesData().observe(this, Observer {
-            listRestaurante = it
             shimmer_view_container.stopShimmer()
             shimmer_view_container.hideShimmer()
             shimmer_view_container.visibility = View.GONE
@@ -85,9 +83,10 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
                     }
                 }
             }
-                adapter.setListData(definitivo!!)
-                adapter.notifyDataSetChanged()
+            adapter.setListData(definitivo!!)
+            adapter.notifyDataSetChanged()
     })
+
     }
 
 
@@ -123,12 +122,7 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if(intent.getSerializableExtra("restaurantes") != null){
-            observarData2(landingViewModel)
-        }
-    }
+  
 
     override fun onBackPressed() { // Do Here what ever you want do on back press;
     }
@@ -141,7 +135,6 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
 
         shimmer_view_container.startShimmer()
         viewModel.getRestaurantesData().observe(this, Observer {
-            listRestaurante = it
             shimmer_view_container.stopShimmer()
             shimmer_view_container.hideShimmer()
             shimmer_view_container.visibility = View.GONE
