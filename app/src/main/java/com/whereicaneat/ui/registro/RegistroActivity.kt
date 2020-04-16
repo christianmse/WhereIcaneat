@@ -63,12 +63,14 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
 
         if(usuarioReg.getBoolean("registrado", false)){
             registroViewModel.login()
-            val intent = Intent(this,LandingActivity::class.java)
-            if(intent?.hasExtra("restaurantes")) {
-                intent.putExtra("restaurantes", intent?.getSerializableExtra("restaurantes"))
+            val i = Intent(this,LandingActivity::class.java)
+            if(intent.extras != null) {
+                val restaurantes = intent.getStringExtra("restaurantes")
+                Log.e("intent_en_registerActivity", restaurantes)
+                i.putExtra("restaurantes", restaurantes)
             }
-            startActivity(intent)
-       }
+            startActivity(i)
+        }
 
 
     }
