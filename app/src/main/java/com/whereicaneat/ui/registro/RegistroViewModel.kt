@@ -1,5 +1,6 @@
 package com.whereicaneat.ui.registro
 
+import android.content.SharedPreferences
 import android.os.AsyncTask
 import android.util.Log
 import android.view.View
@@ -13,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.iid.FirebaseInstanceId
+import com.whereicaneat.common.Common
 import com.whereicaneat.common.CurrentUser
 import com.whereicaneat.domain.data.Repositorio
 import com.whereicaneat.domain.data.db.entities.Usuario
@@ -27,13 +29,12 @@ class RegistroViewModel(
     var nombre: String? = null
     var telefono: String? = null
     var regListener: RegistroListener? = null
-    lateinit var token: String
     val TAG: String = "TOKEN"
-
     val databasefb = FirebaseDatabase.getInstance()
     val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     val uid = mAuth.currentUser?.uid
-    val myRef = databasefb.getReference("Usuarios")
+    lateinit var token: String
+    lateinit var usuarioReg:SharedPreferences
 
 
 
@@ -41,7 +42,7 @@ class RegistroViewModel(
     fun guardarUsuario(Usuario: Usuario){
         CoroutineScope(Dispatchers.Main).launch{
             try {
-
+                setSingleton(Usuario)
                 repository.insertarUsuarioLocal(Usuario)
                 repository.setUsuarioRemote(Usuario)
             }catch (e:Exception){
@@ -60,9 +61,10 @@ class RegistroViewModel(
 
     fun onRegistroBotonClicked(v: View){
         val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
-        CurrentUser.nombre = nombre!!
+        usuarioReg = v.context.getSharedPreferences(Common.PREF_NAME, Common.PRIVATE_MODE)
 
         if(validar(nombre!!, telefono!!)){
+            usuarioReg.edit().putBoolean("registrado", true).apply()
             //Get user token and register
             FirebaseInstanceId.getInstance().instanceId
                 .addOnCompleteListener(OnCompleteListener { task ->
@@ -85,11 +87,11 @@ class RegistroViewModel(
 
     }
 
-    private fun setSingleton(nombre: String, token: String, uid: String?, telefono: String) {
-        CurrentUser.nombre = nombre
-        CurrentUser.uid = token
-        CurrentUser.token = token
-        CurrentUser.telefono = telefono
+    private fun setSingleton(usuario: Usuario) {
+        CurrentUser.nombre = usuario.nombreUsuario!!
+        CurrentUser.uid = usuario.uid!!
+        CurrentUser.token = usuario.token!!
+        CurrentUser.telefono = usuario.telefono
     }
 
 

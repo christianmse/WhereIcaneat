@@ -59,6 +59,8 @@ class PushAdapter (
         val itemParticipacionBinding: ItemParticipacionBinding
     ): RecyclerView.ViewHolder(itemParticipacionBinding.root){
         fun bindView(participacion: Participacion){
+
+            itemView.txt_votaciones.text = participacion.participantes.size.toString()
             /*lateinit var nombres: String
             //Coger la lista de participantes
             participacion.participantes.forEach {usuario ->

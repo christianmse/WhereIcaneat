@@ -70,9 +70,9 @@
                     android:layout_marginStart="15dp"
                     android:gravity="center"
                     android:text="@{restauranteVar.nombre}"
-                    android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_website"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="NOMBRE DEL RESTAURANTE" />

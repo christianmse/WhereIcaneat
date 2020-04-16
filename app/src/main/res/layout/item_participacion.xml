@@ -18,13 +18,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                android:text="@{participacionVar.restaurante}"/>
+                    android:text="@{participacionVar.restaurante}"/>
 
         <TextView
                 android:layout_weight="1"
-                android:id="@+id/txt_participante"
+                android:id="@+id/txt_votaciones"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                />
     </LinearLayout>
 
 
