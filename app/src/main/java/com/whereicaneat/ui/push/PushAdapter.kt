@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.item_restaurante.view.*
 class PushAdapter (
     private val context: Context
 ) : RecyclerView.Adapter<PushAdapter.Holder>() {
-    private var participacionesList = mutableListOf<Participacion>()
+    var participacionesList = mutableListOf<Participacion>()
     private var viewPool = RecyclerView.RecycledViewPool()
 
     fun setListData(listData: MutableList<Participacion>){
