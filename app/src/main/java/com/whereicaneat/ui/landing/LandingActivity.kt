@@ -3,7 +3,7 @@ package com.whereicaneat.ui.landing
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -26,19 +26,86 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
     private val factory: LandingViewModelFactory by instance()
     private lateinit var landingViewModel: LandingViewModel
     private lateinit var adapter:LandingAdapter
-    private lateinit var listRestaurante: List<Restaurante>
     lateinit var restaurantesSelected: List<Restaurante>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
-
         landingViewModel =
             ViewModelProviders.of(this, factory).get(LandingViewModel::class.java)
         adapter = LandingAdapter(this, this)
         recyclerLanding.layoutManager = LinearLayoutManager(this)
         recyclerLanding.adapter = adapter
-        observarData(landingViewModel)
+        Log.e("intent_en_landing", intent.extras.toString())
+
+        if(intent?.getSerializableExtra("restaurantes") != null){
+            observarData2(landingViewModel)
+        }
+        else{
+            observarData(landingViewModel)
+        }
+
+
+        landingViewModel.login()
+        landingViewModel.setCurrentUser()
+    }
+
+
+
+    private fun observarData2(viewModel: LandingViewModel) {
+
+        val mutableList: MutableList<String>? = mutableListOf<String>()
+        val definitivo: MutableList<Restaurante>? = mutableListOf<Restaurante>()
+
+        //En caso de recibir la notificacion
+        val json = intent.getStringExtra("restaurantes")
+        val jsonArray = JSONArray(json)
+        for (i in 0 until jsonArray.length()) {
+            var aux = jsonArray.get(i)
+            mutableList?.add(aux.toString())
+        }
+
+
+        btn_votado.visibility = View.VISIBLE
+        btn_crear_encuesta.visibility = View.GONE
+
+        shimmer_view_container.startShimmer()
+        viewModel.getRestaurantesData().observe(this, Observer {
+            shimmer_view_container.stopShimmer()
+            shimmer_view_container.hideShimmer()
+            shimmer_view_container.visibility = View.GONE
+
+            it.forEach {a->
+                mutableList?.forEach {b->
+                    if(a.nombre.equals(b)){
+                        definitivo?.add(a)
+                    }
+                }
+            }
+            adapter.setListData(definitivo!!)
+            adapter.notifyDataSetChanged()
+    })
+
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+
+
+        btn_votado.setOnClickListener {
+            setRestaurantesSeleccionados()
+            if(restaurantesSelected.size > 0){
+                val i = Intent(this, VotadoActivity::class.java)
+                val remitente = intent.getStringExtra("remitente")
+                i.putExtra("remitente", remitente)
+                i.putExtra("restaurantesSelec", restaurantesSelected.toTypedArray())
+                startActivity(i)
+            }
+            else{
+                tostada("Vota algún restaurante")
+            }
+        }
 
         btn_crear_encuesta.setOnClickListener {
             setRestaurantesSeleccionados()
@@ -54,12 +121,7 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        btn_votado.setOnClickListener {
-            startActivity(Intent(this, VotadoActivity::class.java))
-        }
-    }
+  
 
     override fun onBackPressed() { // Do Here what ever you want do on back press;
     }
@@ -69,43 +131,14 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
     }
 
     fun observarData(viewModel: LandingViewModel){
-        val mutableList: MutableList<String>? = mutableListOf<String>()
-        val definitivo: MutableList<Restaurante>? = mutableListOf<Restaurante>()
 
         shimmer_view_container.startShimmer()
         viewModel.getRestaurantesData().observe(this, Observer {
-            listRestaurante = it
             shimmer_view_container.stopShimmer()
             shimmer_view_container.hideShimmer()
             shimmer_view_container.visibility = View.GONE
-
-
-            //En caso de recibir la notificacion
-            if(intent.hasExtra("restaurantes")) {
-                val json = intent.getStringExtra("restaurantes")
-                val jsonArray = JSONArray(json)
-                for (i in 0 until jsonArray.length()) {
-                    var aux = jsonArray.get(i)
-                    mutableList?.add(aux.toString())
-                }
-
-                it.forEach {a->
-                    mutableList?.forEach {b->
-                        if(a.nombre.equals(b)){
-                            definitivo?.add(a)
-                        }
-                    }
-                }
-                btn_votado.visibility = View.VISIBLE
-                btn_crear_encuesta.visibility = View.GONE
-                adapter.setListData(definitivo!!)
-                adapter.notifyDataSetChanged()
-            }
-            else{
                 adapter.setListData(it)
                 adapter.notifyDataSetChanged()
-            }
-
         })
     }
 
@@ -116,10 +149,7 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
         startActivity(i)
     }
 
-    override fun setOnSelectedRestaurante(view: View?, obj:Restaurante?, position: Int) {
-        //btn_crear_encuesta.visibility = View.VISIBLE
-        
-    }
+
 
     override fun onItemClick(it: View?, restaurante: Restaurante, position: Int) {
         adapter.toggleSelection(position)

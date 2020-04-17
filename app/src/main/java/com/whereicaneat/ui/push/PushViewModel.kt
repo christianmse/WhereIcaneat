@@ -8,18 +8,22 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.firestore.model.value.IntegerValue
 import com.whereicaneat.common.CurrentUser
 import com.whereicaneat.domain.data.Repositorio
+import com.whereicaneat.domain.data.db.entities.Participacion
 import com.whereicaneat.domain.data.db.entities.Restaurante
 import com.whereicaneat.domain.data.db.entities.Usuario
 import com.whereicaneat.ui.inicio.InicioFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 
 class PushViewModel
     (private val repositorio: Repositorio) : ViewModel() {
 
-
+    val participaciones = MutableLiveData<MutableList<Participacion>>()
     val mutableData = MutableLiveData<MutableList<Restaurante>>()
 
     //Obtiene restaurantes de firestore
@@ -74,6 +78,20 @@ class PushViewModel
         }
         return contador
 
+    }
+
+    fun getParticipantesRemote(
+        tokenRemitente: String): LiveData<MutableList<Participacion>>{
+        CoroutineScope(Dispatchers.Main).launch{
+            try {
+                repositorio.getParticipantesRemote(tokenRemitente).observeForever {
+                    participaciones.value = it
+                }
+            }catch (e: Exception){
+                Log.e("getParticipantesRemoteVM", e.toString())
+            }
+        }
+        return participaciones
     }
 
 

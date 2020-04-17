@@ -54,10 +54,9 @@ class LandingAdapter(
                 restaurante)
         }
         holder.itemRestaurantes.lytDad.isActivated = selected_items.get(position,false)
-        holder.itemRestaurantes.nombreRestaurante.setOnClickListener {
+        holder.itemRestaurantes.tapLayout.setOnClickListener {
             if(listener != null){
                 if(position != RecyclerView.NO_POSITION){
-                    listener.setOnSelectedRestaurante(it,restaurante, position)
                     listener.onItemClick(it,restaurante,position)
                 }
             }

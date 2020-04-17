@@ -178,7 +178,7 @@ class InicioAdapter(
             Log.e("FBStorage", usuario.uid)
 
                 storageReference
-                    .getBytes(1024*1024)
+                    .getBytes(1024*1024*2)
                     .addOnSuccessListener {
                         var bitmap: Bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
                         itemView.img_invitado.setImageBitmap(bitmap)

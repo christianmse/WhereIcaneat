@@ -203,10 +203,11 @@ class InicioFragment(
             con.requestMethod = "POST"
 
 
+            val notificationId = System.currentTimeMillis().toInt()
             // HTTP request
             val data = JSONObject()
             data.put("operation", "add")
-            data.put("notification_key_name", "hola22")
+            data.put("notification_key_name", notificationId)
             data.put("registration_ids", JSONArray(listaTokens))
             val notification = JSONObject()
             notification.put("title","Hora de comer")

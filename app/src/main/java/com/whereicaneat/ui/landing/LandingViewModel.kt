@@ -38,4 +38,11 @@ class LandingViewModel(
             }
         }
     }
+    fun login() {
+        repository.userLogin()
+    }
+
+    fun setCurrentUser() {
+        repository.setcurrentUser()
+    }
 }

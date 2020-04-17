@@ -29,15 +29,12 @@
                 >
 
             <include layout="@layout/item_invitado_load" />
-
             <include layout="@layout/item_invitado_load" />
-
             <include layout="@layout/item_invitado_load" />
-
             <include layout="@layout/item_invitado_load" />
-
             <include layout="@layout/item_invitado_load" />
-
+            <include layout="@layout/item_invitado_load" />
+            <include layout="@layout/item_invitado_load" />
 
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
@@ -74,20 +71,19 @@
             app:layout_constraintStart_toStartOf="parent"
             fancy:layout_constraintBottom_toBottomOf="@+id/recyclerInicio" />
 
-    <mehdi.sakout.fancybuttons.FancyButton
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/btn_empezar"
             android:onClick="@{registroViewModel::onRegistroBotonClicked}"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            app:backgroundTint="@color/colorEveris"
+            android:textColor="@color/colorWhite"
             android:text="Empezar encuesta"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            fancy:fb_borderColor="#FFFFFF"
-            fancy:fb_borderWidth="1dp"
-            fancy:fb_defaultColor="#9bd823"
-            fancy:fb_focusColor="#5B8705"
-            fancy:fb_iconPosition="left"
-            fancy:fb_radius="30dp"
-            fancy:fb_textColor="#FFFFFF" />
+            app:layout_constraintStart_toStartOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

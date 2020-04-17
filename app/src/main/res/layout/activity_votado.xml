@@ -17,14 +17,16 @@
             android:id="@+id/tit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-        android:text="Ya has votado."
-            android:gravity="center_horizontal"
-        android:textSize="50sp"/>
-    <TextView
+            android:text="@string/votado_activity_title"
+            android:textSize="30sp"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_votado"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-        android:text="Ahora espera que termine la votación"
+            android:layout_height="match_parent"
             android:layout_below="@+id/tit"
-            android:gravity="center_horizontal"
-        android:textSize="50sp"/>
+            tools:listitem="@layout/support_simple_spinner_dropdown_item" />
+
+
 </RelativeLayout>

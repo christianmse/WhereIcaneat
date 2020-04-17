@@ -12,5 +12,7 @@ interface UsuarioDao {
     suspend fun eliminarUsuario(Usuario: Usuario)
     @Query("SELECT * FROM usuario")
     fun getUsuario(): LiveData<Usuario>
+    @Query("DELETE FROM usuario")
+    fun dropTable()
 
 }
