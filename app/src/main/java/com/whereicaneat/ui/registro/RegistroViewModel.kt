@@ -19,6 +19,7 @@ import com.whereicaneat.common.CurrentUser
 import com.whereicaneat.domain.data.Repositorio
 import com.whereicaneat.domain.data.db.entities.Usuario
 import kotlinx.coroutines.*
+import kotlin.coroutines.coroutineContext
 
 
 class RegistroViewModel(
@@ -40,12 +41,20 @@ class RegistroViewModel(
 
     //Se registra el usuario en local y firebase
     fun guardarUsuario(Usuario: Usuario){
+
+
+
+
         CoroutineScope(Dispatchers.Main).launch{
             try {
                 setSingleton(Usuario)
                 repository.insertarUsuarioLocal(Usuario)
                 repository.setUsuarioRemote(Usuario)
+                usuarioReg.edit().putBoolean("registrado", true).apply()
             }catch (e:Exception){
+                regListener?.onFailed("No se pudo registrar en FB")
+                usuarioReg.edit().putBoolean("registrado", false).apply()
+
                 Log.e("guardarUsuario", e.toString())
             }
         }
@@ -63,8 +72,6 @@ class RegistroViewModel(
         val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
         usuarioReg = v.context.getSharedPreferences(Common.PREF_NAME, Common.PRIVATE_MODE)
 
-        if(validar(nombre!!, telefono!!)){
-            usuarioReg.edit().putBoolean("registrado", true).apply()
             //Get user token and register
             FirebaseInstanceId.getInstance().instanceId
                 .addOnCompleteListener(OnCompleteListener { task ->
@@ -81,9 +88,10 @@ class RegistroViewModel(
                     val response = repository.userLogin()
                     guardarUsuario(Usuario)
                     regListener?.onSuccess(response)
+
                 })
 
-        }
+
 
     }
 

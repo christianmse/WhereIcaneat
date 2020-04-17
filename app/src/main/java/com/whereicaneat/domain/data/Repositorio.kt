@@ -131,15 +131,27 @@ class Repositorio(
 
         try {
             //database
-            if (uid != null) {
-                myRef.child(uid).setValue(Usuario)
+            if (Usuario.uid != null) {
+                val uid = Usuario.uid
+                myRef.child(uid!!).setValue(Usuario)
                 //storage
                 val uri: Uri = Uri.parse(Usuario.imageUri)
                 val file:File = File(uri.path)
-                myRefStg.child(uid).putFile(uri)
+                //Comprueba si existe el archivo en firebase
+                myRefStg.child(uid).downloadUrl
                     .addOnSuccessListener {
-                        Log.e("repositorio_Success", it.toString())
-                    }
+                        myRefStg.child(uid).delete()
+                }
+
+                        myRefStg.child(uid).putFile(uri)
+                            .addOnSuccessListener {
+                                Log.e("FirebaseStorage", it.toString())
+                            }
+                            .addOnFailureListener{
+                                Log.e("setUsuarioRemote_Failure", "fallo: ${it.toString()}")
+                            }
+
+
             }
 
         } catch (e: Exception){
