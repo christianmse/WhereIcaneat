@@ -23,7 +23,7 @@ import java.lang.Exception
 class PushViewModel
     (private val repositorio: Repositorio) : ViewModel() {
 
-
+    val participaciones = MutableLiveData<MutableList<Participacion>>()
     val mutableData = MutableLiveData<MutableList<Restaurante>>()
 
     //Obtiene restaurantes de firestore
@@ -80,7 +80,6 @@ class PushViewModel
 
     }
 
-    val participaciones = MutableLiveData<MutableList<Participacion>>()
     fun getParticipantesRemote(
         tokenRemitente: String): LiveData<MutableList<Participacion>>{
         CoroutineScope(Dispatchers.Main).launch{

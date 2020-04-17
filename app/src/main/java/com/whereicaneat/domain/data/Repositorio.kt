@@ -210,8 +210,10 @@ class Repositorio(
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0!!.exists()){
                     for(data in p0.children){
-                        val usuario:Usuario? = data.getValue(Usuario::class.java)
-                        listData.add(usuario!!)
+                        if(uid!=data.key) {
+                            val usuario: Usuario? = data.getValue(Usuario::class.java)
+                            listData.add(usuario!!)
+                        }
                     }
                     usuariosList.value = listData
                 }

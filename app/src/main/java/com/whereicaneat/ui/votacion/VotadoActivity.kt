@@ -4,6 +4,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.azoft.carousellayoutmanager.CarouselLayoutManager
@@ -50,7 +51,10 @@ class VotadoActivity : AppCompatActivity(), KodeinAware {
             val restaurantesSelec = intent.getParcelableArrayExtra("restaurantesSelec")
             remitente = intent.getStringExtra("remitente")
             getRestaurantes(restaurantesSelec)
+
         }
+
+
         viewKonfetti.build()
             .addColors(Color.YELLOW, Color.GREEN, Color.RED)
             .setDirection(200.0, 359.0)
