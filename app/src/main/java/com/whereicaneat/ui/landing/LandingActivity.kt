@@ -1,5 +1,6 @@
 package com.whereicaneat.ui.landing
 
+import android.app.SearchManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -146,6 +147,12 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
         val url = restaurante.website
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)
+        startActivity(i)
+    }
+
+    override fun onRecyclerViewSearchClick(nombreRestaurante: String) {
+        val i = Intent(Intent.ACTION_WEB_SEARCH)
+        i.putExtra(SearchManager.QUERY, "Valoraciones de ${nombreRestaurante}")
         startActivity(i)
     }
 

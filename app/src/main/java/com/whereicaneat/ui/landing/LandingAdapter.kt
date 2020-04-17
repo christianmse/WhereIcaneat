@@ -53,6 +53,9 @@ class LandingAdapter(
             listener.onRecyclerViewCartaClick(holder.itemRestaurantes.btnWebsite,
                 restaurante)
         }
+        holder.itemRestaurantes.btnSearch.setOnClickListener {
+            listener.onRecyclerViewSearchClick(restaurante.nombre!!)
+        }
         holder.itemRestaurantes.lytDad.isActivated = selected_items.get(position,false)
         holder.itemRestaurantes.tapLayout.setOnClickListener {
             if(listener != null){
