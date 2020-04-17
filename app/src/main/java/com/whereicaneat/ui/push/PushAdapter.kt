@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.util.size
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
@@ -31,7 +32,7 @@ class PushAdapter (
     private val context: Context
 ) : RecyclerView.Adapter<PushAdapter.Holder>() {
     private var participacionesList = mutableListOf<Participacion>()
-
+    private var viewPool = RecyclerView.RecycledViewPool()
 
     fun setListData(listData: MutableList<Participacion>){
         participacionesList = listData
@@ -53,12 +54,29 @@ class PushAdapter (
         val participacion: Participacion = participacionesList[position]
         holder.itemParticipacionBinding.participacionVar = participacion
         holder.bindView(participacion)
+
+        //viewPool
+        var layoutManager = LinearLayoutManager(
+            holder.rvSubItem.context,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        layoutManager.initialPrefetchItemCount = participacion.participantes.size
+
+        //create subitem adapter
+        val subItemAdapter = SubItemAdapter(participacion.participantes)
+
+        holder.rvSubItem.layoutManager = layoutManager
+        holder.rvSubItem.adapter = subItemAdapter
+        holder.rvSubItem.setRecycledViewPool(viewPool)
     }
 
     inner class Holder(
         val itemParticipacionBinding: ItemParticipacionBinding
-    ): RecyclerView.ViewHolder(itemParticipacionBinding.root){
-        fun bindView(participacion: Participacion){
+    ): RecyclerView.ViewHolder(itemParticipacionBinding.root) {
+        val rvSubItem = itemParticipacionBinding.recyclerParticipantes
+
+        fun bindView(participacion: Participacion) {
 
             itemView.txt_votaciones.text = participacion.participantes.size.toString()
             /*lateinit var nombres: String
@@ -74,6 +92,7 @@ class PushAdapter (
             }*/
 
         }
-    }
 
+
+    }
 }
