@@ -226,6 +226,7 @@ class Repositorio(
         val ref = databasefb.reference.child("Notifications").child(token)
         val participacionesList = MutableLiveData<MutableList<Participacion>>()
 
+
         ref.addValueEventListener(object: ValueEventListener {
             val listData = mutableListOf<Participacion>()
             override fun onCancelled(p0: DatabaseError) {
@@ -235,8 +236,7 @@ class Repositorio(
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0!!.exists()){
                     for(restaurante in p0.children){
-                        var value = restaurante.getValue(Integer::class.java)
-                        if(value?.equals(0)!!){
+                        if(!restaurante.hasChildren()){
                             var vacio = Participacion(restaurante.key!!)
                             listData.add(vacio)
                         }

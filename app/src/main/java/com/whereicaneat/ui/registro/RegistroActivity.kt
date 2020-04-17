@@ -59,19 +59,19 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
         usuarioReg = getSharedPreferences(Common.PREF_NAME, Common.PRIVATE_MODE)
 
         //Al hacer click a la push entra por aqui
-
-
+        //usuarioReg.getBoolean("registrado", false)
         if(usuarioReg.getBoolean("registrado", false)){
             registroViewModel.login()
             val i = Intent(this,LandingActivity::class.java)
             if(intent.extras != null) {
                 val restaurantes = intent.getStringExtra("restaurantes")
+                val remitente = intent.getStringExtra("remitente")
                 Log.e("intent_en_registerActivity", restaurantes)
                 i.putExtra("restaurantes", restaurantes)
+                i.putExtra("remitente", remitente)
             }
             startActivity(i)
         }
-
 
     }
 
