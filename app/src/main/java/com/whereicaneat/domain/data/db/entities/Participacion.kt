@@ -6,6 +6,9 @@ data class Participacion(
     val participantes: MutableList<Usuario> = mutableListOf()
         get() = field
 
+
     fun setParticipante(usuario: Usuario) =
         participantes.add(usuario)
+
+
 }

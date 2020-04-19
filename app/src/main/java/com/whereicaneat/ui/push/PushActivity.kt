@@ -1,17 +1,16 @@
 package com.whereicaneat.ui.push
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.common.CurrentUser
 import com.whereicaneat.domain.data.db.entities.Restaurante
-import com.whereicaneat.util.tostada
+import com.whereicaneat.ui.resultado.ResultadoActivity
 import kotlinx.android.synthetic.main.activity_push.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
@@ -54,8 +53,18 @@ class PushActivity : AppCompatActivity(), KodeinAware {
     override fun onStart() {
         super.onStart()
         btn_terminar.setOnClickListener {
+            val intent = Intent(this, ResultadoActivity::class.java)
+            val listRest = mutableListOf<String>()
+            val listCont = mutableListOf<Integer>()
             viewModel.terminarVotacion(CurrentUser.token).observe(this, Observer { ganadores ->
-                tostada(ganadores.toString())
+
+                ganadores.forEach {
+                    listRest.add(it.key)
+                    listCont.add(it.value)
+                }
+                intent.putExtra("ganadoresRestaurantes", listRest.toTypedArray())
+                intent.putExtra("ganadoresContador", listCont.toTypedArray())
+                startActivity(intent)
             })
 
         }

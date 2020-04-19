@@ -72,29 +72,7 @@ class Repositorio(
     }
 
 
-    fun getRestaurantesFromNotification(restaurante:List<String>):MutableList<Restaurante>{
-        var mutableData: MutableList<Restaurante> = mutableListOf()
-            restaurantesRef.get().addOnSuccessListener {result ->
-                val listData = mutableListOf<Restaurante>()
-                restaurante.forEach { it ->
-                for(document in result){
-                    val nombre = document.getString("nombre")
-                    if(it.equals(nombre)){
-                        val imageUrl = document.getString("imageUrl")
-                        val website = document.getString("website")
-                        if(imageUrl != null && nombre != null && website != null){
-                            var aux = Restaurante(imageUrl!!, nombre!!, website!!)
-                            listData.add(aux)
-                            break
-                        }
-                    }
-                }
-                    mutableData = listData
-                }
-        }
 
-        return mutableData
-    }
 
     suspend fun insertarRestauranteLocal(restaurante: Restaurante) =
         db.getRestauranteDao().insertar(restaurante)

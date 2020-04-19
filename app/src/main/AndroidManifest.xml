@@ -12,13 +12,14 @@
 
     <application
             android:name=".WhereICanEatApplication"
+            android:allowBackup="false"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
-            android:allowBackup="false"
-            tools:replace="android:allowBackup"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
-        <activity android:name=".ui.votacion.VotadoActivity"></activity>
+            android:theme="@style/AppTheme"
+            tools:replace="android:allowBackup">
+        <activity android:name=".ui.resultado.ResultadoActivity"></activity>
+        <activity android:name=".ui.votacion.VotadoActivity" />
         <activity android:name=".ui.push.ReceivedNotification" />
 
         <service
@@ -38,7 +39,6 @@
 
         <activity android:name=".ui.push.PushActivity" />
         <activity android:name=".ui.inicio.InicioActivity" />
-
         <activity android:name=".ui.registro.RegistroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,7 +46,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".ui.landing.LandingActivity" />
     </application>
 
