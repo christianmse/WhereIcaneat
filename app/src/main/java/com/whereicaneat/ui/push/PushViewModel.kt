@@ -24,6 +24,7 @@ class PushViewModel
     (private val repositorio: Repositorio) : ViewModel() {
 
     val participaciones = MutableLiveData<MutableList<Participacion>>()
+    val ganadores = MutableLiveData<MutableMap<String, Integer>>()
     val mutableData = MutableLiveData<MutableList<Restaurante>>()
 
     //Obtiene restaurantes de firestore
@@ -94,5 +95,15 @@ class PushViewModel
         return participaciones
     }
 
+    fun terminarVotacion(token: String): MutableLiveData<MutableMap<String, Integer>> {
+        try{
+            repositorio.terminarVotacion(token).observeForever {
+                ganadores.value = it
+            }
+        }catch (e:Exception){
+            Log.e("terminarVotacion", e.toString())
+        }
+        return ganadores
+    }
 
 }

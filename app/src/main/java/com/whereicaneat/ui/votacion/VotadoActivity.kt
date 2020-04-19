@@ -14,6 +14,7 @@ import com.whereicaneat.R
 import com.whereicaneat.common.CurrentUser
 import com.whereicaneat.domain.data.db.entities.Restaurante
 import com.whereicaneat.util.tostada
+import kotlinx.android.synthetic.main.activity_push.*
 import kotlinx.android.synthetic.main.activity_votado.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -42,7 +43,7 @@ class VotadoActivity : AppCompatActivity(), KodeinAware {
 
     }
     override fun onBackPressed() {
-      tostada("Ya has votado!")
+      tostada("¡Ya has votado!")
     }
 
     override fun onStart() {

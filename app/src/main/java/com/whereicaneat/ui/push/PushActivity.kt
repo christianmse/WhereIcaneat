@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.common.CurrentUser
 import com.whereicaneat.domain.data.db.entities.Restaurante
+import com.whereicaneat.util.tostada
 import kotlinx.android.synthetic.main.activity_push.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
@@ -48,6 +49,16 @@ class PushActivity : AppCompatActivity(), KodeinAware {
 
         })
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        btn_terminar.setOnClickListener {
+            viewModel.terminarVotacion(CurrentUser.token).observe(this, Observer { ganadores ->
+                tostada(ganadores.toString())
+            })
+
+        }
     }
 
 

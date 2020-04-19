@@ -312,5 +312,41 @@ class Repositorio(
         })
     }
 
+    fun terminarVotacion(token: String): LiveData<MutableMap<String, Integer>> {
+        val ref = databasefb
+            .getReference("Notifications")
+            .child(token)
+        val ganadoresList = MutableLiveData<MutableMap<String, Integer>>()
+        var contador = 0
+        var mejor =0
+
+
+        ref.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val listData = mutableMapOf<String, Integer>()
+                for(restaurante in p0.children){
+                    if(restaurante.hasChildren()){
+                        for (usuarios in restaurante.children){
+                            contador++
+                        }
+                        if(contador >= mejor){
+                            listData.put(restaurante.key!!, contador as Integer)
+                            mejor = contador
+                        }
+                        contador =0
+                    }
+                }
+                ganadoresList.value = listData
+            }
+
+        })
+        //ref.removeValue()
+        return ganadoresList
+    }
+
 
 }

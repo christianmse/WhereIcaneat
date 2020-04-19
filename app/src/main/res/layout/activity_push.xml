@@ -10,7 +10,7 @@
             android:id="@+id/titulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-        android:text="YA ESTÁ!!"
+        android:text="¡¡YA ESTÁ!!"
         android:gravity="center_horizontal"
         android:textSize="80sp"/>
 
@@ -20,12 +20,27 @@
             android:layout_height="wrap_content"
         android:layout_below="@+id/titulo"
             android:layout_marginTop="20dp"/>
-    
+
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_push"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-        android:layout_below="@+id/gente"/>
+            android:layout_above="@+id/btn_terminar"
+            android:layout_below="@+id/gente"
+            />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/btn_terminar"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="Terminar votacion"
+            android:textColor="@color/colorWhite"
+            app:backgroundTint="@color/colorEveris" />
 
 
 
