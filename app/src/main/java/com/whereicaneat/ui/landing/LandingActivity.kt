@@ -156,6 +156,9 @@ class LandingActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListe
         startActivity(i)
     }
 
+    override fun onRecyclerMapClick(nombre: String?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
 
     override fun onItemClick(it: View?, restaurante: Restaurante, position: Int) {

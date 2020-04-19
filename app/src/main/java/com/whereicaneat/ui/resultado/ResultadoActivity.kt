@@ -3,9 +3,9 @@ package com.whereicaneat.ui.resultado
 import android.app.SearchManager
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_resultado.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
+
 
 class ResultadoActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickListener {
     override val kodein by kodein()
@@ -62,4 +63,16 @@ class ResultadoActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickLis
         val i = Intent(Intent.ACTION_WEB_SEARCH)
         i.putExtra(SearchManager.QUERY, "Valoraciones de ${nombreRestaurante}")
         startActivity(i)    }
+
+    override fun onRecyclerMapClick(nombre: String?) {
+
+        val gmmIntentUri = Uri.parse("geo:0,0?q=restaurants")
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+
+        if (mapIntent.resolveActivity(packageManager) != null) {
+            startActivity(mapIntent)
+        }
+
+    }
 }

@@ -55,12 +55,12 @@ class PushActivity : AppCompatActivity(), KodeinAware {
         btn_terminar.setOnClickListener {
             val intent = Intent(this, ResultadoActivity::class.java)
             val listRest = mutableListOf<String>()
-            val listCont = mutableListOf<Integer>()
+            val listCont = mutableListOf<String>()
             viewModel.terminarVotacion(CurrentUser.token).observe(this, Observer { ganadores ->
 
                 ganadores.forEach {
                     listRest.add(it.key)
-                    listCont.add(it.value)
+                    listCont.add(it.value.toString())
                 }
                 intent.putExtra("ganadoresRestaurantes", listRest.toTypedArray())
                 intent.putExtra("ganadoresContador", listCont.toTypedArray())
