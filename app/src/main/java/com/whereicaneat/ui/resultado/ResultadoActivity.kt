@@ -1,17 +1,21 @@
 package com.whereicaneat.ui.resultado
 
+import android.Manifest
 import android.app.SearchManager
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.domain.data.db.entities.Restaurante
 import com.whereicaneat.ui.landing.RecyclerViewClickListener
+import com.whereicaneat.util.tostada
 import kotlinx.android.synthetic.main.activity_resultado.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
@@ -74,5 +78,12 @@ class ResultadoActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickLis
             startActivity(mapIntent)
         }
 
+    }
+
+    override fun onRecyclerCallClick(nombre: String?) {
+        val callIntent = Intent(Intent.ACTION_CALL)
+        callIntent.data = Uri.parse("tel:999999999")
+
+        startActivity(callIntent)
     }
 }

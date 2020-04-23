@@ -57,6 +57,9 @@ class ResultadoAdapter (
         holder.itemView.btn_map.setOnClickListener {
             listener.onRecyclerMapClick(restaurante.nombre)
         }
+        holder.itemView.btn_call.setOnClickListener {
+            listener.onRecyclerCallClick(restaurante.nombre)
+        }
 
 
     }

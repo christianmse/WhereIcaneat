@@ -222,13 +222,14 @@ class Repositorio(
 
 
         ref.addValueEventListener(object: ValueEventListener {
-            val listData = mutableListOf<Participacion>()
+            var listData = mutableListOf<Participacion>()
             override fun onCancelled(p0: DatabaseError) {
                 Log.e("getParticipantesRemote", "on Cancelled: $p0")
             }
 
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0!!.exists()){
+                    listData.clear()
                     for(restaurante in p0.children){
                         if(!restaurante.hasChildren()){
                             var vacio = Participacion(restaurante.key!!)

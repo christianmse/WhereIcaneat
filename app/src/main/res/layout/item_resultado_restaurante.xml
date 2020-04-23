@@ -4,12 +4,14 @@
         xmlns:fancy="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
+
     <LinearLayout
             android:id="@+id/lyt_dad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="8dp">
+
 
         <LinearLayout
                 android:id="@+id/tap_layout"
@@ -63,18 +65,33 @@
                 android:orientation="vertical">
             <TextView
                     android:id="@+id/nombre_restaurante"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:textStyle="bold"
                     tools:text="NOMBRE DEL RESTAURANTE" />
-
-                <TextView
-                    android:id="@+id/votos"
+                <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                    />
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:text="votos:"
+                            />
+                    <TextView
+                            android:id="@+id/votos"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            tools:text="numVotos"
+                            />
+                </LinearLayout>
+
+
 
             </LinearLayout>
         </LinearLayout>
@@ -88,12 +105,11 @@
                     android:id="@+id/btn_website2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_eye"
                     android:background="@color/transparent"
-                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_eye"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toStartOf="@+id/btn_map" />
 
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -102,42 +118,29 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:src="@drawable/ic_map"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_website2"
-                    app:layout_constraintStart_toEndOf="@+id/btn_search"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toStartOf="@+id/btn_search" />
 
-            <!-- <mehdi.sakout.fancybuttons.FancyButton
-                     android:id="@+id/btn_website"
-                     android:layout_width="wrap_content"
-                     android:layout_height="40dp"
-                     android:layout_gravity="end|center"
-                     android:paddingLeft="10dp"
-                     android:paddingTop="10dp"
-                     android:paddingRight="10dp"
-                     android:paddingBottom="10dp"
-                     android:text="Ver Carta"
-                     app:layout_constraintBottom_toBottomOf="parent"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintTop_toTopOf="parent"
-                     fancy:fb_borderColor="#7ab800"
-                     fancy:fb_borderWidth="1dp"
-                     fancy:fb_defaultColor="@color/transparent"
-                     fancy:fb_focusColor="#9bd823"
-                     fancy:fb_iconPosition="left"
-                     fancy:fb_radius="30dp"
-                     fancy:fb_textColor="@color/negro" />-->
 
             <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/btn_search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_black_24dp"
-                    android:layout_marginEnd="9dp"
                     android:background="@color/transparent"
+                    android:src="@drawable/ic_star_black_24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_website"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btn_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/ic_phone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_website2" />
 
             <!-- <mehdi.sakout.fancybuttons.FancyButton
                      android:id="@+id/btn_search"

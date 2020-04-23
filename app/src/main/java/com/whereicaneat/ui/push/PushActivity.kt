@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.common.CurrentUser
 import com.whereicaneat.domain.data.db.entities.Restaurante
+import com.whereicaneat.domain.data.db.entities.Usuario
 import com.whereicaneat.ui.resultado.ResultadoActivity
 import kotlinx.android.synthetic.main.activity_push.*
 import org.kodein.di.KodeinAware
@@ -24,6 +25,7 @@ class PushActivity : AppCompatActivity(), KodeinAware {
     lateinit var restaurantesSelec: Array<Parcelable>
     lateinit var usuariosSelec: Array<Parcelable>
     lateinit var adapter:PushAdapter
+    var usuarios = mutableListOf<Usuario>()
     val listaRestaurantes = mutableListOf<String>()
 
 
@@ -38,6 +40,7 @@ class PushActivity : AppCompatActivity(), KodeinAware {
        recycler_push.adapter = adapter
         recycler_push.layoutManager = LinearLayoutManager(this)
         getRestaurantesParcelable(restaurantesSelec)
+        getUsuariosParcelable(usuariosSelec)
 
 
 
@@ -50,15 +53,21 @@ class PushActivity : AppCompatActivity(), KodeinAware {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        //borrar listeners
+
+    }
+
     override fun onStart() {
         super.onStart()
         btn_terminar.setOnClickListener {
             val intent = Intent(this, ResultadoActivity::class.java)
             val listRest = mutableListOf<String>()
             val listCont = mutableListOf<String>()
-            viewModel.terminarVotacion(CurrentUser.token).observe(this, Observer { ganadores ->
+            viewModel.terminarVotacion(CurrentUser.token, this, usuarios).observe(this, Observer { ganadores ->
 
-                ganadores.forEach {
+                 ganadores.forEach {
                     listRest.add(it.key)
                     listCont.add(it.value.toString())
                 }
@@ -76,6 +85,15 @@ class PushActivity : AppCompatActivity(), KodeinAware {
             var aux = (it as Restaurante).nombre
             if (aux != null) {
                 listaRestaurantes.add(aux)
+            }
+        }
+    }
+
+    private fun getUsuariosParcelable(usuariosSelec: Array<Parcelable>?) {
+        usuariosSelec?.forEach {
+            var aux = (it as Usuario)
+            if(aux != null){
+                usuarios.add(aux)
             }
         }
     }

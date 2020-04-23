@@ -8,5 +8,6 @@ interface RecyclerViewClickListener {
     fun onItemClick(it: View?, restaurante: Restaurante, position: Int)
     fun onRecyclerViewSearchClick(nombreRestaurante: String)
     fun onRecyclerMapClick(nombre: String?)
+    fun onRecyclerCallClick(nombre: String?)
 
 }

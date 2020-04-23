@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_weight="3"
         xmlns:fancy="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
@@ -16,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+
             android:padding="8dp">
 
         <LinearLayout
@@ -63,16 +65,21 @@
 
 
         </RelativeLayout>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <TextView
+                        android:id="@+id/nombre_restaurante"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:gravity="center"
+                        android:text="@{restauranteVar.nombre}"
+                        android:textStyle="bold"
+                        tools:text="NOMBRE DEL RESTAURANTE" />
 
-            <TextView
-                    android:id="@+id/nombre_restaurante"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:gravity="center"
-                    android:text="@{restauranteVar.nombre}"
-                    android:textStyle="bold"
-                    tools:text="NOMBRE DEL RESTAURANTE" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -91,26 +98,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-           <!-- <mehdi.sakout.fancybuttons.FancyButton
-                    android:id="@+id/btn_website"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="end|center"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="Ver Carta"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    fancy:fb_borderColor="#7ab800"
-                    fancy:fb_borderWidth="1dp"
-                    fancy:fb_defaultColor="@color/transparent"
-                    fancy:fb_focusColor="#9bd823"
-                    fancy:fb_iconPosition="left"
-                    fancy:fb_radius="30dp"
-                    fancy:fb_textColor="@color/negro" />-->
 
             <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/btn_search"
@@ -123,33 +110,14 @@
                     app:layout_constraintEnd_toStartOf="@+id/btn_website"
                     app:layout_constraintTop_toTopOf="parent" />
 
-           <!-- <mehdi.sakout.fancybuttons.FancyButton
-                    android:id="@+id/btn_search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="end|center"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="Opiniones"
-
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_website"
-                    app:layout_constraintTop_toTopOf="parent"
-                    fancy:fb_borderColor="#7ab800"
-                    fancy:fb_borderWidth="1dp"
-                    fancy:fb_defaultColor="@color/transparent"
-                    fancy:fb_focusColor="#9bd823"
-                    fancy:fb_iconPosition="left"
-                    fancy:fb_radius="30dp"
-                    fancy:fb_textColor="@color/negro" />-->
 
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
+
+
 
 
 </layout>
