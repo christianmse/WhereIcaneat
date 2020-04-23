@@ -10,9 +10,11 @@
             android:id="@+id/titulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-        android:text="¡¡YA ESTÁ!!"
+            android:padding="5dp"
+            android:textStyle="bold"
+        android:text="Así va la votación:"
         android:gravity="center_horizontal"
-        android:textSize="80sp"/>
+        android:textSize="50sp"/>
 
     <TextView
             android:id="@+id/gente"
@@ -22,12 +24,28 @@
             android:layout_marginTop="20dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
+            android:padding="10dp"
             android:id="@+id/recycler_push"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/btn_terminar"
             android:layout_below="@+id/gente"
             />
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+        <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                tools:visibility="visible" />
+
+    </RelativeLayout>
+
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/btn_terminar"

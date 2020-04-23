@@ -36,7 +36,7 @@ class SubItemAdapter(val participantes: MutableList<Usuario>): RecyclerView.Adap
             itemView.tv_sub_item_title.text = usuario.nombreUsuario
             Glide
                 .with(itemView.context)
-                .load(usuario.imageUri)
+                .load(R.drawable.ic_contacts_black_24dp)
                 .into(itemView.img_sub_item)
         }
     }

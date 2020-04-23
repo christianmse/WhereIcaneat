@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -78,16 +79,23 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
 
     override fun onStart() {
         super.onStart()
+        permisos()
         btn_imagen_registro.setOnClickListener {
             onGaleriaBotonClicked()
         }
     }
 
-
-
-
-
-
+    private fun permisos() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CALL_PHONE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.CALL_PHONE),
+                0)
+        }
+    }
 
 
     fun onGaleriaBotonClicked(){

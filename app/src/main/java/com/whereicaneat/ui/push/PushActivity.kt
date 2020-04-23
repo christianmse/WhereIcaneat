@@ -1,17 +1,17 @@
 package com.whereicaneat.ui.push
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.whereicaneat.R
 import com.whereicaneat.common.CurrentUser
 import com.whereicaneat.domain.data.db.entities.Restaurante
-import com.whereicaneat.util.tostada
+import com.whereicaneat.domain.data.db.entities.Usuario
+import com.whereicaneat.ui.resultado.ResultadoActivity
 import kotlinx.android.synthetic.main.activity_push.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
@@ -25,6 +25,7 @@ class PushActivity : AppCompatActivity(), KodeinAware {
     lateinit var restaurantesSelec: Array<Parcelable>
     lateinit var usuariosSelec: Array<Parcelable>
     lateinit var adapter:PushAdapter
+    var usuarios = mutableListOf<Usuario>()
     val listaRestaurantes = mutableListOf<String>()
 
 
@@ -39,6 +40,7 @@ class PushActivity : AppCompatActivity(), KodeinAware {
        recycler_push.adapter = adapter
         recycler_push.layoutManager = LinearLayoutManager(this)
         getRestaurantesParcelable(restaurantesSelec)
+        getUsuariosParcelable(usuariosSelec)
 
 
 
@@ -51,11 +53,27 @@ class PushActivity : AppCompatActivity(), KodeinAware {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        //borrar listeners
+
+    }
+
     override fun onStart() {
         super.onStart()
         btn_terminar.setOnClickListener {
-            viewModel.terminarVotacion(CurrentUser.token).observe(this, Observer { ganadores ->
-                tostada(ganadores.toString())
+            val intent = Intent(this, ResultadoActivity::class.java)
+            val listRest = mutableListOf<String>()
+            val listCont = mutableListOf<String>()
+            viewModel.terminarVotacion(CurrentUser.token, this, usuarios).observe(this, Observer { ganadores ->
+
+                 ganadores.forEach {
+                    listRest.add(it.key)
+                    listCont.add(it.value.toString())
+                }
+                intent.putExtra("ganadoresRestaurantes", listRest.toTypedArray())
+                intent.putExtra("ganadoresContador", listCont.toTypedArray())
+                startActivity(intent)
             })
 
         }
@@ -67,6 +85,15 @@ class PushActivity : AppCompatActivity(), KodeinAware {
             var aux = (it as Restaurante).nombre
             if (aux != null) {
                 listaRestaurantes.add(aux)
+            }
+        }
+    }
+
+    private fun getUsuariosParcelable(usuariosSelec: Array<Parcelable>?) {
+        usuariosSelec?.forEach {
+            var aux = (it as Usuario)
+            if(aux != null){
+                usuarios.add(aux)
             }
         }
     }

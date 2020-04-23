@@ -23,6 +23,7 @@ import com.whereicaneat.domain.data.db.entities.Participacion
 import com.whereicaneat.domain.data.db.entities.Restaurante
 import com.whereicaneat.domain.data.db.entities.Usuario
 import com.whereicaneat.ui.inicio.InicioAdapter
+import kotlinx.android.synthetic.main.activity_push.view.*
 import kotlinx.android.synthetic.main.item_invitados.view.*
 import kotlinx.android.synthetic.main.item_participacion.view.*
 import kotlinx.android.synthetic.main.item_restaurante.view.*
@@ -38,8 +39,8 @@ class PushAdapter (
         participacionesList = listData
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)=
-        Holder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        return Holder(
             DataBindingUtil.inflate<ItemParticipacionBinding>(
                 LayoutInflater.from(parent.context),
                 R.layout.item_participacion,
@@ -47,6 +48,9 @@ class PushAdapter (
                 false
             )
         )
+    }
+
+
 
     override fun getItemCount() = participacionesList.size
 

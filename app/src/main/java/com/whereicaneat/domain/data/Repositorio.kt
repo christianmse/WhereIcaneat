@@ -72,29 +72,7 @@ class Repositorio(
     }
 
 
-    fun getRestaurantesFromNotification(restaurante:List<String>):MutableList<Restaurante>{
-        var mutableData: MutableList<Restaurante> = mutableListOf()
-            restaurantesRef.get().addOnSuccessListener {result ->
-                val listData = mutableListOf<Restaurante>()
-                restaurante.forEach { it ->
-                for(document in result){
-                    val nombre = document.getString("nombre")
-                    if(it.equals(nombre)){
-                        val imageUrl = document.getString("imageUrl")
-                        val website = document.getString("website")
-                        if(imageUrl != null && nombre != null && website != null){
-                            var aux = Restaurante(imageUrl!!, nombre!!, website!!)
-                            listData.add(aux)
-                            break
-                        }
-                    }
-                }
-                    mutableData = listData
-                }
-        }
 
-        return mutableData
-    }
 
     suspend fun insertarRestauranteLocal(restaurante: Restaurante) =
         db.getRestauranteDao().insertar(restaurante)
@@ -244,13 +222,14 @@ class Repositorio(
 
 
         ref.addValueEventListener(object: ValueEventListener {
-            val listData = mutableListOf<Participacion>()
+            var listData = mutableListOf<Participacion>()
             override fun onCancelled(p0: DatabaseError) {
                 Log.e("getParticipantesRemote", "on Cancelled: $p0")
             }
 
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0!!.exists()){
+                    listData.clear()
                     for(restaurante in p0.children){
                         if(!restaurante.hasChildren()){
                             var vacio = Participacion(restaurante.key!!)

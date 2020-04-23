@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:fancy="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+            android:id="@+id/lyt_dad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+
+        <LinearLayout
+                android:id="@+id/tap_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <RelativeLayout
+                        android:id="@+id/lyt_checked"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/shape_circle"
+                            android:tint="@color/red_500" />
+
+                    <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_centerInParent="true"
+                            app:srcCompat="@drawable/ic_done" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                        android:id="@+id/lyt_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/imagen"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            app:civ_border_width="1dp"
+                            app:civ_border_color="@color/colorWhite"
+                            tools:src="@drawable/logo" />
+                </RelativeLayout>
+
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                android:orientation="vertical">
+            <TextView
+                    android:id="@+id/nombre_restaurante"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    tools:text="NOMBRE DEL RESTAURANTE" />
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:text="votos:"
+                            />
+                    <TextView
+                            android:id="@+id/votos"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            tools:text="numVotos"
+                            />
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btn_website2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_eye"
+                    android:layout_marginEnd="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_map" />
+
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btn_map"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_map"
+                    android:layout_marginEnd="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_search" />
+
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btn_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_star_black_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btn_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/ic_phone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_website2" />
+
+            <!-- <mehdi.sakout.fancybuttons.FancyButton
+                     android:id="@+id/btn_search"
+                     android:layout_width="wrap_content"
+                     android:layout_height="40dp"
+                     android:layout_gravity="end|center"
+                     android:paddingLeft="10dp"
+                     android:paddingTop="10dp"
+                     android:paddingRight="10dp"
+                     android:paddingBottom="10dp"
+                     android:text="Opiniones"
+
+                     app:layout_constraintBottom_toBottomOf="parent"
+                     app:layout_constraintEnd_toStartOf="@+id/btn_website"
+                     app:layout_constraintTop_toTopOf="parent"
+                     fancy:fb_borderColor="#7ab800"
+                     fancy:fb_borderWidth="1dp"
+                     fancy:fb_defaultColor="@color/transparent"
+                     fancy:fb_focusColor="#9bd823"
+                     fancy:fb_iconPosition="left"
+                     fancy:fb_radius="30dp"
+                     fancy:fb_textColor="@color/negro" />-->
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+
+</layout>
