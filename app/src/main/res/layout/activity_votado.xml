@@ -4,6 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_horizontal"
         tools:context=".ui.votacion.VotadoActivity">
 
 
@@ -17,6 +18,7 @@
             android:id="@+id/tit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorEveris"
             android:text="@string/votado_activity_title"
             android:textSize="30sp"/>
 

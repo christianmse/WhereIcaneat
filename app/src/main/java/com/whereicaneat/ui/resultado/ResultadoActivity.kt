@@ -36,10 +36,12 @@ class ResultadoActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickLis
         rv_resultado.layoutManager = LinearLayoutManager(this)
         rv_resultado.adapter = adapter
 
+        if(intent.extras != null){
+            val restaurantes = intent.getStringArrayExtra("ganadoresRestaurantes")
+            val votos = intent.getStringArrayExtra("ganadoresContador")
+            observardata(restaurantes, votos)
+        }
 
-        val restaurantes = intent.getStringArrayExtra("ganadoresRestaurantes")
-        val votos = intent.getStringArrayExtra("ganadoresContador")
-        observardata(restaurantes, votos)
     }
 
     private fun observardata(
@@ -70,7 +72,7 @@ class ResultadoActivity : AppCompatActivity(), KodeinAware, RecyclerViewClickLis
 
     override fun onRecyclerMapClick(nombre: String?) {
 
-        val gmmIntentUri = Uri.parse("geo:0,0?q=restaurants")
+        val gmmIntentUri = Uri.parse("geo:0,0?q=restaurantes cerca de mi")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
 

@@ -76,15 +76,6 @@ class InicioAdapter(
         })
         toggleCheckedIcon(holder, position)
 
-
-
-        //Antiguo:
-        /*holder.setEvent(object:ICardItemClickListener{
-            override fun onItemClicked(vista: View, posicion: Int) {
-                context.tostada("Invita a ${usuarios[posicion].nombreUsuario}")
-            }
-
-        })*/
     }
 
 
@@ -118,10 +109,7 @@ class InicioAdapter(
         notifyItemChanged(pos)
     }
 
-    fun clearSelections() {
-        selected_items.clear()
-        notifyDataSetChanged()
-    }
+
 
     fun getSelectedItems(): MutableList<Usuario> {
         val items: MutableList<Usuario> =
