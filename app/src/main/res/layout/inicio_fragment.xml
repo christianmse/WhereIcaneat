@@ -13,6 +13,7 @@
             android:id="@+id/shimmer_view_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:visibility="gone"
             android:layout_marginTop="30dp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="@+id/recyclerInicio"

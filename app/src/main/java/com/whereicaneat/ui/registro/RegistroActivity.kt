@@ -68,7 +68,6 @@ class RegistroActivity : AppCompatActivity(), RegistroListener, KodeinAware {
             if(intent.extras != null) {
                 val restaurantes = intent.getStringExtra("restaurantes")
                 val remitente = intent.getStringExtra("remitente")
-                Log.e("intent_en_registerActivity", restaurantes)
                 i.putExtra("restaurantes", restaurantes)
                 i.putExtra("remitente", remitente)
             }
